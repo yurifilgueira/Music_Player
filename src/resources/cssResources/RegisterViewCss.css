@@ -1,0 +1,24 @@
+.button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: black;
+}
+
+.button:hover {
+    -fx-background-color: #d3d3d3;
+}
+
+.button:pressed {
+    -fx-background-color: #d3d3d3;
+    -fx-scale-x: 1.07;
+    -fx-scale-y: 1.07;
+}
+
+.text-field {
+    -fx-text-fill: white;
+    -fx-background-color: #222222;
+}
+
+.password-field {
+    -fx-text-fill: white;
+    -fx-background-color: #222222;
+}

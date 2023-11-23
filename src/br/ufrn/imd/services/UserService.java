@@ -1,14 +1,16 @@
 package br.ufrn.imd.services;
 
-import br.ufrn.imd.Repository.UserDAO;
+import br.ufrn.imd.repositories.UserDAO;
 import br.ufrn.imd.model.entities.User;
 
-public class UserServices {
+import java.util.List;
 
-    UserDAO userDAO;
+public class UserService {
 
-    public UserServices() {
-        this.userDAO = new UserDAO();
+    private UserDAO userDAO;
+
+    public UserService() {
+        this.userDAO = UserDAO.getInstance();
     }
 
     public void putUser(User user){
@@ -19,7 +21,7 @@ public class UserServices {
         userDAO.deleteUser(user);
     }
 
-    public User getByEmaiil(String email){
+    public User getByEmail(String email){
        return userDAO.getByEmail(email);
     }
 
@@ -30,5 +32,4 @@ public class UserServices {
     public boolean loginInformationIsValid(String email, String password){
         return userDAO.loginInformationIsValid(email, password);
     }
-
 }

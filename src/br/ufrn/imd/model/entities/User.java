@@ -5,14 +5,14 @@ import java.util.Objects;
 public abstract class User {
 
     protected Long id;
-    protected String email;
     protected String name;
+    protected String email;
     protected String password;
 
     public User() {
     }
 
-    public User(Long id, String email, String name, String password) {
+    public User(Long id, String name, String email, String password) {
         this.id = id;
         this.email = email;
         this.name = name;

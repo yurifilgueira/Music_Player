@@ -1,29 +1,38 @@
-package br.ufrn.imd.Repository;
+package br.ufrn.imd.repositories;
 
-import br.ufrn.imd.Repository.exceptions.UserNotFoundException;
+import br.ufrn.imd.repositories.exceptions.UserNotFoundException;
 import br.ufrn.imd.model.entities.User;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class UserDAO {
 
+    private AtomicLong idGenerator;
     private List<User> users;
     private Map<String, String> loginInformation;
-    private UserDAO userDAO;
+    private static UserDAO userDAO;
 
     public UserDAO() {
-        users = new ArrayList<>();
-        loginInformation = new HashMap<>();
+        this.users = new ArrayList<>();
+        this.loginInformation = new HashMap<>();
+        this.idGenerator = new AtomicLong();
     }
 
-    public UserDAO getInstance(){
+    public static UserDAO getInstance(){
         if (userDAO == null){
-             return new UserDAO();
+             userDAO = new UserDAO();
         }
+
         return userDAO;
     }
 
+    public void setUserId(User user){
+        user.setId(idGenerator.incrementAndGet());
+    }
+
     public void putUser(User user){
+        setUserId(user);
         addLoginInformations(user.getEmail(), user.getPassword());
         users.add(user);
     }

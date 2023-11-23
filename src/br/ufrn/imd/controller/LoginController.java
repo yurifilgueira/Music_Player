@@ -1,11 +1,12 @@
 package br.ufrn.imd.controller;
 
-import br.ufrn.imd.Repository.UserDAO;
-import br.ufrn.imd.model.entities.User;
-import br.ufrn.imd.model.entities.VipUser;
-import br.ufrn.imd.services.UserServices;
+import br.ufrn.imd.services.UserService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,30 +15,27 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.io.IOException;
 
 public class LoginController {
 
-    AtomicLong idGenerator = new AtomicLong();
-    List<User> users = new ArrayList<>();
-    UserServices userService = new UserServices();
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    private UserService userService = new UserService();
 
     @FXML
-    protected TextField txtEmail;
+    private TextField txtEmail;
     @FXML
-    protected Label labelInvalidLogin;
+    private Label labelInvalidLogin;
     @FXML
     private PasswordField passwordField;
-    @FXML
-    private Button buttonLogin;
-    @FXML
-    private Button buttonRegister;
 
     @FXML
-    public void onButtonLogin(){
+    public void onButtonLogin(ActionEvent event){
 
         String userEmail = txtEmail.getText();
         String userPassword = passwordField.getText();
@@ -73,9 +71,13 @@ public class LoginController {
     }
 
     @FXML
-    public void onButtonRegister(){
-        userService.putUser(new VipUser(null, txtEmail.getText(), "Test", passwordField.getText()));
-        System.out.println("Usuário registrado.");
+    public void onButtonRegister(ActionEvent event) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("../view/RegisterView.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
     }
 }

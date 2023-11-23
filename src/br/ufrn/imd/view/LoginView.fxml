@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="660.0" prefWidth="570.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
+<AnchorPane fx:id="loginAnchorPane" prefHeight="660.0" prefWidth="570.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
    <children>
-      <TextField fx:id="txtEmail" layoutX="159.0" layoutY="310.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
+      <TextField fx:id="txtEmail" layoutX="159.0" layoutY="310.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -39,7 +39,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <PasswordField fx:id="passwordField" layoutX="159.0" layoutY="387.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
+      <PasswordField fx:id="passwordField" layoutX="159.0" layoutY="387.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira sua senha" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
       <Button fx:id="buttonRegister" layoutX="200.0" layoutY="569.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Registre-se">
          <font>
             <Font size="18.0" />

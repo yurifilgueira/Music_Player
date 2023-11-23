@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -9,43 +10,43 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginAnchorPane" prefHeight="660.0" prefWidth="570.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
+<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
    <children>
-      <TextField fx:id="txtEmail" layoutX="159.0" layoutY="310.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
+      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="300.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Label layoutX="160.0" layoutY="277.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
+      <Label layoutX="190.0" layoutY="270.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="157.0" layoutY="360.0" style="-fx-font-weight: bold;" text="Senha" textFill="WHITE">
+      <Label layoutX="190.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Senha" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="94.0" layoutY="178.0" prefHeight="53.0" prefWidth="383.0" style="-fx-font-weight: bold;" text="Entrar no Music Player" textAlignment="JUSTIFY" textFill="WHITE" AnchorPane.bottomAnchor="429.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="178.0">
+      <Label alignment="CENTER" layoutX="1.0" layoutY="151.0" prefHeight="75.0" prefWidth="630.0" style="-fx-font-weight: bold;" text="Music Player" textAlignment="JUSTIFY" textFill="WHITE" AnchorPane.bottomAnchor="494.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="151.0">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <ImageView fitHeight="122.0" fitWidth="200.0" layoutX="185.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="122.0" fitWidth="200.0" layoutX="221.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../resources/imageResources/Play_button.png" />
          </image>
       </ImageView>
-      <Button fx:id="buttonLogin" layoutX="203.0" layoutY="468.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Login">
+      <Button fx:id="buttonLogin" layoutX="230.0" layoutY="470.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Login">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <PasswordField fx:id="passwordField" layoutX="159.0" layoutY="387.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira sua senha" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
-      <Button fx:id="buttonRegister" layoutX="200.0" layoutY="569.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Registre-se">
+      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="400.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
+      <Button fx:id="buttonRegister" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Registre-se">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label layoutX="214.0" layoutY="524.0" prefHeight="27.0" prefWidth="170.0" text="Não possui login ?" textFill="WHITE">
+      <Label alignment="CENTER" layoutY="607.0" prefHeight="27.0" prefWidth="630.0" text="Não possui login ?" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -55,5 +56,6 @@
             <Font size="15.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="languagePicker" layoutX="466.0" layoutY="14.0" prefWidth="150.0" style="-fx-background-radius: 25;" />
    </children>
 </AnchorPane>

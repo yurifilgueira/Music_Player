@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" styleClass="..\..\..\..\resources\cssResources\playerView.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.PlayerController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="222.0" text="Selecionar">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="222.0" text="um diretório">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+      <ListView fx:id="musicsList" layoutX="278.0" layoutY="14.0" prefHeight="584.0" prefWidth="987.0" />
+      <Button layoutX="14.0" layoutY="128.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="225.0" text="Diretório">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="224.0" text="padrão">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+      <Button fx:id="play" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPlayButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Play">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <ProgressBar layoutX="14.0" layoutY="612.0" prefHeight="18.0" prefWidth="1252.0" progress="0.0" />
+   </children>
+</AnchorPane>

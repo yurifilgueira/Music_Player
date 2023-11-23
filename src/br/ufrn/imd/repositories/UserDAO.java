@@ -3,7 +3,11 @@ package br.ufrn.imd.repositories;
 import br.ufrn.imd.repositories.exceptions.UserNotFoundException;
 import br.ufrn.imd.model.entities.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class UserDAO {

@@ -12,16 +12,16 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
    <children>
-      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="300.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
+      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="300.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Label layoutX="190.0" layoutY="270.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
+      <Label fx:id="txtEmailLabel" layoutX="190.0" layoutY="270.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="190.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Senha" textFill="WHITE">
+      <Label fx:id="txtPasswordLabel" layoutX="190.0" layoutY="370.0" style="-fx-font-weight: bold;" text="Password" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -40,13 +40,13 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="400.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
-      <Button fx:id="buttonRegister" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Registre-se">
+      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="400.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your password" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" />
+      <Button fx:id="buttonRegister" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css" text="Sign up">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutY="607.0" prefHeight="27.0" prefWidth="630.0" text="Não possui login ?" textFill="WHITE">
+      <Label fx:id="questionLabel" alignment="CENTER" layoutY="607.0" prefHeight="27.0" prefWidth="630.0" text="Don't have an account ?" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>

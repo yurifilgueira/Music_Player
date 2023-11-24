@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" styleClass="..\..\..\..\resources\cssResources\playerView.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.PlayerController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+      <Button layoutX="14.0" layoutY="14.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onChooseDirectoryButton" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
          </font>
@@ -32,7 +32,7 @@
          </graphic>
       </Button>
       <ListView fx:id="musicsList" layoutX="278.0" layoutY="14.0" prefHeight="584.0" prefWidth="987.0" />
-      <Button layoutX="14.0" layoutY="128.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+      <Button layoutX="14.0" layoutY="128.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onDefaultDirectoryButton" prefHeight="100.0" prefWidth="250.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
          </font>

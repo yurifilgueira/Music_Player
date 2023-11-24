@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class PlayerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         directory = "src/resources/songs";
 
+        getMusicsFromDirectory();
+    }
+
+    public void getMusicsFromDirectory(){
         isPlaying = false;
 
         Set<String> musicName = Stream.of(new File(directory).listFiles())
@@ -55,6 +60,22 @@ public class PlayerController implements Initializable {
         musicsList.getItems().addAll(musics);
 
         selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    public void onChooseDirectoryButton(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.showOpenDialog(null);
+
+        directory = fileChooser.getCurrentDirectory().getPath();
+
+        getMusicsFromDirectory();
+    }
+
+    @FXML
+    public void onDefaultDirectoryButton(){
+        directory = "src/resources/songs";
     }
 
     @FXML

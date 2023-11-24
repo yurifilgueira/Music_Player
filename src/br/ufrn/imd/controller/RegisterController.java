@@ -5,6 +5,7 @@ import br.ufrn.imd.model.entities.User;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.model.enums.UserType;
 import br.ufrn.imd.model.util.ListGenerator;
+import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.RegisterService;
 import br.ufrn.imd.services.UserService;
 import javafx.event.ActionEvent;
@@ -70,6 +71,7 @@ public class RegisterController implements Initializable {
     private Button buttonRegister;
     @FXML
     private Button buttonLogin;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
@@ -221,18 +223,18 @@ public class RegisterController implements Initializable {
 
                 break;
             case "日本語":
-                greetingsLabel.setText("ようかた");
+                greetingsLabel.setText("ようこそ");
 
                 orientationLabel.setText("");
 
                 txtNameLabel.setText("名前");
-                txtName.setPromptText("");
+                txtName.setPromptText("名前を入力してください");
 
                 txtEmailLabel.setText("メール");
-                txtEmail.setPromptText("");
+                txtEmail.setPromptText("メールを入力してください");
 
                 txtPasswordLabel.setText("パスワード");
-                passwordField.setPromptText("");
+                passwordField.setPromptText("パスワードを入力してください");
 
                 buttonRegister.setText("アカウント登録");
 
@@ -241,6 +243,8 @@ public class RegisterController implements Initializable {
                 buttonLogin.setText("戻る");
 
                 break;
+            default:
+                throw new InvalidLanguageException(languagePicker.getValue());
         }
     }
 }

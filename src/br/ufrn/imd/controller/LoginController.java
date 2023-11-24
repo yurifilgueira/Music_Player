@@ -1,16 +1,16 @@
 package br.ufrn.imd.controller;
 
+import br.ufrn.imd.model.util.ListGenerator;
+import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -19,8 +19,10 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     private Stage stage;
     private Scene scene;
@@ -32,11 +34,30 @@ public class LoginController {
     private ChoiceBox<String> languagePicker;
 
     @FXML
+    private Label txtEmailLabel;
+    @FXML
+    private Label txtPasswordLabel;
+    @FXML
+    private Label questionLabel;
+
+    @FXML
     private TextField txtEmail;
     @FXML
     private Label labelInvalidLogin;
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private Button buttonLogin;
+    @FXML
+    private Button buttonRegister;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
+        languagePicker.getSelectionModel().selectFirst();
+        languagePicker.setOnAction(this::onLanguagePicker);
+    }
 
     @FXML
     public void onButtonLogin(ActionEvent event) throws IOException {
@@ -92,5 +113,59 @@ public class LoginController {
 
     }
 
+    @FXML
+    public void onLanguagePicker(ActionEvent event){
+        switch(languagePicker.getValue()){
+            case "English":
+                txtEmailLabel.setText("Email");
+                txtEmail.setPromptText("Enter your email");
 
+                txtPasswordLabel.setText("Password");
+                passwordField.setPromptText("Enter your password");
+
+                buttonLogin.setText("Login");
+                questionLabel.setText("Don't have an account ?");
+                buttonRegister.setText("Sign up");
+
+                break;
+            case "Français":
+                txtEmailLabel.setText("Email");
+                txtEmail.setPromptText("");
+
+                txtPasswordLabel.setText("Mot de passe");
+                passwordField.setPromptText("");
+
+                buttonLogin.setText("Se connecter");
+                questionLabel.setText("Vous n'avez pas de compte ?");
+                buttonRegister.setText("S'inscrire");
+
+                break;
+            case "Português":
+                txtEmailLabel.setText("Email");
+                txtEmail.setPromptText("Insira seu email");
+
+                txtPasswordLabel.setText("Senha");
+                passwordField.setPromptText("Insira sua senha");
+
+                buttonLogin.setText("Entrar");
+                questionLabel.setText("Não possui login ?");
+                buttonRegister.setText("Registre-se");
+
+                break;
+            case "日本語":
+                txtEmailLabel.setText("メール");
+                txtEmail.setPromptText("メールを入力してください");
+
+                txtPasswordLabel.setText("パスワード");
+                passwordField.setPromptText("パスワードを入力してください");
+
+                buttonLogin.setText("ログイン");
+                questionLabel.setText("アカウントをお持ちではありませんか?");
+                buttonRegister.setText("アカウント登録");
+
+                break;
+            default:
+                throw new InvalidLanguageException(languagePicker.getValue());
+        }
+    }
 }

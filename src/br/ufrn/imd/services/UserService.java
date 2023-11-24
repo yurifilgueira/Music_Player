@@ -1,9 +1,7 @@
 package br.ufrn.imd.services;
 
-import br.ufrn.imd.repositories.UserDAO;
 import br.ufrn.imd.model.entities.User;
-
-import java.util.List;
+import br.ufrn.imd.repositories.UserDAO;
 
 public class UserService {
 

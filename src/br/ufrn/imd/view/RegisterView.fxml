@@ -10,31 +10,31 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.RegisterController">
    <children>
-      <TextField fx:id="txtName" layoutX="190.0" layoutY="235.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu nome" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
+      <TextField fx:id="txtName" layoutX="190.0" layoutY="225.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu nome" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Label layoutX="190.0" layoutY="205.0" style="-fx-font-weight: bold;" text="Nome de Usuário" textFill="WHITE">
+      <Label fx:id="txtNameLabel" layoutX="190.0" layoutY="195.0" style="-fx-font-weight: bold;" text="Username" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="190.0" layoutY="405.0" style="-fx-font-weight: bold;" text="Senha" textFill="WHITE">
+      <Label fx:id="txtPasswordLabel" layoutX="190.0" layoutY="395.0" style="-fx-font-weight: bold;" text="Password" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="buttonRegister" layoutX="231.0" layoutY="505.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Registre-se">
+      <Button fx:id="buttonRegister" layoutX="231.0" layoutY="545.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Sign up">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="435.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira sua senha" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" />
-      <Button fx:id="buttonLogin" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Voltar">
+      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="425.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira sua senha" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" />
+      <Button fx:id="buttonLogin" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutY="607.0" prefHeight="27.0" prefWidth="630.0" text="Já possui login ?" textFill="WHITE">
+      <Label fx:id="questionLabel" alignment="CENTER" layoutY="607.0" prefHeight="27.0" prefWidth="630.0" text="Already have an account ?" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -44,23 +44,23 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="languagePicker" layoutX="466.0" layoutY="14.0" prefWidth="150.0" style="-fx-background-radius: 25;" />
-      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="335.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu e-mail" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
+      <ChoiceBox fx:id="languagePicker" layoutX="466.0" layoutY="14.0" onDragDropped="#onLanguagePicker" prefWidth="150.0" style="-fx-background-radius: 25;" />
+      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="325.0" prefHeight="41.0" prefWidth="250.0" promptText="Insira seu email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="190.0" layoutY="305.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
+      <Label fx:id="txtEmailLabel" layoutX="190.0" layoutY="295.0" style="-fx-font-weight: bold;" text="Email" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="112.0" layoutY="65.0" prefHeight="57.0" prefWidth="409.0" style="-fx-font-weight: bold;" text="Seja bem-vindo(a) ao Music Player" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+      <Label fx:id="greetingsLabel" alignment="CENTER" layoutY="65.0" prefHeight="57.0" prefWidth="631.0" style="-fx-font-weight: bold;" text="Welcome to Music Player" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutY="95.0" prefHeight="77.0" prefWidth="630.0" style="-fx-font-weight: bold;" text="Insira seus dados para se registrar no Music Player" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Label fx:id="orientationLabel" alignment="CENTER" layoutY="95.0" prefHeight="77.0" prefWidth="630.0" style="-fx-font-weight: bold;" text="Enter your data to register in MusicPlayer" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
@@ -80,5 +80,6 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="userTypePicker" layoutX="190.0" layoutY="495.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-radius: 13;" />
    </children>
 </AnchorPane>

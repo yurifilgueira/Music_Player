@@ -1,7 +1,5 @@
 package br.ufrn.imd.model.entities;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class VipUser extends User{
 
 

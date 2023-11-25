@@ -1,5 +1,7 @@
 package br.ufrn.imd.repositories;
 
+import br.ufrn.imd.model.entities.CommonUser;
+import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.repositories.exceptions.UserNotFoundException;
 import br.ufrn.imd.model.entities.User;
 
@@ -21,6 +23,8 @@ public class UserDAO {
         this.users = new ArrayList<>();
         this.loginInformation = new HashMap<>();
         this.idGenerator = new AtomicLong();
+
+        putUser(new CommonUser(null, "Admin","admin@email.com", "1234"));
     }
 
     public static UserDAO getInstance(){

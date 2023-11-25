@@ -3,7 +3,9 @@ package br.ufrn.imd.controller;
 import br.ufrn.imd.model.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
+import br.ufrn.imd.services.LoginService;
 import br.ufrn.imd.services.UserService;
+import br.ufrn.imd.services.util.EmailValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,6 +27,7 @@ public class LoginController implements Initializable {
     private Parent root;
 
     private UserService userService = new UserService();
+    private LoginService loginService = new LoginService();
 
     @FXML
     private ChoiceBox<String> languagePicker;
@@ -73,41 +71,22 @@ public class LoginController implements Initializable {
         String userEmail = txtEmail.getText();
         String userPassword = passwordField.getText();
 
-        if (userService.containsUser(userEmail)){
+        if (userService.containsUser(userEmail) && EmailValidator.emailIsValid(userEmail)){
             if (userService.loginInformationIsValid(userEmail, userPassword)){
 
                 root = FXMLLoader.load(getClass().getResource("../view/CommonUserView.fxml"));
                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
-                scene.getStylesheets().add(String.valueOf(getClass().getResource("../../../../resources/cssResources/playerView.css")));
                 stage.setScene(scene);
                 stage.show();
-
-                System.out.println("Login realizado.");
             }
             else {
-                setStyleForInvalidLogin();
+                loginService.setStyleForInvalidLogin(labelInvalidLogin, txtEmail, passwordField);
             }
         }
         else {
-            setStyleForInvalidLogin();
+            loginService.setStyleForInvalidLogin(labelInvalidLogin, txtEmail, passwordField);
         }
-
-    }
-
-    public void setStyleForInvalidLogin(){
-
-        labelInvalidLogin.setText("Email ou senha de usuário inválidos.");
-
-        Border invalidLoginBorder = new Border(new BorderStroke(
-                Paint.valueOf("RED"),
-                BorderStrokeStyle.SOLID,
-                null,
-                new BorderWidths(1)
-        ));
-
-        txtEmail.setBorder(invalidLoginBorder);
-        passwordField.setBorder(invalidLoginBorder);
 
     }
 

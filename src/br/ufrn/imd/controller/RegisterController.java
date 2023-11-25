@@ -9,6 +9,7 @@ import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
 import br.ufrn.imd.services.UserService;
+import br.ufrn.imd.services.util.EmailValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,7 +65,7 @@ public class RegisterController implements Initializable {
     @FXML
     private Label labelNameIsMissing;
     @FXML
-    private Label labelEmailIsMissing;
+    private Label labelInvalidEmail;
     @FXML
     private Label labelPasswordIsMissing;
 
@@ -93,18 +94,25 @@ public class RegisterController implements Initializable {
     @FXML
     void onButtonRegister(ActionEvent event) {
 
-        registerService.resetMissingLabels(labelNameIsMissing, labelEmailIsMissing, labelPasswordIsMissing);
+        registerService.resetMissingLabels(labelNameIsMissing, labelInvalidEmail, labelPasswordIsMissing);
 
         boolean someFieldIsEmpty = registerService.someFieldIsEmpty(txtName.getText(), txtEmail.getText(), passwordField.getText());
 
         if (someFieldIsEmpty){
             setStyleToEmptyField(txtName, txtEmail, passwordField);
+
+            if (!registerService.fieldEmailIsEmpty(txtEmail.getText())){
+                registerService.setStyleToInvalidEmail(txtEmail, labelInvalidEmail);
+            }
         }
         else {
 
             String userEmail = txtEmail.getText();
 
-            if (!userService.containsUser(userEmail)) {
+            if (!EmailValidator.emailIsValid(userEmail)){
+                registerService.setStyleToInvalidEmail(txtEmail, labelInvalidEmail);
+            }
+            else if (!userService.containsUser(userEmail)) {
 
                 String name = txtName.getText();
                 String email = txtEmail.getText();
@@ -144,7 +152,7 @@ public class RegisterController implements Initializable {
         }
 
         if (emailFieldIsEmpty){
-            labelEmailIsMissing.setText("*Campo obrigatório");
+            labelInvalidEmail.setText("*Campo obrigatório");
             txtEmail.setBorder(emptyFieldBorder);
         }
 

@@ -2,6 +2,7 @@ package br.ufrn.imd.controller;
 
 import br.ufrn.imd.model.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
+import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +56,14 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
-        languagePicker.getSelectionModel().selectFirst();
+
+        if(LanguageService.getLanguage() == null){
+            languagePicker.getSelectionModel().selectFirst();
+        }else{
+            languagePicker.getSelectionModel().select(LanguageService.getLanguage());
+            changeLanguage();
+        }
+
         languagePicker.setOnAction(this::onLanguagePicker);
     }
 
@@ -71,6 +79,7 @@ public class LoginController implements Initializable {
                 root = FXMLLoader.load(getClass().getResource("../view/CommonUserView.fxml"));
                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
+                scene.getStylesheets().add(String.valueOf(getClass().getResource("../../../../resources/cssResources/playerView.css")));
                 stage.setScene(scene);
                 stage.show();
 
@@ -113,8 +122,7 @@ public class LoginController implements Initializable {
 
     }
 
-    @FXML
-    public void onLanguagePicker(ActionEvent event){
+    public void changeLanguage(){
         switch(languagePicker.getValue()){
             case "English":
                 txtEmailLabel.setText("Email");
@@ -167,5 +175,12 @@ public class LoginController implements Initializable {
             default:
                 throw new InvalidLanguageException(languagePicker.getValue());
         }
+    }
+
+    @FXML
+    public void onLanguagePicker(ActionEvent event){
+        changeLanguage();
+
+        LanguageService.setLanguage(languagePicker.getValue());
     }
 }

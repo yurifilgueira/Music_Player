@@ -6,6 +6,7 @@ import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.model.enums.UserType;
 import br.ufrn.imd.model.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
+import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
 import br.ufrn.imd.services.UserService;
 import javafx.event.ActionEvent;
@@ -75,7 +76,14 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
-        languagePicker.getSelectionModel().selectFirst();
+
+        if(LanguageService.getLanguage() == null){
+            languagePicker.getSelectionModel().selectFirst();
+        }else{
+            languagePicker.getSelectionModel().select(LanguageService.getLanguage());
+            changeLanguage();
+        }
+
         languagePicker.setOnAction(this::onLanguagePicker);
 
         userTypePicker.getItems().addAll(UserType.values());
@@ -156,8 +164,7 @@ public class RegisterController implements Initializable {
         stage.show();
     }
 
-    @FXML
-    public void onLanguagePicker(ActionEvent event){
+    public void changeLanguage(){
         switch(languagePicker.getValue()){
             case "English":
                 greetingsLabel.setText("Welcome to Music Player");
@@ -246,5 +253,12 @@ public class RegisterController implements Initializable {
             default:
                 throw new InvalidLanguageException(languagePicker.getValue());
         }
+    }
+
+    @FXML
+    public void onLanguagePicker(ActionEvent event){
+        changeLanguage();
+
+        LanguageService.setLanguage(languagePicker.getValue());
     }
 }

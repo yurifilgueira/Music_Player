@@ -78,8 +78,6 @@ public class CommonUserPlayerController extends Thread implements Initializable 
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
 
-        playerService.stop();
-
         playerService.selectMusicForPlayer(selectedMusic);
     }
 
@@ -109,7 +107,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         stage.setScene(scene);
         stage.show();
 
-        playerService.stop();
+        playerService.pause();
     }
 
     @FXML

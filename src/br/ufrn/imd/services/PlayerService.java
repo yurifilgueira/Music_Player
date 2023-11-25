@@ -35,18 +35,14 @@ public class PlayerService /*extends Thread*/ {
     }
 
     public void selectMusicForPlayer(Music music) throws FileNotFoundException, JavaLayerException {
-        currentMusic = music;
+        if(music != null){
+            currentMusic = music;
 
-        player = new Player(new BufferedInputStream(new FileInputStream(music.getFile())));
+            player = new Player(new BufferedInputStream(new FileInputStream(music.getFile())));
+        }
 
-        playerStatus = NOTSTARTED;
-    }
-
-    public void playButton() throws JavaLayerException {
-        if(playerStatus == NOTSTARTED){
-            play();
-        }else{
-            resume();
+        if(playerStatus != PLAYING){
+            playerStatus = NOTSTARTED;
         }
     }
 

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -44,6 +45,9 @@ public class CommonUserPlayerController extends Thread implements Initializable 
     private Button play;
 
     @FXML
+    private ProgressBar progressBar;
+
+    @FXML
     private ListView<Music> musicsList;
 
     @Override
@@ -51,6 +55,8 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         directory = "src/resources/songs";
 
         getMusicsFromDirectory();
+
+        setPlayerService();
     }
 
     public void getMusicsFromDirectory(){
@@ -70,8 +76,12 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         musicsList.getItems().clear();
 
         musicsList.getItems().addAll(musics);
+    }
 
+    public void setPlayerService(){
         playerService = PlayerService.getInstance();
+
+        playerService.setProgressBar(progressBar);
     }
 
     @FXML

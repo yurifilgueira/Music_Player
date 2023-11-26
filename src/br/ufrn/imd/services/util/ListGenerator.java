@@ -1,4 +1,4 @@
-package br.ufrn.imd.model.util;
+package br.ufrn.imd.services.util;
 
 import java.util.ArrayList;
 import java.util.List;

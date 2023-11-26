@@ -47,7 +47,19 @@ public class RegisterService {
         ));
 
         txtEmail.setBorder(invalidEmailBorder);
-        labelInvalidEmail.setText("*Email Inválido.");
+
+        switch(LanguageService.getLanguage()){
+            case "Français":
+                labelInvalidEmail.setText("*Email invalide.");
+            case "Português":
+                labelInvalidEmail.setText("*Email inválido.");
+            case "日本語":
+                labelInvalidEmail.setText("*無効なメール。");
+            default:
+                labelInvalidEmail.setText("*Invalid email.");
+
+        }
+
 
     }
 }

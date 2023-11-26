@@ -4,7 +4,7 @@ import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.model.entities.User;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.model.enums.UserType;
-import br.ufrn.imd.model.util.ListGenerator;
+import br.ufrn.imd.services.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
@@ -80,6 +80,7 @@ public class RegisterController implements Initializable {
 
         if(LanguageService.getLanguage() == null){
             languagePicker.getSelectionModel().selectFirst();
+            LanguageService.setLanguage("English");
         }else{
             languagePicker.getSelectionModel().select(LanguageService.getLanguage());
             changeLanguage();
@@ -147,17 +148,50 @@ public class RegisterController implements Initializable {
         ));
 
         if (nameFieldIsEmpty){
-            labelNameIsMissing.setText("*Campo obrigatório");
+            switch(LanguageService.getLanguage()){
+                case "Français":
+                    labelNameIsMissing.setText("*Champ obligatoire.");
+                    break;
+                case "Português":
+                    labelNameIsMissing.setText("*Campo obrigatório.");
+                    break;
+                default:
+                    labelNameIsMissing.setText("*Required field.");
+                    break;
+            }
+
             txtName.setBorder(emptyFieldBorder);
         }
 
         if (emailFieldIsEmpty){
-            labelInvalidEmail.setText("*Campo obrigatório");
+            switch(LanguageService.getLanguage()){
+                case "Français":
+                    labelInvalidEmail.setText("*Champ obligatoire.");
+                    break;
+                case "Português":
+                    labelInvalidEmail.setText("*Campo obrigatório.");
+                    break;
+                default:
+                    labelInvalidEmail.setText("*Required field.");
+                    break;
+            }
+
             txtEmail.setBorder(emptyFieldBorder);
         }
 
         if (passwordFieldIsEmpty){
-            labelPasswordIsMissing.setText("*Campo obrigatório");
+            switch(LanguageService.getLanguage()){
+                case "Français":
+                    labelPasswordIsMissing.setText("*Champ obligatoire.");
+                    break;
+                case "Português":
+                    labelPasswordIsMissing.setText("*Campo obrigatório.");
+                    break;
+                default:
+                    labelPasswordIsMissing.setText("*Required field.");
+                    break;
+            }
+
             passwordField.setBorder(emptyFieldBorder);
         }
     }

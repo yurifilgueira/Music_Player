@@ -1,6 +1,6 @@
 package br.ufrn.imd.controller;
 
-import br.ufrn.imd.model.util.ListGenerator;
+import br.ufrn.imd.services.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.LoginService;
@@ -57,6 +57,7 @@ public class LoginController implements Initializable {
 
         if(LanguageService.getLanguage() == null){
             languagePicker.getSelectionModel().selectFirst();
+            LanguageService.setLanguage("English");
         }else{
             languagePicker.getSelectionModel().select(LanguageService.getLanguage());
             changeLanguage();

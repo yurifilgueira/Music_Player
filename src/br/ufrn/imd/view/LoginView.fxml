@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
+<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controller.LoginController">
    <children>
       <TextField fx:id="txtEmail" layoutX="190.0" layoutY="300.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/LoginViewCss.css">
          <font>
@@ -51,7 +51,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="labelInvalidLogin" layoutX="197.0" layoutY="232.0" textAlignment="JUSTIFY" textFill="RED">
+      <Label fx:id="labelInvalidLogin" alignment="CENTER" layoutY="232.0" prefWidth="630.0" textAlignment="JUSTIFY" textFill="RED">
          <font>
             <Font size="15.0" />
          </font>

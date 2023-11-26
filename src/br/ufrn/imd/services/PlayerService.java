@@ -2,6 +2,8 @@ package br.ufrn.imd.services;
 
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.model.enums.PlayerStatus;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
@@ -10,7 +12,6 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,13 +26,15 @@ public class PlayerService /*extends Thread*/ {
 
     private Music currentMusic;
 
-    private double currentMusicSize;
+    private double currentMusicLength;
 
     private Player player;
 
     private PlayerStatus playerStatus;
 
     private ProgressBar progressBar;
+
+    private Label timer;
 
     private final Object playerLock = new Object();
 
@@ -48,13 +51,15 @@ public class PlayerService /*extends Thread*/ {
         this.progressBar = progressBar;
     }
 
-    public void setCurrentMusicSize(Music music) throws FileNotFoundException, BitstreamException {
+    public void setTimer(Label timer) {
+        this.timer = timer;
+    }
+
+    public void setCurrentMusicLength(Music music) throws FileNotFoundException, BitstreamException {
         FileInputStream fileInputStream = new FileInputStream(music.getFile());
         Bitstream bitstream = new Bitstream(fileInputStream);
 
         Header h = bitstream.readFrame();
-
-        int size = h.calculate_framesize();
 
         long tn = 0;
 
@@ -64,14 +69,14 @@ public class PlayerService /*extends Thread*/ {
             throw new RuntimeException(e);
         }
 
-        currentMusicSize = h.total_ms((int) tn)/1000;
+        currentMusicLength = h.total_ms((int) tn)/1000;
     }
 
     public void selectMusicForPlayer(Music music) throws FileNotFoundException, JavaLayerException {
         if(music != null){
             currentMusic = music;
 
-            setCurrentMusicSize(music);
+            setCurrentMusicLength(music);
 
             player = new Player(new BufferedInputStream(new FileInputStream(music.getFile())));
         }
@@ -138,7 +143,25 @@ public class PlayerService /*extends Thread*/ {
                     break;
                 }
 
-                progressBar.setProgress(player.getPosition() / 1000.0 / currentMusicSize);
+                progressBar.setProgress(player.getPosition() / 1000.0 / currentMusicLength);
+
+                StringBuilder currentTime = new StringBuilder();
+
+                Platform.runLater(() ->
+                {
+                    currentTime.append(String.format("%02d", (int) (player.getPosition() / 1000.0 / 60.0)));
+                    currentTime.append(":");
+                    currentTime.append(String.format("%02d", (int) (player.getPosition() / 1000.0) % 60));
+                    currentTime.append(" / ");
+                    currentTime.append(String.format("%02d", (int) (currentMusicLength / 60.0)));
+                    currentTime.append(":");
+                    currentTime.append(String.format("%02d", (int) (currentMusicLength) % 60));
+
+                    timer.setText(currentTime.toString());
+                });
+
+
+
             } catch (final JavaLayerException e) {
                 break;
             }

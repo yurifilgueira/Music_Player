@@ -10,8 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -48,6 +50,15 @@ public class CommonUserPlayerController extends Thread implements Initializable 
     private ProgressBar progressBar;
 
     @FXML
+    private Label playingNowText;
+
+    @FXML
+    private Label musicNamePlayingNow;
+
+    @FXML
+    private Label timer;
+
+    @FXML
     private ListView<Music> musicsList;
 
     @Override
@@ -82,6 +93,8 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         playerService = PlayerService.getInstance();
 
         playerService.setProgressBar(progressBar);
+
+        playerService.setTimer(timer);
     }
 
     @FXML
@@ -89,6 +102,16 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
 
         playerService.selectMusicForPlayer(selectedMusic);
+
+        playingNowText.setVisible(true);
+
+        if(String.valueOf(selectedMusic).length() > 40){
+            musicNamePlayingNow.setFont(new Font("System", (double) 820 / String.valueOf(selectedMusic).length()));
+        }else{
+            musicNamePlayingNow.setFont(new Font("System", 20));
+        }
+
+        musicNamePlayingNow.setText(String.valueOf(selectedMusic));
     }
 
     @FXML

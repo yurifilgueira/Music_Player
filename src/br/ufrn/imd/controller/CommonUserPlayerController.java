@@ -97,6 +97,16 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         playerService.setTimer(timer);
     }
 
+    public void refreshPlayingNow(){
+        if(String.valueOf(selectedMusic).length() > 40){
+            musicNamePlayingNow.setFont(new Font("System", (double) 820 / String.valueOf(selectedMusic).length()));
+        }else{
+            musicNamePlayingNow.setFont(new Font("System", 20));
+        }
+
+        musicNamePlayingNow.setText(String.valueOf(selectedMusic));
+    }
+
     @FXML
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
@@ -105,13 +115,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
 
         playingNowText.setVisible(true);
 
-        if(String.valueOf(selectedMusic).length() > 40){
-            musicNamePlayingNow.setFont(new Font("System", (double) 820 / String.valueOf(selectedMusic).length()));
-        }else{
-            musicNamePlayingNow.setFont(new Font("System", 20));
-        }
-
-        musicNamePlayingNow.setText(String.valueOf(selectedMusic));
+        refreshPlayingNow();
     }
 
     @FXML
@@ -150,6 +154,8 @@ public class CommonUserPlayerController extends Thread implements Initializable 
 
             playerService.selectMusicForPlayer(selectedMusic);
         }
+
+        refreshPlayingNow();
     }
 
     @FXML
@@ -178,5 +184,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
 
             playerService.selectMusicForPlayer(selectedMusic);
         }
+
+        refreshPlayingNow();
     }
 }

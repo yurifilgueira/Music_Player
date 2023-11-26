@@ -1,5 +1,7 @@
 package br.ufrn.imd.model.entities;
 
+import br.ufrn.imd.services.PlaylistService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

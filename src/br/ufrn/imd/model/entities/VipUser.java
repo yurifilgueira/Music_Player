@@ -1,11 +1,14 @@
 package br.ufrn.imd.model.entities;
 
+import br.ufrn.imd.services.PlaylistService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class VipUser extends User{
     private List<Playlist> playlists;
+    private PlaylistService playlistService;
 
     public VipUser(Long id, String name, String email, String password) {
         super(id, name, email, password);
@@ -50,10 +53,12 @@ public class VipUser extends User{
             }
         }
 
+        playlistService.putPlaylist(playlist);
         playlists.add(playlist);
     }
 
     public void removePlaylist(Playlist playlist){
+        playlistService.deletePlaylist(playlist);
         playlists.remove(playlist);
     }
 }

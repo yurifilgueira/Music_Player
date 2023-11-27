@@ -1,5 +1,6 @@
 package br.ufrn.imd.services;
 
+import br.ufrn.imd.controllers.PlayerController;
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.model.enums.PlayerStatus;
 import javafx.application.Platform;
@@ -32,6 +33,8 @@ public class PlayerService /*extends Thread*/ {
 
     private PlayerStatus playerStatus;
 
+    private PlayerController currentPlayerController;
+
     private ProgressBar progressBar;
 
     private Label timer;
@@ -45,6 +48,10 @@ public class PlayerService /*extends Thread*/ {
             instance = new PlayerService();
         }
         return instance;
+    }
+
+    public void setCurrentPlayerController(PlayerController currentPlayerController) {
+        this.currentPlayerController = currentPlayerController;
     }
 
     public void setProgressBar(ProgressBar progressBar) {
@@ -159,9 +166,6 @@ public class PlayerService /*extends Thread*/ {
 
                     timer.setText(currentTime.toString());
                 });
-
-
-
             } catch (final JavaLayerException e) {
                 break;
             }
@@ -189,6 +193,11 @@ public class PlayerService /*extends Thread*/ {
 
             if(currentMusic.getNext() != null){
                 selectMusicForPlayer(currentMusic.getNext());
+
+                Platform.runLater(() ->
+                {
+                    currentPlayerController.autoNext();
+                });
 
                 play();
             }

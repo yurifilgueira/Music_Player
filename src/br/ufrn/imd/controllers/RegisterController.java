@@ -1,23 +1,26 @@
-package br.ufrn.imd.controller;
+package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.model.entities.User;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.model.enums.UserType;
-import br.ufrn.imd.services.util.ListGenerator;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
 import br.ufrn.imd.services.UserService;
 import br.ufrn.imd.services.util.EmailValidator;
+import br.ufrn.imd.services.util.ListGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -27,13 +30,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class RegisterController implements Initializable {
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+public class RegisterController extends Controller implements Initializable {
     private RegisterService registerService = new RegisterService();
     private UserService userService = new UserService();
 
@@ -198,12 +198,11 @@ public class RegisterController implements Initializable {
 
     @FXML
     public void onButtonLogin(ActionEvent event) throws IOException {
-
-        root = FXMLLoader.load(getClass().getResource("../view/LoginView.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml"))));
+        super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
+        super.setScene(new Scene(super.getRoot()));
+        super.getStage().setScene(super.getScene());
+        super.getStage().show();
     }
 
     public void changeLanguage(){

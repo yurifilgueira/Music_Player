@@ -1,4 +1,4 @@
-package br.ufrn.imd.controller;
+package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.services.PlayerService;
@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,11 +27,7 @@ import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class CommonUserPlayerController extends Thread implements Initializable {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
+public class CommonUserPlayerController extends PlayerController implements Initializable {
     private PlayerService playerService;
 
     private String directory;
@@ -70,6 +65,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         setPlayerService();
     }
 
+    @Override
     public void getMusicsFromDirectory(){
         isPlaying = false;
 
@@ -89,14 +85,18 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         musicsList.getItems().addAll(musics);
     }
 
+    @Override
     public void setPlayerService(){
         playerService = PlayerService.getInstance();
+
+        playerService.setCurrentPlayerController(this);
 
         playerService.setProgressBar(progressBar);
 
         playerService.setTimer(timer);
     }
 
+    @Override
     public void refreshPlayingNow(){
         if(String.valueOf(selectedMusic).length() > 40){
             musicNamePlayingNow.setFont(new Font("System", (double) 820 / String.valueOf(selectedMusic).length()));
@@ -107,7 +107,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         musicNamePlayingNow.setText(String.valueOf(selectedMusic));
     }
 
-    @FXML
+    @FXML @Override
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
 
@@ -118,7 +118,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         refreshPlayingNow();
     }
 
-    @FXML
+    @FXML @Override
     public void onChooseDirectoryButton(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -129,25 +129,25 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         getMusicsFromDirectory();
     }
 
-    @FXML
+    @FXML @Override
     public void onDefaultDirectoryButton(){
         directory = System.getProperty("user.dir") + "/src/resources/songs";
 
         getMusicsFromDirectory();
     }
 
-    @FXML
+    @FXML @Override
     public void onLogoutButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml")));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml"))));
+        super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
+        super.setScene(new Scene(super.getRoot()));
+        super.getStage().setScene(super.getScene());
+        super.getStage().show();
 
         playerService.pause();
     }
 
-    @FXML
+    @FXML @Override
     public void onPreviousButton() throws FileNotFoundException, JavaLayerException {
         if(selectedMusic != null && selectedMusic.getPrevious() != null){
             selectedMusic = selectedMusic.getPrevious();
@@ -158,7 +158,7 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         refreshPlayingNow();
     }
 
-    @FXML
+    @FXML @Override
     public void onPlayButton() throws JavaLayerException {
         if(selectedMusic != null){
             if(isPlaying){
@@ -177,13 +177,20 @@ public class CommonUserPlayerController extends Thread implements Initializable 
         }
     }
 
-    @FXML
+    @FXML @Override
     public void onNextButton() throws FileNotFoundException, JavaLayerException {
         if(selectedMusic != null && selectedMusic.getNext() != null){
             selectedMusic = selectedMusic.getNext();
 
             playerService.selectMusicForPlayer(selectedMusic);
         }
+        
+        refreshPlayingNow();
+    }
+
+    @Override
+    public void autoNext(){
+        selectedMusic = selectedMusic.getNext();
 
         refreshPlayingNow();
     }

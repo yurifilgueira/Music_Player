@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
@@ -8,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.CommonUserPlayerController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.CommonUserPlayerController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onChooseDirectoryButton" prefHeight="80.0" prefWidth="210.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+      <Button layoutX="14.0" layoutY="56.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onChooseDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
          </font>
@@ -19,20 +20,20 @@
                <children>
                   <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="222.0" text="Select">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                   <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="222.0" text="a directory">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
          </graphic>
       </Button>
-      <ListView fx:id="musicsList" layoutX="238.0" layoutY="14.0" onDragDropped="#selectMusic" onMouseClicked="#selectMusic" prefHeight="584.0" prefWidth="1028.0" />
-      <Button layoutX="14.0" layoutY="108.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onDefaultDirectoryButton" prefHeight="80.0" prefWidth="210.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+      <ListView fx:id="musicsList" layoutX="208.0" layoutY="56.0" onDragDropped="#selectMusic" onMouseClicked="#selectMusic" prefHeight="542.0" prefWidth="864.0" />
+      <Button layoutX="1086.0" layoutY="56.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onDefaultDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
          </font>
@@ -41,12 +42,12 @@
                <children>
                   <Label alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="225.0" text="Default">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                   <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="224.0" text="directory">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
@@ -69,11 +70,6 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="202.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="80.0" prefWidth="210.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Logout">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
       <Label fx:id="playingNowText" alignment="BOTTOM_CENTER" layoutY="630.0" prefHeight="45.0" prefWidth="438.0" text="Playing now:" textFill="WHITE" visible="false">
          <font>
             <Font size="24.0" />
@@ -86,8 +82,12 @@
       </Label>
       <Label fx:id="timer" alignment="CENTER" layoutX="843.0" layoutY="630.0" prefHeight="90.0" prefWidth="437.0" textFill="WHITE">
          <font>
-            <Font size="28.0" />
+            <Font size="32.0" />
          </font>
       </Label>
+      <Button fx:id="closeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButton" prefHeight="28.0" prefWidth="28.0" text="X" />
+      <Button fx:id="minimizeButton" layoutX="56.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimizeButton" prefHeight="28.0" prefWidth="28.0" text="一" />
+      <Button fx:id="logoutButton" layoutX="98.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="28.0" prefWidth="56.0" text="&lt;-" />
+      <ChoiceBox layoutX="1116.0" layoutY="14.0" prefHeight="28.0" prefWidth="150.0" style="-fx-background-radius: 25;" />
    </children>
 </AnchorPane>

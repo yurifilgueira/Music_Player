@@ -5,7 +5,6 @@ import br.ufrn.imd.repositories.exceptions.InvalidMusicFileException;
 import java.io.File;
 
 public class Music {
-    private String fileName;
     private File file;
     private Music previous;
     private Music next;
@@ -15,12 +14,7 @@ public class Music {
             throw new InvalidMusicFileException();
         }
 
-        this.fileName = fileName;
         file = new File(directory + "/" + fileName);
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public File getFile() {
@@ -45,6 +39,6 @@ public class Music {
 
     @Override
     public String toString() {
-        return fileName.substring(0, fileName.length() - 4);
+        return file.getName().substring(0, file.getName().length() - 4);
     }
 }

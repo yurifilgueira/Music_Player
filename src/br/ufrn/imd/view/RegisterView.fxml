@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
+<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
    <children>
-      <TextField fx:id="txtName" layoutX="190.0" layoutY="210.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your name" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
+      <TextField fx:id="txtName" layoutX="190.0" layoutY="210.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your name" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -24,12 +24,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="buttonRegister" layoutX="231.0" layoutY="530.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Sign up">
+      <Button fx:id="buttonRegister" layoutX="231.0" layoutY="530.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Sign up">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="410.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your password" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" />
-      <Button fx:id="buttonLogin" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css" text="Back">
+      <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="410.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your password" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" />
+      <Button fx:id="buttonLogin" layoutX="230.0" layoutY="641.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="41.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Back">
          <font>
             <Font size="18.0" />
          </font>
@@ -44,8 +44,8 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="languagePicker" layoutX="466.0" layoutY="14.0" onDragDropped="#onLanguagePicker" prefWidth="150.0" style="-fx-background-radius: 25;" />
-      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="310.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;" stylesheets="@../../../../resources/cssResources/RegisterViewCss.css">
+      <ChoiceBox fx:id="languagePicker" layoutX="466.0" layoutY="14.0" onDragDropped="#onLanguagePicker" prefHeight="28.0" prefWidth="150.0" style="-fx-background-radius: 25;" />
+      <TextField fx:id="txtEmail" layoutX="190.0" layoutY="310.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your email" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;">
          <font>
             <Font size="14.0" />
          </font>
@@ -55,7 +55,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="greetingsLabel" alignment="CENTER" layoutY="60.0" prefHeight="57.0" prefWidth="631.0" style="-fx-font-weight: bold;" text="Welcome to Music Player" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+      <Label fx:id="greetingsLabel" alignment="CENTER" layoutY="60.0" prefHeight="57.0" prefWidth="630.0" style="-fx-font-weight: bold;" text="Welcome to Music Player" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
          <font>
             <Font size="25.0" />
          </font>
@@ -81,5 +81,7 @@
          </font>
       </Label>
       <ChoiceBox fx:id="userTypePicker" layoutX="190.0" layoutY="480.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-radius: 13;" />
+      <Button fx:id="closeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButton" prefHeight="28.0" prefWidth="28.0" text="X" />
+      <Button fx:id="minimizeButton" layoutX="56.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimizeButton" prefHeight="28.0" prefWidth="28.0" text="一" />
    </children>
 </AnchorPane>

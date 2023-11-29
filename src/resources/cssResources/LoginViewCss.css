@@ -22,3 +22,24 @@
     -fx-text-fill: white;
     -fx-background-color: #222222;
 }
+
+#closeButton {
+    -fx-background-color: #C20202;
+    -fx-background-radius: 27px;
+    -fx-text-fill: lightgray;
+}
+
+#closeButton:hover {
+    -fx-background-color: #FF0000;
+    -fx-text-fill: white;
+}
+
+#minimizeButton {
+    -fx-background-color: #F1FF4A;
+    -fx-background-radius: 27px;
+    -fx-text-fill: black;
+}
+
+#minimizeButton:hover {
+    -fx-background-color: #ECFF00;
+}

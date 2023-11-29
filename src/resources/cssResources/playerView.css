@@ -9,6 +9,36 @@
 
 .button:pressed {
     -fx-background-color: #d3d3d3;
-    -fx-scale-x: 1.04;
-    -fx-scale-y: 1.04;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#closeButton {
+    -fx-background-color: #C20202;
+    -fx-background-radius: 27px;
+    -fx-text-fill: lightgray;
+}
+
+#closeButton:hover {
+    -fx-background-color: #FF0000;
+}
+
+#minimizeButton {
+    -fx-background-color: #F1FF4A;
+    -fx-background-radius: 27px;
+    -fx-text-fill: black;
+}
+
+#minimizeButton:hover {
+    -fx-background-color: #ECFF00;
+}
+
+#logoutButton {
+    -fx-background-color: #00FFF7;
+    -fx-background-radius: 27px;
+    -fx-text-fill: black;
+}
+
+#logoutButton:hover {
+    -fx-background-color: #00D6CF;
 }

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LoginController extends Controller implements Initializable {
     private UserService userService = new UserService();
@@ -76,7 +77,24 @@ public class LoginController extends Controller implements Initializable {
                 super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/CommonUserView.fxml"))));
                 super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
                 super.setScene(new Scene(super.getRoot()));
+
+                AtomicReference<Double> x = new AtomicReference<>((double) 0);
+                AtomicReference<Double> y = new AtomicReference<>((double) 0);
+
+                super.getRoot().setOnMousePressed( mouseEvent -> {
+                    x.set(mouseEvent.getSceneX());
+                    y.set(mouseEvent.getSceneY());
+                });
+
+                super.getRoot().setOnMouseDragged( mouseEvent -> {
+                    if(y.get() < 27){
+                        super.getStage().setX(mouseEvent.getScreenX() - x.get());
+                        super.getStage().setY(mouseEvent.getScreenY() - y.get());
+                    }
+                });
+
                 super.getStage().setScene(super.getScene());
+                super.getStage().centerOnScreen();
                 super.getStage().show();
             }
             else {
@@ -94,6 +112,22 @@ public class LoginController extends Controller implements Initializable {
         super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/RegisterView.fxml"))));
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
         super.setScene(new Scene(super.getRoot()));
+
+        AtomicReference<Double> x = new AtomicReference<>((double) 0);
+        AtomicReference<Double> y = new AtomicReference<>((double) 0);
+
+        super.getRoot().setOnMousePressed( mouseEvent -> {
+            x.set(mouseEvent.getSceneX());
+            y.set(mouseEvent.getSceneY());
+        });
+
+        super.getRoot().setOnMouseDragged( mouseEvent -> {
+            if(y.get() < 27){
+                super.getStage().setX(mouseEvent.getScreenX() - x.get());
+                super.getStage().setY(mouseEvent.getScreenY() - y.get());
+            }
+        });
+
         super.getStage().setScene(super.getScene());
         super.getStage().show();
 
@@ -115,10 +149,10 @@ public class LoginController extends Controller implements Initializable {
                 break;
             case "Français":
                 txtEmailLabel.setText("Email");
-                txtEmail.setPromptText("");
+                txtEmail.setPromptText("Entrez votre email");
 
                 txtPasswordLabel.setText("Mot de passe");
-                passwordField.setPromptText("");
+                passwordField.setPromptText("Entrez votre mot de passe");
 
                 buttonLogin.setText("Se connecter");
                 questionLabel.setText("Vous n'avez pas de compte ?");
@@ -159,5 +193,17 @@ public class LoginController extends Controller implements Initializable {
         changeLanguage();
 
         LanguageService.setLanguage(languagePicker.getValue());
+    }
+
+    @FXML
+    public void onCloseButton(ActionEvent event){
+        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
+        super.getStage().close();
+    }
+
+    @FXML
+    public void onMinimizeButton(ActionEvent event){
+        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
+        super.getStage().setIconified(true);
     }
 }

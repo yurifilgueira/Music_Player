@@ -21,9 +21,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,6 +60,8 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        isPlaying = false;
+
         directory = "src/resources/songs";
 
         getMusicsFromDirectory();
@@ -67,14 +71,11 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @Override
     public void getMusicsFromDirectory(){
-        isPlaying = false;
+        List<Music> musics = new ArrayList<>();
 
-        List<String> musicName = Stream.of(new File(directory).listFiles())
-                .filter(file -> !file.isDirectory())
-                .map(File::getName)
-                .toList();
-
-        List<Music> musics = musicName.stream().filter(s -> s.endsWith(".mp3")).map(s -> new Music(directory, s)).toList();
+        Stream.of(Objects.requireNonNull(new File(directory).listFiles()))
+                .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
+                .forEach(file -> musics.add(new Music(directory, file.getName())));
 
         IntStream.range(1, musics.size()).forEach(i -> musics.get(i).setPrevious(musics.get(i - 1)));
 
@@ -141,7 +142,24 @@ public class CommonUserPlayerController extends PlayerController implements Init
         super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml"))));
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
         super.setScene(new Scene(super.getRoot()));
+
+        AtomicReference<Double> x = new AtomicReference<>((double) 0);
+        AtomicReference<Double> y = new AtomicReference<>((double) 0);
+
+        super.getRoot().setOnMousePressed( mouseEvent -> {
+            x.set(mouseEvent.getSceneX());
+            y.set(mouseEvent.getSceneY());
+        });
+
+        super.getRoot().setOnMouseDragged( mouseEvent -> {
+            if(y.get() < 14){
+                super.getStage().setX(mouseEvent.getScreenX() - x.get());
+                super.getStage().setY(mouseEvent.getScreenY() - y.get());
+            }
+        });
+
         super.getStage().setScene(super.getScene());
+        super.getStage().centerOnScreen();
         super.getStage().show();
 
         playerService.pause();
@@ -193,5 +211,17 @@ public class CommonUserPlayerController extends PlayerController implements Init
         selectedMusic = selectedMusic.getNext();
 
         refreshPlayingNow();
+    }
+
+    @FXML
+    public void onCloseButton(ActionEvent event){
+        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
+        super.getStage().close();
+    }
+
+    @FXML
+    public void onMinimizeButton(ActionEvent event){
+        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
+        super.getStage().setIconified(true);
     }
 }

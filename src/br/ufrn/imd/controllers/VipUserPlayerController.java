@@ -38,11 +38,6 @@ public class VipUserPlayerController extends PlayerController {
     }
 
     @Override
-    public void onLogoutButton(ActionEvent event) throws IOException {
-
-    }
-
-    @Override
     public void onPreviousButton() throws FileNotFoundException, JavaLayerException {
 
     }
@@ -59,6 +54,21 @@ public class VipUserPlayerController extends PlayerController {
 
     @Override
     public void autoNext() {
+
+    }
+
+    @Override
+    public void onCloseButton(ActionEvent event) {
+
+    }
+
+    @Override
+    public void onMinimizeButton(ActionEvent event) {
+
+    }
+
+    @Override
+    public void onLogoutButton(ActionEvent event) throws IOException {
 
     }
 }

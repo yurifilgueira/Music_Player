@@ -2,6 +2,7 @@ package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.services.PlayerService;
+import br.ufrn.imd.services.WindowService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -143,20 +143,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
         super.setScene(new Scene(super.getRoot()));
 
-        AtomicReference<Double> x = new AtomicReference<>((double) 0);
-        AtomicReference<Double> y = new AtomicReference<>((double) 0);
-
-        super.getRoot().setOnMousePressed( mouseEvent -> {
-            x.set(mouseEvent.getSceneX());
-            y.set(mouseEvent.getSceneY());
-        });
-
-        super.getRoot().setOnMouseDragged( mouseEvent -> {
-            if(y.get() < 14){
-                super.getStage().setX(mouseEvent.getScreenX() - x.get());
-                super.getStage().setY(mouseEvent.getScreenY() - y.get());
-            }
-        });
+        WindowService.moveWindow(super.getStage(), super.getRoot());
 
         super.getStage().setScene(super.getScene());
         super.getStage().centerOnScreen();
@@ -215,13 +202,11 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML
     public void onCloseButton(ActionEvent event){
-        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
-        super.getStage().close();
+        WindowService.closeWindow(event, super.getStage());
     }
 
     @FXML
     public void onMinimizeButton(ActionEvent event){
-        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
-        super.getStage().setIconified(true);
+        WindowService.minimizeWindow(event, super.getStage());
     }
 }

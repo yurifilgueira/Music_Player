@@ -19,8 +19,6 @@ public abstract class PlayerController extends Controller {
 
     public abstract void onDefaultDirectoryButton();
 
-    public abstract void onLogoutButton(ActionEvent event) throws IOException;
-
     public abstract void onPreviousButton() throws FileNotFoundException, JavaLayerException;
 
     public abstract void onPlayButton() throws JavaLayerException;
@@ -28,4 +26,6 @@ public abstract class PlayerController extends Controller {
     public abstract void onNextButton() throws FileNotFoundException, JavaLayerException;
 
     public abstract void autoNext();
+
+    public abstract void onLogoutButton(ActionEvent event) throws IOException;
 }

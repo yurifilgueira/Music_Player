@@ -1,5 +1,6 @@
 package br.ufrn.imd;
 
+import br.ufrn.imd.services.WindowService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,28 +9,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        AtomicReference<Double> x = new AtomicReference<>((double) 0);
-        AtomicReference<Double> y = new AtomicReference<>((double) 0);
-
         Parent root = FXMLLoader.load(getClass().getResource("view/LoginView.fxml"));
 
-        root.setOnMousePressed( mouseEvent -> {
-            x.set(mouseEvent.getSceneX());
-            y.set(mouseEvent.getSceneY());
-        });
-
-        root.setOnMouseDragged( mouseEvent -> {
-            if(y.get() < 27){
-                stage.setX(mouseEvent.getScreenX() - x.get());
-                stage.setY(mouseEvent.getScreenY() - y.get());
-            }
-        });
+        WindowService.moveWindow(stage, root);
 
         Scene scene = new Scene(root);
 

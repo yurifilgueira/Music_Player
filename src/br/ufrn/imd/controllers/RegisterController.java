@@ -7,7 +7,7 @@ import br.ufrn.imd.model.enums.UserType;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
-import br.ufrn.imd.services.UserService;
+import br.ufrn.imd.services.WindowService;
 import br.ufrn.imd.services.util.EmailValidator;
 import br.ufrn.imd.services.util.ListGenerator;
 import javafx.event.ActionEvent;
@@ -16,10 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -32,14 +30,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class RegisterController extends Controller implements Initializable {
+public class RegisterController extends UserManagementController implements Initializable {
     private RegisterService registerService = new RegisterService();
-    private UserService userService = new UserService();
 
-    @FXML
-    private ChoiceBox<String> languagePicker;
     @FXML
     private ChoiceBox<UserType> userTypePicker;
 
@@ -49,19 +43,9 @@ public class RegisterController extends Controller implements Initializable {
     private Label orientationLabel;
     @FXML
     private Label txtNameLabel;
-    @FXML
-    private Label txtEmailLabel;
-    @FXML
-    private Label txtPasswordLabel;
-    @FXML
-    private Label questionLabel;
 
     @FXML
     private TextField txtName;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    private PasswordField passwordField;
 
     @FXML
     private Label labelNameIsMissing;
@@ -70,64 +54,59 @@ public class RegisterController extends Controller implements Initializable {
     @FXML
     private Label labelPasswordIsMissing;
 
-    @FXML
-    private Button buttonRegister;
-    @FXML
-    private Button buttonLogin;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
+        super.getLanguagePicker().getItems().addAll(ListGenerator.getProgramLanguages());
 
         if(LanguageService.getLanguage() == null){
-            languagePicker.getSelectionModel().selectFirst();
+            super.getLanguagePicker().getSelectionModel().selectFirst();
             LanguageService.setLanguage("English");
         }else{
-            languagePicker.getSelectionModel().select(LanguageService.getLanguage());
+            super.getLanguagePicker().getSelectionModel().select(LanguageService.getLanguage());
             changeLanguage();
         }
 
-        languagePicker.setOnAction(this::onLanguagePicker);
+        super.getLanguagePicker().setOnAction(this::onLanguagePicker);
 
         userTypePicker.getItems().addAll(UserType.values());
         userTypePicker.getSelectionModel().selectFirst();
     }
 
-    @FXML
-    void onButtonRegister(ActionEvent event) {
+    @FXML @Override
+    public void onButtonRegister(ActionEvent event) {
 
         registerService.resetMissingLabels(labelNameIsMissing, labelInvalidEmail, labelPasswordIsMissing);
 
-        boolean someFieldIsEmpty = registerService.someFieldIsEmpty(txtName.getText(), txtEmail.getText(), passwordField.getText());
+        boolean someFieldIsEmpty = registerService.someFieldIsEmpty(txtName.getText(), super.getTxtEmail().getText(), super.getPasswordField().getText());
 
         if (someFieldIsEmpty){
-            setStyleToEmptyField(txtName, txtEmail, passwordField);
+            setStyleToEmptyField(txtName);
 
-            if (!registerService.fieldEmailIsEmpty(txtEmail.getText())){
-                registerService.setStyleToInvalidEmail(txtEmail, labelInvalidEmail);
+            if (!registerService.fieldEmailIsEmpty(super.getTxtEmail().getText())){
+                registerService.setStyleToInvalidEmail(super.getTxtEmail(), labelInvalidEmail);
             }
         }
         else {
 
-            String userEmail = txtEmail.getText();
+            String userEmail = super.getTxtEmail().getText();
 
             if (!EmailValidator.emailIsValid(userEmail)){
-                registerService.setStyleToInvalidEmail(txtEmail, labelInvalidEmail);
+                registerService.setStyleToInvalidEmail(super.getTxtEmail(), labelInvalidEmail);
             }
-            else if (!userService.containsUser(userEmail)) {
+            else if (!super.getUserService().containsUser(userEmail)) {
 
                 String name = txtName.getText();
-                String email = txtEmail.getText();
-                String password = passwordField.getText();
+                String email = super.getTxtEmail().getText();
+                String password = super.getPasswordField().getText();
 
                 if(userTypePicker.getValue() == UserType.VIP){
                     User user = new VipUser(null, name, email, password);
-                    userService.putUser(user);
+                    super.getUserService().putUser(user);
 
                     System.out.println("Usuário VIP registrado.");
                 }else{
                     User user = new CommonUser(null, name, email, password);
-                    userService.putUser(user);
+                    super.getUserService().putUser(user);
 
                     System.out.println("Usuário comum registrado.");
                 }
@@ -135,11 +114,11 @@ public class RegisterController extends Controller implements Initializable {
         }
     }
 
-    public void setStyleToEmptyField(TextField txtName, TextField txtEmail, PasswordField passwordField) {
+    public void setStyleToEmptyField(TextField txtName) {
 
         boolean nameFieldIsEmpty = registerService.fieldNameIsEmpty(txtName.getText());
-        boolean emailFieldIsEmpty = registerService.fieldEmailIsEmpty(txtEmail.getText());
-        boolean passwordFieldIsEmpty = registerService.fieldPasswordIsEmpty(passwordField.getText());
+        boolean emailFieldIsEmpty = registerService.fieldEmailIsEmpty(super.getTxtEmail().getText());
+        boolean passwordFieldIsEmpty = registerService.fieldPasswordIsEmpty(super.getPasswordField().getText());
 
         Border emptyFieldBorder = new Border(new BorderStroke(
                 Paint.valueOf("RED"),
@@ -177,7 +156,7 @@ public class RegisterController extends Controller implements Initializable {
                     break;
             }
 
-            txtEmail.setBorder(emptyFieldBorder);
+            super.getTxtEmail().setBorder(emptyFieldBorder);
         }
 
         if (passwordFieldIsEmpty){
@@ -193,38 +172,24 @@ public class RegisterController extends Controller implements Initializable {
                     break;
             }
 
-            passwordField.setBorder(emptyFieldBorder);
+            super.getPasswordField().setBorder(emptyFieldBorder);
         }
     }
 
-    @FXML
+    @FXML @Override
     public void onButtonLogin(ActionEvent event) throws IOException {
         super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml"))));
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
         super.setScene(new Scene(super.getRoot()));
 
-        AtomicReference<Double> x = new AtomicReference<>((double) 0);
-        AtomicReference<Double> y = new AtomicReference<>((double) 0);
-
-        super.getRoot().setOnMousePressed( mouseEvent -> {
-            x.set(mouseEvent.getSceneX());
-            y.set(mouseEvent.getSceneY());
-        });
-
-        super.getRoot().setOnMouseDragged( mouseEvent -> {
-            if(y.get() < 27){
-                super.getStage().setX(mouseEvent.getScreenX() - x.get());
-                super.getStage().setY(mouseEvent.getScreenY() - y.get());
-            }
-        });
-
+        WindowService.moveWindow(super.getStage(), super.getRoot());
 
         super.getStage().setScene(super.getScene());
         super.getStage().show();
     }
 
     public void changeLanguage(){
-        switch(languagePicker.getValue()){
+        switch(super.getLanguagePicker().getValue()){
             case "English":
                 greetingsLabel.setText("Welcome to Music Player");
 
@@ -233,17 +198,17 @@ public class RegisterController extends Controller implements Initializable {
                 txtNameLabel.setText("Username");
                 txtName.setPromptText("Enter your name");
 
-                txtEmailLabel.setText("Email");
-                txtEmail.setPromptText("Enter your email");
+                super.getTxtEmailLabel().setText("Email");
+                super.getTxtEmail().setPromptText("Enter your email");
 
-                txtPasswordLabel.setText("Password");
-                passwordField.setPromptText("Enter your password");
+                super.getTxtPasswordLabel().setText("Password");
+                super.getPasswordField().setPromptText("Enter your password");
 
-                buttonRegister.setText("Sign up");
+                super.getButtonRegister().setText("Sign up");
 
-                questionLabel.setText("Already have an account ?");
+                super.getQuestionLabel().setText("Already have an account ?");
 
-                buttonLogin.setText("Back");
+                super.getButtonLogin().setText("Back");
 
                 break;
             case "Français":
@@ -254,17 +219,17 @@ public class RegisterController extends Controller implements Initializable {
                 txtNameLabel.setText("Nom d'utilisateur");
                 txtName.setPromptText("Entrez votre nom d'utilisateur");
 
-                txtEmailLabel.setText("Email");
-                txtEmail.setPromptText("Entrez votre email");
+                super.getTxtEmailLabel().setText("Email");
+                super.getTxtEmail().setPromptText("Entrez votre email");
 
-                txtPasswordLabel.setText("Mot de passe");
-                passwordField.setPromptText("Entrez votre mot de passe");
+                super.getTxtPasswordLabel().setText("Mot de passe");
+                super.getPasswordField().setPromptText("Entrez votre mot de passe");
 
-                buttonRegister.setText("S'inscrire");
+                super.getButtonRegister().setText("S'inscrire");
 
-                questionLabel.setText("Vous avez déjà un compte ?");
+                super.getQuestionLabel().setText("Vous avez déjà un compte ?");
 
-                buttonLogin.setText("Retourner");
+                super.getButtonLogin().setText("Retourner");
 
                 break;
             case "Português":
@@ -275,17 +240,17 @@ public class RegisterController extends Controller implements Initializable {
                 txtNameLabel.setText("Nome de Usuário");
                 txtName.setPromptText("Insira seu nome");
 
-                txtEmailLabel.setText("Email");
-                txtEmail.setPromptText("Insira seu email");
+                super.getTxtEmailLabel().setText("Email");
+                super.getTxtEmail().setPromptText("Insira seu email");
 
-                txtPasswordLabel.setText("Senha");
-                passwordField.setPromptText("Insira sua senha");
+                super.getTxtPasswordLabel().setText("Senha");
+                super.getPasswordField().setPromptText("Insira sua senha");
 
-                buttonRegister.setText("Registre-se");
+                super.getButtonRegister().setText("Registre-se");
 
-                questionLabel.setText("Já possui login ?");
+                super.getQuestionLabel().setText("Já possui login ?");
 
-                buttonLogin.setText("Voltar");
+                super.getButtonLogin().setText("Voltar");
 
                 break;
             case "日本語":
@@ -296,21 +261,21 @@ public class RegisterController extends Controller implements Initializable {
                 txtNameLabel.setText("名前");
                 txtName.setPromptText("名前を入力してください");
 
-                txtEmailLabel.setText("メール");
-                txtEmail.setPromptText("メールを入力してください");
+                super.getTxtEmailLabel().setText("メール");
+                super.getTxtEmail().setPromptText("メールを入力してください");
 
-                txtPasswordLabel.setText("パスワード");
-                passwordField.setPromptText("パスワードを入力してください");
+                super.getTxtPasswordLabel().setText("パスワード");
+                super.getPasswordField().setPromptText("パスワードを入力してください");
 
-                buttonRegister.setText("アカウント登録");
+                super.getButtonRegister().setText("アカウント登録");
 
-                questionLabel.setText("すでにアカウントをお持ちですか？");
+                super.getQuestionLabel().setText("すでにアカウントをお持ちですか？");
 
-                buttonLogin.setText("戻る");
+                super.getButtonLogin().setText("戻る");
 
                 break;
             default:
-                throw new InvalidLanguageException(languagePicker.getValue());
+                throw new InvalidLanguageException(super.getLanguagePicker().getValue());
         }
     }
 
@@ -318,18 +283,16 @@ public class RegisterController extends Controller implements Initializable {
     public void onLanguagePicker(ActionEvent event){
         changeLanguage();
 
-        LanguageService.setLanguage(languagePicker.getValue());
+        LanguageService.setLanguage(super.getLanguagePicker().getValue());
     }
 
-    @FXML
+    @FXML @Override
     public void onCloseButton(ActionEvent event){
-        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
-        super.getStage().close();
+        WindowService.closeWindow(event, super.getStage());
     }
 
-    @FXML
+    @FXML @Override
     public void onMinimizeButton(ActionEvent event){
-        super.setStage((Stage) ((Button) event.getSource()).getScene().getWindow());
-        super.getStage().setIconified(true);
+        WindowService.minimizeWindow(event, super.getStage());
     }
 }

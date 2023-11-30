@@ -6,8 +6,6 @@ import java.io.File;
 
 public class Music {
     private File file;
-    private Music previous;
-    private Music next;
 
     public Music(String directory, String fileName) {
         if(!fileName.endsWith(".mp3")){
@@ -19,22 +17,6 @@ public class Music {
 
     public File getFile() {
         return file;
-    }
-
-    public Music getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(Music previous) {
-        this.previous = previous;
-    }
-
-    public Music getNext() {
-        return next;
-    }
-
-    public void setNext(Music next) {
-        this.next = next;
     }
 
     @Override

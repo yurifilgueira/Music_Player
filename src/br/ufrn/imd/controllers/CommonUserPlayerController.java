@@ -59,6 +59,16 @@ public class CommonUserPlayerController extends PlayerController implements Init
     private ListView<Music> musicsList;
 
     @Override
+    public Music getSelectedMusic() {
+        return selectedMusic;
+    }
+
+    @Override
+    public ListView<Music> getMusicsList() {
+        return musicsList;
+    }
+
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         isPlaying = false;
 
@@ -76,10 +86,6 @@ public class CommonUserPlayerController extends PlayerController implements Init
         Stream.of(Objects.requireNonNull(new File(directory).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
                 .forEach(file -> musics.add(new Music(directory, file.getName())));
-
-        IntStream.range(1, musics.size()).forEach(i -> musics.get(i).setPrevious(musics.get(i - 1)));
-
-        IntStream.range(0, musics.size() - 1).forEach(i -> musics.get(i).setNext(musics.get(i + 1)));
 
         musicsList.getItems().clear();
 
@@ -108,9 +114,18 @@ public class CommonUserPlayerController extends PlayerController implements Init
         musicNamePlayingNow.setText(String.valueOf(selectedMusic));
     }
 
+    @Override
+    public void refreshSelectedMusic(int index){
+        selectedMusic = musicsList.getItems().get(index);
+
+        musicsList.getSelectionModel().select(index);
+
+        refreshPlayingNow();
+    }
+
     @FXML @Override
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
-        selectedMusic = this.musicsList.getSelectionModel().getSelectedItem();
+        selectedMusic = musicsList.getSelectionModel().getSelectedItem();
 
         playerService.selectMusicForPlayer(selectedMusic);
 
@@ -154,17 +169,17 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML @Override
     public void onPreviousButton() throws FileNotFoundException, JavaLayerException {
-        if(selectedMusic != null && selectedMusic.getPrevious() != null){
-            selectedMusic = selectedMusic.getPrevious();
+        if(musicsList.getSelectionModel().getSelectedIndex() - 1 >= 0){
+            if(selectedMusic != null && musicsList.getItems().get(musicsList.getSelectionModel().getSelectedIndex() - 1) != null){
+                refreshSelectedMusic(musicsList.getSelectionModel().getSelectedIndex() - 1);
 
-            playerService.selectMusicForPlayer(selectedMusic);
+                playerService.selectMusicForPlayer(selectedMusic);
+            }
         }
-
-        refreshPlayingNow();
     }
 
     @FXML @Override
-    public void onPlayButton() throws JavaLayerException {
+    public void onPlayButton() {
         if(selectedMusic != null){
             if(isPlaying){
                 isPlaying = false;
@@ -184,20 +199,13 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML @Override
     public void onNextButton() throws FileNotFoundException, JavaLayerException {
-        if(selectedMusic != null && selectedMusic.getNext() != null){
-            selectedMusic = selectedMusic.getNext();
+        if(musicsList.getSelectionModel().getSelectedIndex() + 1 < musicsList.getItems().size()){
+            if(selectedMusic != null && musicsList.getItems().get(musicsList.getSelectionModel().getSelectedIndex() + 1) != null){
+                refreshSelectedMusic(musicsList.getSelectionModel().getSelectedIndex() + 1);
 
-            playerService.selectMusicForPlayer(selectedMusic);
+                playerService.selectMusicForPlayer(selectedMusic);
+            }
         }
-        
-        refreshPlayingNow();
-    }
-
-    @Override
-    public void autoNext(){
-        selectedMusic = selectedMusic.getNext();
-
-        refreshPlayingNow();
     }
 
     @FXML

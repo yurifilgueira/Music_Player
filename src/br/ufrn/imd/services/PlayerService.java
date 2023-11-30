@@ -93,7 +93,7 @@ public class PlayerService /*extends Thread*/ {
         }
     }
 
-    public void play() throws JavaLayerException {
+    public void play() {
         synchronized (playerLock) {
             switch (playerStatus) {
                 case NOTSTARTED:
@@ -169,13 +169,12 @@ public class PlayerService /*extends Thread*/ {
             } catch (final JavaLayerException e) {
                 break;
             }
-            // check if paused or terminated
+
             synchronized (playerLock) {
                 while (playerStatus == PAUSED) {
                     try {
                         playerLock.wait();
                     } catch (final InterruptedException e) {
-                        // terminate player
                         break;
                     }
                 }
@@ -191,15 +190,17 @@ public class PlayerService /*extends Thread*/ {
         try {
             player.close();
 
-            if(currentMusic.getNext() != null){
-                selectMusicForPlayer(currentMusic.getNext());
+            if(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1 < currentPlayerController.getMusicsList().getItems().size()){
+                if(currentPlayerController.getSelectedMusic() != null && currentPlayerController.getMusicsList().getItems().get(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1) != null){
+                    selectMusicForPlayer(currentPlayerController.getMusicsList().getItems().get(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1));
 
-                Platform.runLater(() ->
-                {
-                    currentPlayerController.autoNext();
-                });
+                    Platform.runLater(() ->
+                    {
+                        currentPlayerController.refreshSelectedMusic(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1);
+                    });
 
-                play();
+                    play();
+                }
             }
         } catch (final Exception e) {
             // ignore, we are terminating anyway

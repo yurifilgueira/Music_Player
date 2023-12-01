@@ -8,7 +8,10 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
-    
+
+    public User() {
+    }
+
     public User(Long id, String name, String email, String password) {
         this.id = id;
         this.email = email;

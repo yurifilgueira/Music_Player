@@ -30,6 +30,9 @@ public class LoginController extends UserManagementController implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        getUserService().loadUsers();
+
         super.getLanguagePicker().getItems().addAll(ListGenerator.getProgramLanguages());
 
         if(LanguageService.getLanguage() == null){

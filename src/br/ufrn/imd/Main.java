@@ -1,5 +1,7 @@
 package br.ufrn.imd;
 
+import br.ufrn.imd.model.entities.User;
+import br.ufrn.imd.services.UserService;
 import br.ufrn.imd.services.WindowService;
 import javafx.application.Application;
 import javafx.application.Platform;

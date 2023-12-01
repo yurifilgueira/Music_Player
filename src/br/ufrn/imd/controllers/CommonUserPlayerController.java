@@ -111,11 +111,14 @@ public class CommonUserPlayerController extends PlayerController implements Init
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = musicListView.getSelectionModel().getSelectedItem();
 
-        super.getPlayerService().selectMusicForPlayer(selectedMusic);
+        if(selectedMusic != null) {
 
-        playingNowText.setVisible(true);
+            super.getPlayerService().selectMusicForPlayer(selectedMusic);
 
-        refreshPlayingNow();
+            playingNowText.setVisible(true);
+
+            refreshPlayingNow();
+        }
     }
 
     @FXML
@@ -125,9 +128,13 @@ public class CommonUserPlayerController extends PlayerController implements Init
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
 
-        super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
 
-        getMusicsFromDirectory();
+
+        if(fileChooser.getSelectedFile() != null){
+
+            super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
+            getMusicsFromDirectory();
+        }
     }
 
     @FXML

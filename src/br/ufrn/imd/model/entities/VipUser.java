@@ -10,6 +10,10 @@ public class VipUser extends User{
     private List<Playlist> playlists;
     private PlaylistService playlistService;
 
+    public VipUser() {
+        super();
+    }
+
     public VipUser(Long id, String name, String email, String password) {
         super(id, name, email, password);
 

@@ -134,26 +134,30 @@ public class VipUserPlayerController extends PlayerController implements Initial
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = musicListView.getSelectionModel().getSelectedItem();
 
-        super.getPlayerService().selectMusicForPlayer(selectedMusic);
+        if (selectedMusic != null){
+            super.getPlayerService().selectMusicForPlayer(selectedMusic);
 
-        playingNowText.setVisible(true);
+            playingNowText.setVisible(true);
 
-        refreshPlayingNow();
+            refreshPlayingNow();
+        }
     }
+
     @FXML
     @Override
     public void onChooseDirectoryButton() {
-
-        labelPlaylist.setText("My Musics");
-        buttonAddMusic.setVisible(false);
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
 
-        super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
+        if(fileChooser.getSelectedFile() != null){
+            labelPlaylist.setText("My Musics");
+            buttonAddMusic.setVisible(false);
 
-        getMusicsFromDirectory();
+            super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
+            getMusicsFromDirectory();
+        }
     }
 
     @FXML

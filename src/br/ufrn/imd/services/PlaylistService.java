@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class PlaylistService {
 
-    private PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+    private PlaylistDAO playlistDAO;
 
     public PlaylistService() {
         this.playlistDAO = PlaylistDAO.getInstance();

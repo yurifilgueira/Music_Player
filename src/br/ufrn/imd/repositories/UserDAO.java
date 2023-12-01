@@ -4,7 +4,9 @@ import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.repositories.exceptions.UserNotFoundException;
 import br.ufrn.imd.model.entities.User;
+import br.ufrn.imd.services.UserService;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +25,6 @@ public class UserDAO {
         this.users = new ArrayList<>();
         this.loginInformation = new HashMap<>();
         this.idGenerator = new AtomicLong();
-
-        putUser(new VipUser(null, "Admin","admin@email.com", "1234"));
     }
 
     public static UserDAO getInstance(){
@@ -35,18 +35,85 @@ public class UserDAO {
         return userDAO;
     }
 
-    public void setUserId(User user){
-        user.setId(idGenerator.incrementAndGet());
+    public void saveUser(User user) {
+
+        String path = "src/resources/dataResources/users.txt";
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))){
+
+            putUser(user);
+
+            if (user instanceof CommonUser){
+                bufferedWriter.write("common;");
+            }
+            else {
+                bufferedWriter.write("vip;");
+            }
+
+            bufferedWriter.append(String.valueOf(user.getId())).append(";");
+            bufferedWriter.append(String.valueOf(user.getName())).append(";");
+            bufferedWriter.append(String.valueOf(user.getEmail())).append(";");
+            bufferedWriter.append(String.valueOf(user.getPassword()));
+
+            bufferedWriter.newLine();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
-    public void putUser(User user){
+    private void putUser(User user){
         setUserId(user);
         addLoginInformations(user.getEmail(), user.getPassword());
         users.add(user);
     }
 
+    public void setUserId(User user){
+        user.setId(idGenerator.incrementAndGet());
+    }
+
     public void addLoginInformations(String email, String password){
         loginInformation.put(email, password);
+    }
+
+    public void loadUsers(){
+
+        String path = "src/resources/dataResources/users.txt";
+
+        if (verifyIfFileExists(path)) {
+
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+
+                String line = bufferedReader.readLine();
+
+                while (line != null) {
+                    String[] userData = line.split(";");
+
+                    User user = collectUserData(userData);
+
+                    putUser(user);
+
+                    line = bufferedReader.readLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public User collectUserData(String[] userData){
+
+        Long id = Long.parseLong(userData[1]);
+        String name = userData[2];
+        String email = userData[3];
+        String password = userData[4];
+
+        if(userData[0].equals("vip")){
+            return new VipUser(id, name, email, password);
+        }
+
+        return new CommonUser(id, name, email, password);
+
     }
 
     public void deleteUser(User user){
@@ -89,4 +156,12 @@ public class UserDAO {
         return Objects.equals(loginInformation.get(email), password);
 
     }
+
+    public boolean verifyIfFileExists(String path){
+        File file = new File(path);
+
+        return file.exists();
+
+    }
+
 }

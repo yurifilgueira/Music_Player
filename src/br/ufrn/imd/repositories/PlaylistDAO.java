@@ -29,4 +29,8 @@ public class PlaylistDAO {
     public void deletePlaylist(Playlist playlist){
         playlists.remove(playlist);
     }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
 }

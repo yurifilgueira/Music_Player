@@ -24,7 +24,7 @@ public class UserDAO {
         this.loginInformation = new HashMap<>();
         this.idGenerator = new AtomicLong();
 
-        putUser(new CommonUser(null, "Admin","admin@email.com", "1234"));
+        putUser(new VipUser(null, "Admin","admin@email.com", "1234"));
     }
 
     public static UserDAO getInstance(){

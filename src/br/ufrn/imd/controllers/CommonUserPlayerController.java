@@ -17,7 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javazoom.jl.decoder.JavaLayerException;
 
-import javax.swing.JFileChooser;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class CommonUserPlayerController extends PlayerController implements Initializable {

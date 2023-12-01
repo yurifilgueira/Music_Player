@@ -1,5 +1,6 @@
 package br.ufrn.imd.controllers;
 
+import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.LoginService;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController extends UserManagementController implements Initializable {
-    private LoginService loginService = new LoginService();
+    private LoginService loginService = LoginService.getInstance();
 
     @FXML
     private Label labelInvalidLogin; // the only one
@@ -53,7 +54,16 @@ public class LoginController extends UserManagementController implements Initial
 
         if (super.getUserService().containsUser(userEmail) && EmailValidator.emailIsValid(userEmail)){
             if (super.getUserService().loginInformationIsValid(userEmail, userPassword)){
-                super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/CommonUserView.fxml"))));
+
+                loginService.setLoggedUser(getUserService().getByEmail(userEmail));
+
+                if (super.getUserService().getByEmail(userEmail) instanceof CommonUser) {
+                    super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/CommonUserView.fxml"))));
+                }
+                else {
+                    super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/VipUserView.fxml"))));
+                }
+
                 super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
                 super.setScene(new Scene(super.getRoot()));
 

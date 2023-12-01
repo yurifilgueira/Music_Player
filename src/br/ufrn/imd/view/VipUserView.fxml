@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onMouseClicked="#selectPlaylist" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.VipUserPlayerController">
+   <children>
+      <Button layoutX="14.0" layoutY="56.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onChooseDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="80.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="222.0" text="Select">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="222.0" text="a directory">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+      <ListView fx:id="musicListView" layoutX="208.0" layoutY="85.0" onDragDropped="#selectMusic" onMouseClicked="#selectMusic" prefHeight="513.0" prefWidth="409.0" />
+      <Button layoutX="1086.0" layoutY="56.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onDefaultDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="80.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="225.0" text="Default">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="224.0" text="directory">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+      <Button fx:id="play" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPlayButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Play">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <ProgressBar fx:id="progressBar" layoutX="14.0" layoutY="612.0" prefHeight="18.0" prefWidth="1252.0" progress="0.0" />
+      <Button fx:id="next" layoutX="718.0" layoutY="644.0" mnemonicParsing="false" onAction="#onNextButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Next">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="previous" layoutX="438.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPreviousButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Previous">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="playingNowText" alignment="BOTTOM_CENTER" layoutY="630.0" prefHeight="45.0" prefWidth="438.0" text="Playing now:" textFill="WHITE" visible="false">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="musicNamePlayingNow" alignment="TOP_CENTER" layoutY="675.0" prefHeight="45.0" prefWidth="438.0" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="timer" alignment="CENTER" layoutX="843.0" layoutY="630.0" prefHeight="90.0" prefWidth="437.0" textFill="WHITE">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Button fx:id="closeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButton" prefHeight="28.0" prefWidth="28.0" text="X" />
+      <Button fx:id="minimizeButton" layoutX="56.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimizeButton" prefHeight="28.0" prefWidth="28.0" text="一" />
+      <Button fx:id="logoutButton" layoutX="98.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="28.0" prefWidth="56.0" text="&lt;-" />
+      <ChoiceBox layoutX="1116.0" layoutY="14.0" prefHeight="28.0" prefWidth="150.0" style="-fx-background-radius: 25;" />
+      <ListView fx:id="playlistListView" layoutX="653.0" layoutY="85.0" onDragDropped="#selectPlaylist" onMouseClicked="#selectPlaylist" prefHeight="513.0" prefWidth="409.0" />
+      <Label fx:id="labelPlaylist" layoutX="353.0" layoutY="39.0" style="-fx-font-weight: bold;" text="My Musics" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="791.0" layoutY="39.0" style="-fx-font-weight: bold;" text="My Playlists" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="1086.0" layoutY="159.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onButtonCreatePlaylist" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="80.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" onMouseClicked="#selectPlaylist" prefHeight="40.0" prefWidth="225.0" text="Create">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="224.0" text="Playlist">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+      <Button fx:id="buttonAddMusic" layoutX="1086.0" layoutY="270.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onButtonAddMusic" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="80.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" onMouseClicked="#selectPlaylist" prefHeight="40.0" prefWidth="225.0" text="Add">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="40.0" prefWidth="224.0" text="Music">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

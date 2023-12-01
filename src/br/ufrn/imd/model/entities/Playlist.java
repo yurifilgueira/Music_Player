@@ -71,4 +71,9 @@ public class Playlist {
     public void removeMusicFromPlaylist(Music music){
         musics.remove(music);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

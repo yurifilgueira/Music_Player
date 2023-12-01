@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
+<AnchorPane onMouseClicked="#setSuccessfulLabelNotVisible" prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
    <children>
       <TextField fx:id="txtName" layoutX="190.0" layoutY="210.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your name" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;">
          <font>
@@ -83,5 +83,10 @@
       <ChoiceBox fx:id="userTypePicker" layoutX="190.0" layoutY="480.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-radius: 13;" />
       <Button fx:id="closeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButton" prefHeight="28.0" prefWidth="28.0" text="X" />
       <Button fx:id="minimizeButton" layoutX="56.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimizeButton" prefHeight="28.0" prefWidth="28.0" text="一" />
+      <Label fx:id="successfulLabel" alignment="CENTER" layoutX="1.0" layoutY="580.0" prefHeight="21.0" prefWidth="630.0" text="Account created successfully." textFill="#00bfff" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

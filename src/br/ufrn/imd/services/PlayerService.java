@@ -25,21 +25,15 @@ import static br.ufrn.imd.model.enums.PlayerStatus.PLAYING;
 public class PlayerService /*extends Thread*/ {
     private static PlayerService instance;
 
-    private Music currentMusic;
+    private final Object playerLock = new Object();
+    private Player player;
+    private PlayerStatus playerStatus;
 
     private double currentMusicLength;
 
-    private Player player;
-
-    private PlayerStatus playerStatus;
-
     private PlayerController currentPlayerController;
-
     private ProgressBar progressBar;
-
     private Label timer;
-
-    private final Object playerLock = new Object();
 
     private PlayerService(){}
 
@@ -81,8 +75,6 @@ public class PlayerService /*extends Thread*/ {
 
     public void selectMusicForPlayer(Music music) throws FileNotFoundException, JavaLayerException {
         if(music != null){
-            currentMusic = music;
-
             setCurrentMusicLength(music);
 
             player = new Player(new BufferedInputStream(new FileInputStream(music.getFile())));

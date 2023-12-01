@@ -26,10 +26,7 @@ public class LoginController extends UserManagementController implements Initial
     private LoginService loginService = LoginService.getInstance();
 
     @FXML
-    private Label labelInvalidLogin; // the only one
-
-    @FXML
-    private Button buttonRegister;
+    private Label labelInvalidLogin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,7 +43,8 @@ public class LoginController extends UserManagementController implements Initial
         super.getLanguagePicker().setOnAction(this::onLanguagePicker);
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onButtonLogin(ActionEvent event) throws IOException {
 
         String userEmail = super.getTxtEmail().getText();
@@ -83,7 +81,8 @@ public class LoginController extends UserManagementController implements Initial
 
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onButtonRegister(ActionEvent event) throws IOException {
         super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/RegisterView.fxml"))));
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
@@ -158,12 +157,14 @@ public class LoginController extends UserManagementController implements Initial
         LanguageService.setLanguage(super.getLanguagePicker().getValue());
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onCloseButton(ActionEvent event){
         WindowService.closeWindow(event, super.getStage());
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onMinimizeButton(ActionEvent event){
         WindowService.minimizeWindow(event, super.getStage());
     }

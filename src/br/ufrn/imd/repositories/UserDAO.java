@@ -19,7 +19,7 @@ public class UserDAO {
     private Map<String, String> loginInformation;
     private static UserDAO userDAO;
 
-    public UserDAO() {
+    private UserDAO() {
         this.users = new ArrayList<>();
         this.loginInformation = new HashMap<>();
         this.idGenerator = new AtomicLong();

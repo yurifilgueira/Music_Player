@@ -10,7 +10,7 @@ public class PlaylistDAO {
     private List<Playlist> playlists;
     private static PlaylistDAO playlistDAO;
 
-    public PlaylistDAO() {
+    private PlaylistDAO() {
         this.playlists = new ArrayList<>();
     }
 

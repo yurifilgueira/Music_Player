@@ -16,6 +16,10 @@ public class VipUser extends User{
         playlists = new ArrayList<>();
     }
 
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
     public Playlist getPlaylistById(Long id){
         if(playlists.isEmpty()){
             return null;
@@ -35,30 +39,10 @@ public class VipUser extends User{
     }
 
     public void addPlaylist(Playlist playlist){
-        for (Playlist p : playlists) {
-            if(p.equals(playlist)){
-                return;
-            }
-
-            if(p.getName().equals(playlist.getName())){
-                if(Pattern.compile("[0-9]$").matcher(playlist.getName()).find()){
-                    StringBuilder newName = new StringBuilder(playlist.getName().substring(0, playlist.getName().length() - 1));
-                    newName.append((Integer.parseInt(playlist.getName().substring(playlist.getName().length() - 1)) + 1));
-
-                    playlist.setName(newName.toString());
-                }else{
-                    playlist.setName(new StringBuilder(p.getName()).append("1").toString());
-                }
-
-            }
-        }
-
-        playlistService.putPlaylist(playlist);
         playlists.add(playlist);
     }
 
     public void removePlaylist(Playlist playlist){
-        playlistService.deletePlaylist(playlist);
         playlists.remove(playlist);
     }
 }

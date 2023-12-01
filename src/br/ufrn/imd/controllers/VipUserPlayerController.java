@@ -7,7 +7,6 @@ import br.ufrn.imd.services.LoginService;
 import br.ufrn.imd.services.PlayerService;
 import br.ufrn.imd.services.PlaylistService;
 import br.ufrn.imd.services.WindowService;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,17 +14,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javazoom.jl.decoder.JavaLayerException;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,11 +36,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
 public class VipUserPlayerController extends PlayerController implements Initializable {
-
-    private String directory;
-    private Boolean isPlaying;
     private PlaylistService playlistService = new PlaylistService();
-    private PlayerService playerService= PlayerService.getInstance();
     private Music selectedMusic;
     private Playlist selectedPlaylist;
     private Stage stagePlaylist;
@@ -54,8 +49,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
     private Label labelPlaylist;
     @FXML
     private Label musicNamePlayingNow;
-    @FXML
-    private Button play;
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -70,11 +63,13 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
         buttonAddMusic.setVisible(false);
 
-        isPlaying = false;
+        super.setPlaying(false);
 
-        directory = "src/resources/songs";
+        super.setDirectory("src/resources/songs");
 
         getMusicsFromDirectory();
+
+        reloadPlaylists();
 
         setPlayerService();
     }
@@ -94,9 +89,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
     public void getMusicsFromDirectory() {
         List<Music> musics = new ArrayList<>();
 
-        Stream.of(Objects.requireNonNull(new File(directory).listFiles()))
+        Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
-                .forEach(file -> musics.add(new Music(directory, file.getName())));
+                .forEach(file -> musics.add(new Music(super.getDirectory(), file.getName())));
 
         musicListView.getItems().clear();
 
@@ -105,13 +100,13 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
     @Override
     public void setPlayerService() {
-        playerService = PlayerService.getInstance();
+        super.setPlayerService(PlayerService.getInstance());
 
-        playerService.setCurrentPlayerController(this);
+        super.getPlayerService().setCurrentPlayerController(this);
 
-        playerService.setProgressBar(progressBar);
+        super.getPlayerService().setProgressBar(progressBar);
 
-        playerService.setTimer(timer);
+        super.getPlayerService().setTimer(timer);
     }
 
     @Override
@@ -139,7 +134,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
         selectedMusic = musicListView.getSelectionModel().getSelectedItem();
 
-        playerService.selectMusicForPlayer(selectedMusic);
+        super.getPlayerService().selectMusicForPlayer(selectedMusic);
 
         playingNowText.setVisible(true);
 
@@ -153,10 +148,10 @@ public class VipUserPlayerController extends PlayerController implements Initial
         buttonAddMusic.setVisible(false);
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
 
-        directory = fileChooser.getCurrentDirectory().getPath();
+        super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
 
         getMusicsFromDirectory();
     }
@@ -168,7 +163,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
         labelPlaylist.setText("My Musics");
         buttonAddMusic.setVisible(false);
 
-        directory = System.getProperty("user.dir") + "/src/resources/songs";
+        super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
 
         getMusicsFromDirectory();
     }
@@ -180,7 +175,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
             if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() - 1) != null){
                 refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() - 1);
 
-                playerService.selectMusicForPlayer(selectedMusic);
+                super.getPlayerService().selectMusicForPlayer(selectedMusic);
             }
         }
     }
@@ -189,18 +184,20 @@ public class VipUserPlayerController extends PlayerController implements Initial
     @Override
     public void onPlayButton() {
         if(selectedMusic != null){
-            if(isPlaying){
-                isPlaying = false;
+            if(super.isPlaying()){
+                super.setPlaying(false);
 
-                play.setText("Play");
+                super.getPlay().setVisible(true);
+                super.getPause().setVisible(false);
 
-                playerService.pause();
+                super.getPlayerService().pause();
             }else{
-                isPlaying = true;
+                super.setPlaying(true);
 
-                play.setText("Pause");
+                super.getPlay().setVisible(false);
+                super.getPause().setVisible(true);
 
-                playerService.play();
+                super.getPlayerService().play();
             }
         }
     }
@@ -212,7 +209,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
             if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() + 1) != null){
                 refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() + 1);
 
-                playerService.selectMusicForPlayer(selectedMusic);
+                super.getPlayerService().selectMusicForPlayer(selectedMusic);
             }
         }
     }
@@ -245,7 +242,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
         super.getStage().centerOnScreen();
         super.getStage().show();
 
-        playerService.pause();
+        super.getPlayerService().pause();
     }
 
     @FXML
@@ -274,7 +271,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
     public void reloadPlaylists(){
         playlistListView.getItems().clear();
 
-        playlistListView.getItems().addAll(playlistService.getPlaylist());
+        LoginService loginService = LoginService.getInstance();
+
+        playlistListView.getItems().addAll(((VipUser) loginService.getLoggedUser()).getPlaylists());
     }
 
     @FXML

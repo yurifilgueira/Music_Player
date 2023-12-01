@@ -11,8 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
-public class CreatePlaylistController{
+public class CreatePlaylistController {
 
     private LoginService loginService = LoginService.getInstance();
     private PlaylistService playlistService = new PlaylistService();

@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -17,7 +16,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javazoom.jl.decoder.JavaLayerException;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,33 +28,18 @@ import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
 public class CommonUserPlayerController extends PlayerController implements Initializable {
-    private PlayerService playerService;
-
-    private String directory;
-
     private Music selectedMusic;
 
-    private boolean isPlaying;
-
-    private boolean loop;
-
     @FXML
-    private Button play;
-
+    private ListView<Music> musicListView;
     @FXML
     private ProgressBar progressBar;
-
     @FXML
     private Label playingNowText;
-
     @FXML
     private Label musicNamePlayingNow;
-
     @FXML
     private Label timer;
-
-    @FXML
-    private ListView<Music> musicsList;
 
     @Override
     public Music getSelectedMusic() {
@@ -64,14 +48,14 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @Override
     public ListView<Music> getMusicsList() {
-        return musicsList;
+        return musicListView;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        isPlaying = false;
+        super.setPlaying(false);
 
-        directory = "src/resources/songs";
+        super.setDirectory("src/resources/songs");
 
         getMusicsFromDirectory();
 
@@ -82,24 +66,24 @@ public class CommonUserPlayerController extends PlayerController implements Init
     public void getMusicsFromDirectory(){
         List<Music> musics = new ArrayList<>();
 
-        Stream.of(Objects.requireNonNull(new File(directory).listFiles()))
+        Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
-                .forEach(file -> musics.add(new Music(directory, file.getName())));
+                .forEach(file -> musics.add(new Music(super.getDirectory(), file.getName())));
 
-        musicsList.getItems().clear();
+        musicListView.getItems().clear();
 
-        musicsList.getItems().addAll(musics);
+        musicListView.getItems().addAll(musics);
     }
 
     @Override
     public void setPlayerService(){
-        playerService = PlayerService.getInstance();
+        super.setPlayerService(PlayerService.getInstance());
 
-        playerService.setCurrentPlayerController(this);
+        super.getPlayerService().setCurrentPlayerController(this);
 
-        playerService.setProgressBar(progressBar);
+        super.getPlayerService().setProgressBar(progressBar);
 
-        playerService.setTimer(timer);
+        super.getPlayerService().setTimer(timer);
     }
 
     @Override
@@ -115,43 +99,47 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @Override
     public void refreshSelectedMusic(int index){
-        selectedMusic = musicsList.getItems().get(index);
+        selectedMusic = musicListView.getItems().get(index);
 
-        musicsList.getSelectionModel().select(index);
+        musicListView.getSelectionModel().select(index);
 
         refreshPlayingNow();
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void selectMusic() throws FileNotFoundException, JavaLayerException {
-        selectedMusic = musicsList.getSelectionModel().getSelectedItem();
+        selectedMusic = musicListView.getSelectionModel().getSelectedItem();
 
-        playerService.selectMusicForPlayer(selectedMusic);
+        super.getPlayerService().selectMusicForPlayer(selectedMusic);
 
         playingNowText.setVisible(true);
 
         refreshPlayingNow();
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onChooseDirectoryButton(){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
 
-        directory = fileChooser.getCurrentDirectory().getPath();
+        super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
 
         getMusicsFromDirectory();
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onDefaultDirectoryButton(){
-        directory = System.getProperty("user.dir") + "/src/resources/songs";
+        super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
 
         getMusicsFromDirectory();
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onLogoutButton(ActionEvent event) throws IOException {
         super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/LoginView.fxml"))));
         super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
@@ -163,46 +151,51 @@ public class CommonUserPlayerController extends PlayerController implements Init
         super.getStage().centerOnScreen();
         super.getStage().show();
 
-        playerService.pause();
+        super.getPlayerService().pause();
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onPreviousButton() throws FileNotFoundException, JavaLayerException {
-        if(musicsList.getSelectionModel().getSelectedIndex() - 1 >= 0){
-            if(selectedMusic != null && musicsList.getItems().get(musicsList.getSelectionModel().getSelectedIndex() - 1) != null){
-                refreshSelectedMusic(musicsList.getSelectionModel().getSelectedIndex() - 1);
+        if(musicListView.getSelectionModel().getSelectedIndex() - 1 >= 0){
+            if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() - 1) != null){
+                refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() - 1);
 
-                playerService.selectMusicForPlayer(selectedMusic);
+                super.getPlayerService().selectMusicForPlayer(selectedMusic);
             }
         }
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onPlayButton() {
         if(selectedMusic != null){
-            if(isPlaying){
-                isPlaying = false;
+            if(super.isPlaying()){
+                super.setPlaying(false);
 
-                play.setText("Play");
+                super.getPlay().setVisible(true);
+                super.getPause().setVisible(false);
 
-                playerService.pause();
+                super.getPlayerService().pause();
             }else{
-                isPlaying = true;
+                super.setPlaying(true);
 
-                play.setText("Pause");
+                super.getPlay().setVisible(false);
+                super.getPause().setVisible(true);
 
-                playerService.play();
+                super.getPlayerService().play();
             }
         }
     }
 
-    @FXML @Override
+    @FXML
+    @Override
     public void onNextButton() throws FileNotFoundException, JavaLayerException {
-        if(musicsList.getSelectionModel().getSelectedIndex() + 1 < musicsList.getItems().size()){
-            if(selectedMusic != null && musicsList.getItems().get(musicsList.getSelectionModel().getSelectedIndex() + 1) != null){
-                refreshSelectedMusic(musicsList.getSelectionModel().getSelectedIndex() + 1);
+        if(musicListView.getSelectionModel().getSelectedIndex() + 1 < musicListView.getItems().size()){
+            if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() + 1) != null){
+                refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() + 1);
 
-                playerService.selectMusicForPlayer(selectedMusic);
+                super.getPlayerService().selectMusicForPlayer(selectedMusic);
             }
         }
     }

@@ -19,10 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -43,6 +40,8 @@ public class RegisterController extends UserManagementController implements Init
     private Label orientationLabel;
     @FXML
     private Label txtNameLabel;
+    @FXML
+    private Label successfulLabel;
 
     @FXML
     private TextField txtName;
@@ -110,6 +109,8 @@ public class RegisterController extends UserManagementController implements Init
 
                     System.out.println("Usuário comum registrado.");
                 }
+
+                successfulLabel.setVisible(true);
             }
         }
     }
@@ -206,6 +207,8 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("Sign up");
 
+                successfulLabel.setText("Account created successfully.");
+
                 super.getQuestionLabel().setText("Already have an account ?");
 
                 super.getButtonLogin().setText("Back");
@@ -226,6 +229,8 @@ public class RegisterController extends UserManagementController implements Init
                 super.getPasswordField().setPromptText("Entrez votre mot de passe");
 
                 super.getButtonRegister().setText("S'inscrire");
+
+                successfulLabel.setText("");
 
                 super.getQuestionLabel().setText("Vous avez déjà un compte ?");
 
@@ -248,6 +253,8 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("Registre-se");
 
+                successfulLabel.setText("Conta criada com sucesso.");
+
                 super.getQuestionLabel().setText("Já possui login ?");
 
                 super.getButtonLogin().setText("Voltar");
@@ -269,6 +276,8 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("アカウント登録");
 
+                successfulLabel.setText("");
+
                 super.getQuestionLabel().setText("すでにアカウントをお持ちですか？");
 
                 super.getButtonLogin().setText("戻る");
@@ -284,6 +293,10 @@ public class RegisterController extends UserManagementController implements Init
         changeLanguage();
 
         LanguageService.setLanguage(super.getLanguagePicker().getValue());
+    }
+
+    public void setSuccessfulLabelNotVisible(){
+        successfulLabel.setVisible(false);
     }
 
     @FXML @Override

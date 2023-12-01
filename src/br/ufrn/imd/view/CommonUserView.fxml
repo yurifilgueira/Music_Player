@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -32,7 +34,7 @@
             </VBox>
          </graphic>
       </Button>
-      <ListView fx:id="musicsList" layoutX="208.0" layoutY="56.0" onDragDropped="#selectMusic" onMouseClicked="#selectMusic" prefHeight="542.0" prefWidth="864.0" />
+      <ListView fx:id="musicListView" layoutX="208.0" layoutY="56.0" onDragDropped="#selectMusic" onMouseClicked="#selectMusic" prefHeight="542.0" prefWidth="864.0" />
       <Button layoutX="1086.0" layoutY="56.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onDefaultDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
@@ -40,7 +42,7 @@
          <graphic>
             <VBox prefHeight="200.0" prefWidth="80.0">
                <children>
-                  <Label alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="225.0" text="Default">
+                  <Label alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="222.0" text="Default">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -54,21 +56,54 @@
             </VBox>
          </graphic>
       </Button>
-      <Button fx:id="play" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPlayButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Play">
+      <Button fx:id="play" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPlayButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 35;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="18.0" />
          </font>
+         <graphic>
+            <ImageView fx:id="playButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/play_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="pause" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPlayButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 35;" styleClass="..\..\..\..\resources\cssResources\playerView.css" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <graphic>
+            <ImageView fx:id="playButton1" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/pause_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
       <ProgressBar fx:id="progressBar" layoutX="14.0" layoutY="612.0" prefHeight="18.0" prefWidth="1252.0" progress="0.0" />
-      <Button fx:id="next" layoutX="718.0" layoutY="644.0" mnemonicParsing="false" onAction="#onNextButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Next">
+      <Button fx:id="next" layoutX="718.0" layoutY="644.0" mnemonicParsing="false" onAction="#onNextButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 35;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="18.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/next_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
-      <Button fx:id="previous" layoutX="438.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPreviousButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 20;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Previous">
+      <Button fx:id="previous" layoutX="438.0" layoutY="644.0" mnemonicParsing="false" onAction="#onPreviousButton" prefHeight="62.0" prefWidth="125.0" style="-fx-background-radius: 35;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="18.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/previous_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
       <Label fx:id="playingNowText" alignment="BOTTOM_CENTER" layoutY="630.0" prefHeight="45.0" prefWidth="438.0" text="Playing now:" textFill="WHITE" visible="false">
          <font>

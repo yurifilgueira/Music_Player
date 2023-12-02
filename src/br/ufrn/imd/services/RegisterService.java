@@ -10,6 +10,8 @@ import javafx.scene.paint.Paint;
 
 public class RegisterService {
 
+    UserService userService = UserService.getInstance();
+
     public boolean someFieldIsEmpty(String name, String email, String password){
         return fieldNameIsEmpty(name) || fieldEmailIsEmpty(email) || fieldPasswordIsEmpty(password);
     }
@@ -59,7 +61,10 @@ public class RegisterService {
                 labelInvalidEmail.setText("*Invalid email.");
 
         }
-
-
     }
+
+    public boolean emailAlreadyInUse(String email){
+        return userService.containsUser(email);
+    }
+
 }

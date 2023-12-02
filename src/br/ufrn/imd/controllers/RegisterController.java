@@ -89,7 +89,7 @@ public class RegisterController extends UserManagementController implements Init
 
             String userEmail = super.getTxtEmail().getText();
 
-            if (!EmailValidator.emailIsValid(userEmail)){
+            if (!EmailValidator.emailIsValid(userEmail) || registerService.emailAlreadyInUse(userEmail)){
                 registerService.setStyleToInvalidEmail(super.getTxtEmail(), labelInvalidEmail);
             }
             else if (!super.getUserService().containsUser(userEmail)) {

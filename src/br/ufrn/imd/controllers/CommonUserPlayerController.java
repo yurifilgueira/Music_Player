@@ -1,6 +1,7 @@
 package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.Music;
+import br.ufrn.imd.services.MusicService;
 import br.ufrn.imd.services.PlayerService;
 import br.ufrn.imd.services.WindowService;
 import javafx.event.ActionEvent;
@@ -68,7 +69,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
         Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
-                .forEach(file -> musics.add(new Music(super.getDirectory(), file.getName())));
+                .forEach(file -> musics.add(MusicService.saveMusic(new Music(super.getDirectory(), file.getName()))));
 
         musicListView.getItems().clear();
 

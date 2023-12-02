@@ -10,8 +10,8 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public abstract class UserManagementController extends Controller {
-    private UserService userService = new UserService();
+public abstract class UserManagementController extends MainController {
+    private UserService userService = UserService.getInstance();
 
     @FXML
     private Label txtEmailLabel;

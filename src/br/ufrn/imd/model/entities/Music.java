@@ -6,9 +6,24 @@ import java.io.File;
 
 public class Music {
     private File file;
+    private String fullDirectory;
 
     public Music(File file) {
+        if(!file.getName().endsWith(".mp3")){
+            throw new InvalidMusicFileException();
+        }
+
         this.file = file;
+        fullDirectory = file.getAbsolutePath();
+    }
+
+    public Music(String fullDirectory) {
+        if(!fullDirectory.endsWith(".mp3")){
+            throw new InvalidMusicFileException();
+        }
+
+        file = new File(fullDirectory);
+        this.fullDirectory = fullDirectory;
     }
 
     public Music(String directory, String fileName) {
@@ -17,10 +32,15 @@ public class Music {
         }
 
         file = new File(directory + "/" + fileName);
+        this.fullDirectory = directory + "/" + fileName;
     }
 
     public File getFile() {
         return file;
+    }
+
+    public String getFullDirectory() {
+        return fullDirectory;
     }
 
     @Override

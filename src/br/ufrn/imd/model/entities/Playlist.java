@@ -1,5 +1,7 @@
 package br.ufrn.imd.model.entities;
 
+import br.ufrn.imd.repositories.PlaylistDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,18 +10,33 @@ import java.util.stream.IntStream;
 public class Playlist {
     private Long id;
     private String name;
+    private VipUser owner;
     private List<Music> musics;
 
     public Playlist(VipUser owner, String name) {
-        id = (long) (owner.getPlaylistsQuantity() + 1);
+        PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+
+        id = (long) (playlistDAO.getPlaylists().size() + 1);
         this.name = name;
+        this.owner = owner;
+
+        musics = new ArrayList<>();
+    }
+
+    public Playlist(VipUser owner, Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
 
         musics = new ArrayList<>();
     }
 
     public Playlist(VipUser owner, String name, Music firstMusic) {
-        id = (long) (owner.getPlaylistsQuantity() + 1);
+        PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+
+        id = (long) (playlistDAO.getPlaylists().size() + 1);
         this.name = name;
+        this.owner = owner;
 
         musics = new ArrayList<>();
 
@@ -29,6 +46,7 @@ public class Playlist {
     public Playlist(VipUser owner, String name, Playlist importedPlaylist) {
         id = (long) (owner.getPlaylistsQuantity() + 1);
         this.name = name;
+        this.owner = owner;
 
         musics = new ArrayList<>();
 
@@ -41,6 +59,14 @@ public class Playlist {
 
     public String getName() {
         return name;
+    }
+
+    public VipUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(VipUser owner) {
+        this.owner = owner;
     }
 
     public void setName(String name) {

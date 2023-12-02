@@ -15,6 +15,17 @@ public class PlaylistService {
         this.playlistDAO = PlaylistDAO.getInstance();
     }
 
+    public void putPlaylist(Playlist playlist, VipUser user){
+        for (Playlist p : user.getPlaylists()) {
+            if(p.equals(playlist)){
+                return;
+            }
+        }
+
+        playlistDAO.putPlaylist(playlist);
+        user.addPlaylist(playlist);
+    }
+
     public void putPlaylist(Playlist playlist){
         LoginService loginService = LoginService.getInstance();
 

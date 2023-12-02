@@ -11,7 +11,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public abstract class PlayerController extends Controller {
+public abstract class PlayerController extends MainController {
     private String directory;
     private PlayerService playerService;
     private boolean isPlaying;

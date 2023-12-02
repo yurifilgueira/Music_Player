@@ -1,5 +1,6 @@
 package br.ufrn.imd.services;
 
+import br.ufrn.imd.repositories.PlaylistDAO;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -11,6 +12,10 @@ public class WindowService {
     public static void closeWindow(ActionEvent event, Stage stage){
         stage = ((Stage) ((Button) event.getSource()).getScene().getWindow());
         stage.close();
+
+        MusicService.writeSavedMusics();
+        PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+        playlistDAO.savePlaylists();
     }
 
     public static void minimizeWindow(ActionEvent event, Stage stage){

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.IntStream;
 
 public class UserDAO {
 
@@ -44,18 +45,23 @@ public class UserDAO {
             putUser(user);
 
             if (user instanceof CommonUser){
-                bufferedWriter.write("common;");
+                bufferedWriter.write("common");
             }
             else {
-                bufferedWriter.write("vip;");
+                bufferedWriter.write("vip");
             }
 
-            bufferedWriter.append(String.valueOf(user.getId())).append(";");
-            bufferedWriter.append(String.valueOf(user.getName())).append(";");
-            bufferedWriter.append(String.valueOf(user.getEmail())).append(";");
-            bufferedWriter.append(String.valueOf(user.getPassword()));
-
             bufferedWriter.newLine();
+            bufferedWriter.append(String.valueOf(user.getId()));
+            bufferedWriter.newLine();
+            bufferedWriter.append(String.valueOf(user.getName()));
+            bufferedWriter.newLine();
+            bufferedWriter.append(String.valueOf(user.getEmail()));
+            bufferedWriter.newLine();
+            bufferedWriter.append(String.valueOf(user.getPassword()));
+            bufferedWriter.newLine();
+
+            //bufferedWriter.newLine();
 
         }catch (IOException e){
             e.printStackTrace();
@@ -85,30 +91,33 @@ public class UserDAO {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
 
                 String line = bufferedReader.readLine();
+                List<String> usersInfo = new ArrayList<>();
 
                 while (line != null) {
-                    String[] userData = line.split(";");
-
-                    User user = collectUserData(userData);
-
-                    putUser(user);
+                    usersInfo.add(line);
 
                     line = bufferedReader.readLine();
                 }
+
+                IntStream.iterate(0, i -> i < usersInfo.size(), i -> i + 5).mapToObj(i -> collectUserData(usersInfo.subList(i, i + 5))).forEachOrdered(this::putUser);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public User collectUserData(String[] userData){
+    public User collectUserData(List<String> userData){
 
-        Long id = Long.parseLong(userData[1]);
-        String name = userData[2];
-        String email = userData[3];
-        String password = userData[4];
+        if(userData.size() < 5){
+            return null;
+        }
 
-        if(userData[0].equals("vip")){
+        Long id = Long.parseLong(userData.get(1));
+        String name = userData.get(2);
+        String email = userData.get(3);
+        String password = userData.get(4);
+
+        if(userData.get(0).equals("vip")){
             return new VipUser(id, name, email, password);
         }
 
@@ -123,6 +132,16 @@ public class UserDAO {
 
     public void removeLoginInformations(String email, String password){
         loginInformation.remove(email, password);
+    }
+
+    public User getById(int id){
+        for (User user : users) {
+            if(user.getId() == id){
+                return user;
+            }
+        }
+
+        return null;
     }
 
     public User getByEmail(String email){

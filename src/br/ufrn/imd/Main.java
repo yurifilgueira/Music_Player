@@ -1,6 +1,6 @@
 package br.ufrn.imd;
 
-import br.ufrn.imd.model.entities.User;
+import br.ufrn.imd.repositories.PlaylistDAO;
 import br.ufrn.imd.services.UserService;
 import br.ufrn.imd.services.WindowService;
 import javafx.application.Application;
@@ -15,6 +15,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        UserService userService = UserService.getInstance();
+        PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+
+        userService.loadUsers();
+        playlistDAO.loadPlaylists();
+
         Parent root = FXMLLoader.load(getClass().getResource("view/LoginView.fxml"));
 
         WindowService.moveWindow(stage, root);

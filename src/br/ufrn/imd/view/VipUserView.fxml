@@ -134,7 +134,7 @@
             <Font size="18.0" />
          </font>
          <graphic>
-            <ImageView fx:id="playButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="playButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../resources/imageResources/play_button.png" />
                </image>
@@ -158,9 +158,9 @@
             <Font size="18.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="40.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../resources/imageResources/previous_button.png" />
+                  <Image url="@../../../../resources/imageResources/next_button.png" />
                </image>
             </ImageView>
          </graphic>

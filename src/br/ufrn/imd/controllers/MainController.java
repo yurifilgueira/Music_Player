@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
-public abstract class Controller {
+public abstract class MainController {
     private Stage stage;
     private Scene scene;
     private Parent root;

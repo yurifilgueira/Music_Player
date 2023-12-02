@@ -1,19 +1,22 @@
 package br.ufrn.imd.services;
 
-import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.model.entities.User;
 import br.ufrn.imd.repositories.UserDAO;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class UserService {
-
     private UserDAO userDAO;
+    private static UserService userService;
 
-    public UserService() {
+    private UserService() {
         this.userDAO = UserDAO.getInstance();
+    }
+
+    public static UserService getInstance(){
+        if(userService == null){
+            userService = new UserService();
+        }
+
+        return userService;
     }
 
     public void putUser(User user){

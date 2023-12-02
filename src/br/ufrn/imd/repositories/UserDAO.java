@@ -42,6 +42,7 @@ public class UserDAO {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))){
 
+            setUserId(user);
             putUser(user);
 
             if (user instanceof CommonUser){
@@ -69,7 +70,6 @@ public class UserDAO {
     }
 
     private void putUser(User user){
-        setUserId(user);
         addLoginInformations(user.getEmail(), user.getPassword());
         users.add(user);
     }
@@ -99,7 +99,12 @@ public class UserDAO {
                     line = bufferedReader.readLine();
                 }
 
-                IntStream.iterate(0, i -> i < usersInfo.size(), i -> i + 5).mapToObj(i -> collectUserData(usersInfo.subList(i, i + 5))).forEachOrdered(this::putUser);
+                if (!usersInfo.isEmpty()) {
+                    IntStream.iterate(0, i -> i < usersInfo.size(), i -> i + 5).mapToObj(i -> collectUserData(usersInfo.subList(i, i + 5))).forEachOrdered(this::putUser);
+
+                    idGenerator.set(users.get(users.size() - 1).getId());
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

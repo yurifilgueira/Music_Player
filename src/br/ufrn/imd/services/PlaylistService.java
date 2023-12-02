@@ -61,4 +61,8 @@ public class PlaylistService {
     public List<Playlist> getPlaylist() {
         return playlistDAO.getPlaylists();
     }
+
+    public void loadPlaylists(){
+        playlistDAO.loadPlaylists();
+    }
 }

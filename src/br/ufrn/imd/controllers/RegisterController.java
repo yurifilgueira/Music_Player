@@ -5,23 +5,27 @@ import br.ufrn.imd.model.entities.User;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.model.enums.UserType;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
+import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.RegisterService;
+import br.ufrn.imd.services.ThemeService;
 import br.ufrn.imd.services.WindowService;
 import br.ufrn.imd.services.util.EmailValidator;
-import br.ufrn.imd.services.util.ListGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,9 +35,17 @@ import java.util.ResourceBundle;
 public class RegisterController extends UserManagementController implements Initializable {
     private RegisterService registerService = new RegisterService();
 
+    private Stage stageConfig;
+
     @FXML
     private ChoiceBox<UserType> userTypePicker;
 
+    @FXML
+    private AnchorPane background;
+    @FXML
+    private Button configLight;
+    @FXML
+    private Button configDark;
     @FXML
     private Label greetingsLabel;
     @FXML
@@ -42,10 +54,8 @@ public class RegisterController extends UserManagementController implements Init
     private Label txtNameLabel;
     @FXML
     private Label successfulLabel;
-
     @FXML
     private TextField txtName;
-
     @FXML
     private Label labelNameIsMissing;
     @FXML
@@ -55,17 +65,8 @@ public class RegisterController extends UserManagementController implements Init
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        super.getLanguagePicker().getItems().addAll(ListGenerator.getProgramLanguages());
-
-        if(LanguageService.getLanguage() == null){
-            super.getLanguagePicker().getSelectionModel().selectFirst();
-            LanguageService.setLanguage("English");
-        }else{
-            super.getLanguagePicker().getSelectionModel().select(LanguageService.getLanguage());
-            changeLanguage();
-        }
-
-        super.getLanguagePicker().setOnAction(this::onLanguagePicker);
+        changeLanguage();
+        changeTheme();
 
         userTypePicker.getItems().addAll(UserType.values());
         userTypePicker.getSelectionModel().selectFirst();
@@ -190,7 +191,7 @@ public class RegisterController extends UserManagementController implements Init
     }
 
     public void changeLanguage(){
-        switch(super.getLanguagePicker().getValue()){
+        switch(LanguageService.getLanguage()){
             case "English":
                 greetingsLabel.setText("Welcome to Music Player");
 
@@ -288,13 +289,66 @@ public class RegisterController extends UserManagementController implements Init
         }
     }
 
-    @FXML
-    public void onLanguagePicker(ActionEvent event){
-        changeLanguage();
-
-        LanguageService.setLanguage(super.getLanguagePicker().getValue());
+    public void changeTheme(){
+        switch(ThemeService.getTheme()){
+            case DARK:
+                background.setStyle("-fx-background-color: black;");
+                configDark.setVisible(false);
+                configLight.setVisible(true);
+                greetingsLabel.setStyle("-fx-text-fill: white;");
+                orientationLabel.setStyle("-fx-text-fill: white;");
+                txtNameLabel.setStyle("-fx-text-fill: white;");
+                txtName.setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getTxtEmailLabel().setStyle("-fx-text-fill: white;");
+                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getTxtPasswordLabel().setStyle("-fx-text-fill: white;");
+                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getQuestionLabel().setStyle("-fx-text-fill: white;");
+                super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
+                super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
+                break;
+            case LIGHT:
+                background.setStyle("-fx-background-color: white;");
+                configLight.setVisible(false);
+                configDark.setVisible(true);
+                greetingsLabel.setStyle("-fx-text-fill: black;");
+                orientationLabel.setStyle("-fx-text-fill: black;");
+                txtNameLabel.setStyle("-fx-text-fill: black;");
+                txtName.setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getTxtEmailLabel().setStyle("-fx-text-fill: black;");
+                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getTxtPasswordLabel().setStyle("-fx-text-fill: black;");
+                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getQuestionLabel().setStyle("-fx-text-fill: black;");
+                super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
+                super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
+                break;
+            default:
+                throw new InvalidThemeException(ThemeService.getTheme().toString());
+        }
     }
 
+    @FXML
+    public void onConfigButton() throws IOException {
+        if(stageConfig == null || !stageConfig.isShowing()){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ConfigView.fxml"));
+            Parent root = loader.load();
+
+            stageConfig = new Stage();
+
+            stageConfig.initStyle(StageStyle.UNDECORATED);
+
+            WindowService.moveWindow(stageConfig, root);
+
+            stageConfig.setScene(new Scene(root));
+            stageConfig.setResizable(false);
+            stageConfig.setAlwaysOnTop(true);
+            stageConfig.showAndWait();
+
+            changeLanguage();
+            changeTheme();
+        }
+    }
     public void setSuccessfulLabelNotVisible(){
         successfulLabel.setVisible(false);
     }

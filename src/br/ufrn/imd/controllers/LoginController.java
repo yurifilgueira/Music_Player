@@ -2,20 +2,26 @@ package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
+import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
 import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.LoginService;
+import br.ufrn.imd.services.ThemeService;
 import br.ufrn.imd.services.WindowService;
 import br.ufrn.imd.services.util.EmailValidator;
-import br.ufrn.imd.services.util.ListGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,27 +29,30 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController extends UserManagementController implements Initializable {
+    @FXML
+    private AnchorPane background;
+    @FXML
+    private ImageView logoLight;
+    @FXML
+    private ImageView logoDark;
+    @FXML
+    private Button configLight;
+    @FXML
+    private Button configDark;
+    @FXML
+    private Label title;
+
     private LoginService loginService = LoginService.getInstance();
 
+    private Stage stageConfig;
+    
     @FXML
     private Label labelInvalidLogin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        super.getUserService().loadUsers();
-
-        super.getLanguagePicker().getItems().addAll(ListGenerator.getProgramLanguages());
-
-        if(LanguageService.getLanguage() == null){
-            super.getLanguagePicker().getSelectionModel().selectFirst();
-            LanguageService.setLanguage("English");
-        }else{
-            super.getLanguagePicker().getSelectionModel().select(LanguageService.getLanguage());
-            changeLanguage();
-        }
-
-        super.getLanguagePicker().setOnAction(this::onLanguagePicker);
+        changeLanguage();
+        changeTheme();
     }
 
     @FXML
@@ -99,7 +108,7 @@ public class LoginController extends UserManagementController implements Initial
     }
 
     public void changeLanguage(){
-        switch(super.getLanguagePicker().getValue()){
+        switch(LanguageService.getLanguage()){
             case "English":
                 super.getTxtEmailLabel().setText("Email");
                 super.getTxtEmail().setPromptText("Enter your email");
@@ -153,11 +162,63 @@ public class LoginController extends UserManagementController implements Initial
         }
     }
 
-    @FXML
-    public void onLanguagePicker(ActionEvent event){
-        changeLanguage();
+    public void changeTheme(){
+        switch(ThemeService.getTheme()){
+            case DARK:
+                background.setStyle("-fx-background-color: black;");
+                configDark.setVisible(false);
+                configLight.setVisible(true);
+                logoDark.setVisible(false);
+                logoLight.setVisible(true);
+                title.setStyle("-fx-text-fill: white;");
+                super.getTxtEmailLabel().setStyle("-fx-text-fill: white;");
+                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getTxtPasswordLabel().setStyle("-fx-text-fill: white;");
+                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getQuestionLabel().setStyle("-fx-text-fill: white;");
+                super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
+                super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
+                break;
+            case LIGHT:
+                background.setStyle("-fx-background-color: white;");
+                configLight.setVisible(false);
+                configDark.setVisible(true);
+                logoLight.setVisible(false);
+                logoDark.setVisible(true);
+                title.setStyle("-fx-text-fill: black;");
+                super.getTxtEmailLabel().setStyle("-fx-text-fill: black;");
+                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getTxtPasswordLabel().setStyle("-fx-text-fill: black;");
+                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getQuestionLabel().setStyle("-fx-text-fill: black;");
+                super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
+                super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
+                break;
+            default:
+                throw new InvalidThemeException(ThemeService.getTheme().toString());
+        }
+    }
 
-        LanguageService.setLanguage(super.getLanguagePicker().getValue());
+    @FXML
+    public void onConfigButton(ActionEvent event) throws IOException {
+        if(stageConfig == null || !stageConfig.isShowing()){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ConfigView.fxml"));
+            Parent root = loader.load();
+
+            stageConfig = new Stage();
+
+            stageConfig.initStyle(StageStyle.UNDECORATED);
+
+            WindowService.moveWindow(stageConfig, root);
+
+            stageConfig.setScene(new Scene(root));
+            stageConfig.setResizable(false);
+            stageConfig.setAlwaysOnTop(true);
+            stageConfig.showAndWait();
+
+            changeLanguage();
+            changeTheme();
+        }
     }
 
     @FXML

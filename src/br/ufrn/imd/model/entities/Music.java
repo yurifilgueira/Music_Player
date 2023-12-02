@@ -32,7 +32,7 @@ public class Music {
         }
 
         file = new File(directory + "/" + fileName);
-        this.fullDirectory = directory + "/" + fileName;
+        fullDirectory = directory + "/" + fileName;
     }
 
     public File getFile() {

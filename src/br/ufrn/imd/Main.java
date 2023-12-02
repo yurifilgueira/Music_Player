@@ -1,9 +1,7 @@
 package br.ufrn.imd;
 
-import br.ufrn.imd.repositories.PlaylistDAO;
-import br.ufrn.imd.services.PlaylistService;
-import br.ufrn.imd.services.UserService;
-import br.ufrn.imd.services.WindowService;
+import br.ufrn.imd.model.enums.Theme;
+import br.ufrn.imd.services.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +19,9 @@ public class Main extends Application {
 
         userService.loadUsers();
         playlistService.loadPlaylists();
+
+        LanguageService.setLanguage("English");
+        ThemeService.setTheme(Theme.DARK);
 
         Parent root = FXMLLoader.load(getClass().getResource("view/LoginView.fxml"));
 

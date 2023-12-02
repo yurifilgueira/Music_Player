@@ -82,6 +82,7 @@ public class PlaylistDAO {
             if(user instanceof VipUser){
                 Playlist playlist = new Playlist((VipUser) user, line);
 
+                playlists.add(playlist);
                 ((VipUser) user).addPlaylist(playlist);
 
                 line = bufferedReader.readLine();

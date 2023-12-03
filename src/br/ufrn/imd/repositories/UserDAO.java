@@ -1,5 +1,6 @@
 package br.ufrn.imd.repositories;
 
+import br.ufrn.imd.model.entities.AdminUser;
 import br.ufrn.imd.model.entities.CommonUser;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.repositories.exceptions.UserNotFoundException;
@@ -36,20 +37,20 @@ public class UserDAO {
         return userDAO;
     }
 
-    public void saveUser(User user) {
+    public List<User> getUsers() {
+        return users;
+    }
 
-        String path = "src/resources/dataResources/users.txt";
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))){
-
-            setUserId(user);
-            putUser(user);
-
-            if (user instanceof CommonUser){
-                bufferedWriter.write("common");
+    public void saveUser(User user, BufferedWriter bufferedWriter) {
+        try{
+            if (user instanceof AdminUser){
+                bufferedWriter.write("admin");
             }
-            else {
+            else if (user instanceof VipUser) {
                 bufferedWriter.write("vip");
+            }
+            else{
+                bufferedWriter.write("common");
             }
 
             bufferedWriter.newLine();
@@ -69,8 +70,22 @@ public class UserDAO {
         }
     }
 
-    private void putUser(User user){
+    public void saveUsers(){
+        String path = "src/resources/dataResources/users.txt";
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, false))){
+
+            users.forEach(user -> saveUser(user, bufferedWriter));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void putUser(User user){
         addLoginInformations(user.getEmail(), user.getPassword());
+        user.setId((long) (users.size() + 1));
         users.add(user);
     }
 
@@ -121,6 +136,10 @@ public class UserDAO {
         String name = userData.get(2);
         String email = userData.get(3);
         String password = userData.get(4);
+
+        if(userData.get(0).equals("admin")){
+            return new AdminUser(id, name, email, password);
+        }
 
         if(userData.get(0).equals("vip")){
             return new VipUser(id, name, email, password);

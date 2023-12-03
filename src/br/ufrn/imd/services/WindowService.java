@@ -1,6 +1,7 @@
 package br.ufrn.imd.services;
 
 import br.ufrn.imd.repositories.PlaylistDAO;
+import br.ufrn.imd.repositories.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -14,7 +15,9 @@ public class WindowService {
         stage.close();
 
         MusicService.writeSavedMusics();
+        UserDAO userDAO = UserDAO.getInstance();
         PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
+        userDAO.saveUsers();
         playlistDAO.savePlaylists();
     }
 

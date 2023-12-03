@@ -285,7 +285,7 @@ public class RegisterController extends UserManagementController implements Init
 
                 break;
             default:
-                throw new InvalidLanguageException(super.getLanguagePicker().getValue());
+                throw new InvalidLanguageException(LanguageService.getLanguage());
         }
     }
 

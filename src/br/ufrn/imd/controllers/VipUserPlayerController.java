@@ -193,8 +193,24 @@ public class VipUserPlayerController extends PlayerController implements Initial
     @FXML
     @Override
     public void onDefaultDirectoryButton() {
+        switch (LanguageService.getLanguage()){
+            case "English":
+                labelDirectory.setText("Default directory");
+                break;
+            case "Français":
+                labelDirectory.setText("Répertoire par défaut");
+                break;
+            case "Português":
+                labelDirectory.setText("Diretório padrão");
+                break;
+            case "日本語":
+                labelDirectory.setText("");
+                break;
+            default:
+                throw new InvalidLanguageException(LanguageService.getLanguage());
+        }
 
-        labelDirectory.setText("Default directory");
+
         buttonAddMusic.setVisible(false);
 
         super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
@@ -431,7 +447,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 txt21.setText("Répertoire"); txt22.setText("par défaut");
                 txt31.setText("Créer une"); txt32.setText("playlist");
                 txt41.setText("Additionner"); txt42.setText("musique");
-                playingNowText.setText("");
+                playingNowText.setText("En ce moment:");
                 if(super.getDirectory().endsWith("src/resources/songs")){
                     labelDirectory.setText("Répertoire par défaut");
                 }
@@ -453,7 +469,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 txt21.setText(""); txt22.setText("");
                 txt31.setText(""); txt32.setText("");
                 txt41.setText(""); txt42.setText("");
-                playingNowText.setText("");
+                playingNowText.setText("今演奏:");
                 if(super.getDirectory().endsWith("src/resources/songs")){
                     labelDirectory.setText("私の音楽");
                 }
@@ -485,7 +501,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 txt31.setStyle("-fx-text-fill: black"); txt32.setStyle("-fx-text-fill: black");
                 txt41.setStyle("-fx-text-fill: black"); txt42.setStyle("-fx-text-fill: black");
 
-                progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: lime");
+                progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: #4AFF22");
 
                 previousDark.setVisible(false);
                 previousLight.setVisible(true);

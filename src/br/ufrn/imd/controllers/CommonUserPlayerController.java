@@ -288,18 +288,22 @@ public class CommonUserPlayerController extends PlayerController implements Init
             case "English":
                 txt11.setText("Select"); txt12.setText("a directory");
                 txt21.setText("Default"); txt22.setText("directory");
+                playingNowText.setText("Playing now:");
                 break;
             case "Français":
                 txt11.setText("Sélectionner"); txt12.setText("un répertoire");
                 txt21.setText("Répertoire"); txt22.setText("par défaut");
+                playingNowText.setText("En ce moment:");
                 break;
             case "Português":
                 txt11.setText("Selecionar"); txt12.setText("um diretório");
                 txt21.setText("Diretório"); txt22.setText("padrão");
+                playingNowText.setText("Tocando agora:");
                 break;
             case "日本語":
                 txt11.setText(""); txt12.setText("");
                 txt21.setText(""); txt22.setText("");
+                playingNowText.setText("今演奏:");
                 break;
             default:
                 throw new InvalidLanguageException(LanguageService.getLanguage());
@@ -320,7 +324,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 txt11.setStyle("-fx-text-fill: black"); txt12.setStyle("-fx-text-fill: black");
                 txt21.setStyle("-fx-text-fill: black"); txt22.setStyle("-fx-text-fill: black");
 
-                progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: lime");
+                progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: #4AFF22");
 
                 previousDark.setVisible(false);
                 previousLight.setVisible(true);

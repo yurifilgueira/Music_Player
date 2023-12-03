@@ -1,6 +1,7 @@
 package br.ufrn.imd.controllers;
 
 import br.ufrn.imd.model.entities.CommonUser;
+import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
 import br.ufrn.imd.services.LanguageService;
@@ -70,8 +71,11 @@ public class LoginController extends UserManagementController implements Initial
                 if (super.getUserService().getByEmail(userEmail) instanceof CommonUser) {
                     super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/CommonUserView.fxml"))));
                 }
-                else {
+                else if (super.getUserService().getByEmail(userEmail) instanceof VipUser) {
                     super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/VipUserView.fxml"))));
+                }
+                else{
+                    super.setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/AdminUserView.fxml"))));
                 }
 
                 super.setStage((Stage) ((Node)event.getSource()).getScene().getWindow());
@@ -158,7 +162,7 @@ public class LoginController extends UserManagementController implements Initial
 
                 break;
             default:
-                throw new InvalidLanguageException(super.getLanguagePicker().getValue());
+                throw new InvalidLanguageException(LanguageService.getLanguage());
         }
     }
 

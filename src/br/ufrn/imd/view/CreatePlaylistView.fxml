@@ -6,20 +6,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="139.0" prefWidth="600.0" style="-fx-border-color: #FFFFFF; -fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/loginViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.CreatePlaylistController">
+<AnchorPane fx:id="background" prefHeight="139.0" prefWidth="600.0" style="-fx-border-color: #FFFFFF; -fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/loginViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.CreatePlaylistController">
    <children>
       <TextField fx:id="txtPlaylistName" layoutX="35.0" layoutY="57.0" onMouseClicked="#onMouseClickedPlaylistNameField" prefHeight="35.0" prefWidth="340.0" promptText="Playlist name" style="-fx-background-radius: 0;" />
-      <Label layoutX="35.0" layoutY="14.0" style="-fx-font-weight: bold;" text="New Playlist" textFill="WHITE">
+      <Label fx:id="title" layoutX="35.0" layoutY="14.0" style="-fx-font-weight: bold;" text="New Playlist" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="401.0" layoutY="29.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Create">
+      <Button fx:id="createButton" layoutX="401.0" layoutY="29.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Create">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="401.0" layoutY="75.0" mnemonicParsing="false" onAction="#onButtonCancel" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Cancel">
+      <Button fx:id="cancelButton" layoutX="401.0" layoutY="75.0" mnemonicParsing="false" onAction="#onButtonCancel" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Cancel">
          <font>
             <Font size="18.0" />
          </font>

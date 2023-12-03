@@ -12,9 +12,6 @@ public abstract class MainController {
     private Scene scene;
     private Parent root;
 
-    @FXML
-    private ChoiceBox<String> languagePicker;
-
     protected Stage getStage() {
         return stage;
     }
@@ -37,10 +34,6 @@ public abstract class MainController {
 
     protected void setRoot(Parent root) {
         this.root = root;
-    }
-
-    protected ChoiceBox<String> getLanguagePicker() {
-        return languagePicker;
     }
 
     public abstract void onCloseButton(ActionEvent event);

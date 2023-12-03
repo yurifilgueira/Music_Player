@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" onMouseClicked="#selectPlaylist" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.VipUserPlayerController">
+<AnchorPane fx:id="background" onMouseClicked="#selectPlaylist" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.VipUserPlayerController">
    <children>
       <Button fx:id="buttonSelectDirectory" layoutX="14.0" layoutY="85.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onChooseDirectoryButton" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
@@ -56,7 +56,7 @@
             </VBox>
          </graphic>
       </Button>
-      <ProgressBar fx:id="progressBar" layoutX="14.0" layoutY="612.0" prefHeight="18.0" prefWidth="1252.0" progress="0.0" style="-fx-accent: red;" />
+      <ProgressBar fx:id="progressBar" layoutX="14.0" layoutY="612.0" prefHeight="18.0" prefWidth="1252.0" progress="0.0" stylesheets="@../../../../resources/cssResources/progressBarDark.css" />
       <Label fx:id="playingNowText" alignment="BOTTOM_CENTER" layoutY="630.0" prefHeight="45.0" prefWidth="523.0" text="Playing now:" textFill="WHITE" visible="false">
          <font>
             <Font size="24.0" />

@@ -20,7 +20,8 @@ public class UserService {
     }
 
     public void putUser(User user){
-        userDAO.saveUser(user);
+        //userDAO.saveUser(user);
+        userDAO.putUser(user);
     }
 
     public void deleteUser(User user){

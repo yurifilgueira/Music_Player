@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" onMouseClicked="#setSuccessfulLabelNotVisible" prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
+<AnchorPane fx:id="background" onMouseClicked="#setSuccessfulLabelNotVisible" prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
    <children>
       <TextField fx:id="txtName" layoutX="190.0" layoutY="210.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your name" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;">
          <font>
@@ -89,7 +89,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="538.0" layoutY="20.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button">
+      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="548.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

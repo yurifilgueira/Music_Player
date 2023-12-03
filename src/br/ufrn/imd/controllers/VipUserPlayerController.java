@@ -3,9 +3,13 @@ package br.ufrn.imd.controllers;
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.model.entities.Playlist;
 import br.ufrn.imd.model.entities.VipUser;
+import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
+import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
+import br.ufrn.imd.services.LanguageService;
 import br.ufrn.imd.services.LoginService;
 import br.ufrn.imd.services.PlayerService;
 import br.ufrn.imd.services.PlaylistService;
+import br.ufrn.imd.services.ThemeService;
 import br.ufrn.imd.services.WindowService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,11 +20,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.JFileChooser;
@@ -37,14 +44,35 @@ import java.util.stream.Stream;
 
 public class VipUserPlayerController extends PlayerController implements Initializable {
     private PlaylistService playlistService = new PlaylistService();
+    private Stage stageConfig;
     private Music selectedMusic;
     private Playlist selectedPlaylist;
     private Stage stagePlaylist;
 
     @FXML
+    private AnchorPane background;
+    @FXML
+    private Button configDark;
+    @FXML
+    private Button configLight;
+    @FXML
+    private Button buttonSelectDirectory;
+    @FXML
+    private Button buttonDefaultDirectory;
+    @FXML
+    private Button buttonCreatePlaylist;
+    @FXML
+    private Button buttonAddMusic;
+    @FXML
+    private Button playDark, playLight, pauseDark, pauseLight, nextLight, nextDark, previousLight, previousDark;
+    @FXML
+    private Label txt11, txt12, txt21, txt22, txt31, txt32, txt41, txt42;
+    @FXML
     private ListView<Music> musicListView;
     @FXML
     private ListView<Playlist> playlistListView;
+    @FXML
+    private Label labelDirectory;
     @FXML
     private Label labelPlaylist;
     @FXML
@@ -55,8 +83,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
     private Label playingNowText;
     @FXML
     private Label timer;
-    @FXML
-    private Button buttonAddMusic;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -72,16 +98,20 @@ public class VipUserPlayerController extends PlayerController implements Initial
         reloadPlaylists();
 
         setPlayerService();
+
+        changeLanguage();
+
+        changeTheme();
     }
 
     @Override
     public Music getSelectedMusic() {
-        return null;
+        return selectedMusic;
     }
 
     @Override
     public ListView<Music> getMusicsList() {
-        return null;
+        return musicListView;
     }
 
     @FXML
@@ -111,8 +141,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
     @Override
     public void refreshPlayingNow() {
-        if(String.valueOf(selectedMusic).length() > 40){
-            musicNamePlayingNow.setFont(new Font("System", (double) 820 / String.valueOf(selectedMusic).length()));
+        if(String.valueOf(selectedMusic).length() > 42){
+            musicNamePlayingNow.setFont(new Font("System", (double) 860 / String.valueOf(selectedMusic).length()));
         }else{
             musicNamePlayingNow.setFont(new Font("System", 20));
         }
@@ -152,7 +182,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
         fileChooser.showOpenDialog(null);
 
         if(fileChooser.getSelectedFile() != null){
-            labelPlaylist.setText("My Musics");
+            labelPlaylist.setText(fileChooser.getName());
             buttonAddMusic.setVisible(false);
 
             super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
@@ -164,7 +194,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
     @Override
     public void onDefaultDirectoryButton() {
 
-        labelPlaylist.setText("My Musics");
+        labelDirectory.setText("Default directory");
         buttonAddMusic.setVisible(false);
 
         super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
@@ -191,15 +221,43 @@ public class VipUserPlayerController extends PlayerController implements Initial
             if(super.isPlaying()){
                 super.setPlaying(false);
 
-                super.getPlay().setVisible(true);
-                super.getPause().setVisible(false);
+                switch (ThemeService.getTheme()){
+                    case DARK:
+                        pauseDark.setVisible(false);
+                        pauseLight.setVisible(false);
+                        playLight.setVisible(true);
+                        playDark.setVisible(false);
+                        break;
+                    case LIGHT:
+                        pauseDark.setVisible(false);
+                        pauseLight.setVisible(false);
+                        playDark.setVisible(true);
+                        playLight.setVisible(false);
+                        break;
+                    default:
+                        throw new InvalidThemeException(ThemeService.getTheme().toString());
+                }
 
                 super.getPlayerService().pause();
             }else{
                 super.setPlaying(true);
 
-                super.getPlay().setVisible(false);
-                super.getPause().setVisible(true);
+                switch (ThemeService.getTheme()){
+                    case DARK:
+                        playLight.setVisible(false);
+                        playDark.setVisible(false);
+                        pauseLight.setVisible(true);
+                        pauseDark.setVisible(false);
+                        break;
+                    case LIGHT:
+                        playDark.setVisible(false);
+                        playLight.setVisible(false);
+                        pauseDark.setVisible(true);
+                        pauseLight.setVisible(false);
+                        break;
+                    default:
+                        throw new InvalidThemeException(ThemeService.getTheme().toString());
+                }
 
                 super.getPlayerService().play();
             }
@@ -288,7 +346,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
             musicListView.getItems().clear();
             musicListView.getItems().addAll(selectedPlaylist.getMusics());
             buttonAddMusic.setVisible(true);
-            labelPlaylist.setText(selectedPlaylist.getName());
+            labelDirectory.setText(selectedPlaylist.getName());
         }
 
     }
@@ -307,6 +365,221 @@ public class VipUserPlayerController extends PlayerController implements Initial
             selectedPlaylist.addMusicToPlaylist(new Music(jFileChooser.getSelectedFile().getAbsoluteFile()));
         }
 
+        musicListView.getItems().clear();
+        musicListView.getItems().addAll(selectedPlaylist.getMusics());
     }
 
+    public void editMusicListStyle(String backgroundColor, String textColor){
+        musicListView.setCellFactory(new Callback<ListView<Music>, ListCell<Music>>() {
+            @Override
+            public ListCell<Music> call(ListView<Music> musicListView) {
+                return new ListCell<Music>() {
+                    @Override
+                    protected void updateItem(Music item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(item.toString());
+                            setStyle("-fx-background-color: " + backgroundColor + "; -fx-text-fill: " + textColor);
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+    public void editPlaylistListStyle(String backgroundColor, String textColor){
+        playlistListView.setCellFactory(new Callback<ListView<Playlist>, ListCell<Playlist>>() {
+            @Override
+            public ListCell<Playlist> call(ListView<Playlist> playlistListView) {
+                return new ListCell<Playlist>() {
+                    @Override
+                    protected void updateItem(Playlist item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(item.toString());
+                            setStyle("-fx-background-color: " + backgroundColor + "; -fx-text-fill: " + textColor);
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+    public void changeLanguage(){
+        switch (LanguageService.getLanguage()){
+            case "English":
+                txt11.setText("Select"); txt12.setText("a directory");
+                txt21.setText("Default"); txt22.setText("directory");
+                txt31.setText("Create a"); txt32.setText("playlist");
+                txt41.setText("Add music"); txt42.setText("to playlist");
+                playingNowText.setText("Playing now:");
+                if(super.getDirectory().endsWith("src/resources/songs")){
+                    labelDirectory.setText("Default directory");
+                }
+                labelPlaylist.setText("My playlists");
+                break;
+            case "Français":
+                txt11.setText("Sélectionner"); txt12.setText("un répertoire");
+                txt21.setText("Répertoire"); txt22.setText("par défaut");
+                txt31.setText("Créer une"); txt32.setText("playlist");
+                txt41.setText("Additionner"); txt42.setText("musique");
+                playingNowText.setText("");
+                if(super.getDirectory().endsWith("src/resources/songs")){
+                    labelDirectory.setText("Répertoire par défaut");
+                }
+                labelPlaylist.setText("Mes playlists");
+                break;
+            case "Português":
+                txt11.setText("Selecionar"); txt12.setText("um diretório");
+                txt21.setText("Diretório"); txt22.setText("padrão");
+                txt31.setText("Criar uma"); txt32.setText("playlist");
+                txt41.setText("Adicionar"); txt42.setText("música");
+                playingNowText.setText("Tocando agora:");
+                if(super.getDirectory().endsWith("src/resources/songs")){
+                    labelDirectory.setText("Diretório padrão");
+                }
+                labelPlaylist.setText("Minhas playlists");
+                break;
+            case "日本語":
+                txt11.setText(""); txt12.setText("");
+                txt21.setText(""); txt22.setText("");
+                txt31.setText(""); txt32.setText("");
+                txt41.setText(""); txt42.setText("");
+                playingNowText.setText("");
+                if(super.getDirectory().endsWith("src/resources/songs")){
+                    labelDirectory.setText("私の音楽");
+                }
+                labelPlaylist.setText("私のプレイリスト");
+                break;
+            default:
+                throw new InvalidLanguageException(LanguageService.getLanguage());
+        }
+    }
+
+    public void changeTheme(){
+        switch (ThemeService.getTheme()){
+            case DARK:
+                background.setStyle("-fx-background-color: black; -fx-border-color: white; -fx-border-width: 1;");
+
+                configDark.setVisible(false);
+                configLight.setVisible(true);
+
+                buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+                buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+                buttonCreatePlaylist.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+                buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+
+                labelDirectory.setStyle("-fx-text-fill: white");
+                labelPlaylist.setStyle("-fx-text-fill: white");
+
+                txt11.setStyle("-fx-text-fill: black"); txt12.setStyle("-fx-text-fill: black");
+                txt21.setStyle("-fx-text-fill: black"); txt22.setStyle("-fx-text-fill: black");
+                txt31.setStyle("-fx-text-fill: black"); txt32.setStyle("-fx-text-fill: black");
+                txt41.setStyle("-fx-text-fill: black"); txt42.setStyle("-fx-text-fill: black");
+
+                progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: lime");
+
+                previousDark.setVisible(false);
+                previousLight.setVisible(true);
+
+                if(isPlaying()){
+                    pauseDark.setVisible(false);
+                    pauseLight.setVisible(true);
+                }else{
+                    playDark.setVisible(false);
+                    playLight.setVisible(true);
+                }
+
+                nextDark.setVisible(false);
+                nextLight.setVisible(true);
+
+                playingNowText.setStyle("-fx-text-fill: white");
+                musicNamePlayingNow.setStyle("-fx-text-fill: white");
+                timer.setStyle("-fx-text-fill: white");
+
+                musicListView.setStyle("-fx-background-color: white");
+                playlistListView.setStyle("-fx-background-color: white");
+
+                editMusicListStyle("white", "black");
+                editPlaylistListStyle("white", "black");
+                break;
+            case LIGHT:
+                background.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
+
+                configLight.setVisible(false);
+                configDark.setVisible(true);
+
+                buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+                buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+                buttonCreatePlaylist.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+                buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+
+                labelDirectory.setStyle("-fx-text-fill: black");
+                labelPlaylist.setStyle("-fx-text-fill: black");
+
+                txt11.setStyle("-fx-text-fill: white"); txt12.setStyle("-fx-text-fill: white");
+                txt21.setStyle("-fx-text-fill: white"); txt22.setStyle("-fx-text-fill: white");
+                txt31.setStyle("-fx-text-fill: white"); txt32.setStyle("-fx-text-fill: white");
+                txt41.setStyle("-fx-text-fill: white"); txt42.setStyle("-fx-text-fill: white");
+
+                progressBar.setStyle("-fx-control-inner-background: #EEEEEE; -fx-border-color: white; -fx-accent: black");
+
+                previousLight.setVisible(false);
+                previousDark.setVisible(true);
+
+                if(isPlaying()){
+                    pauseLight.setVisible(false);
+                    pauseDark.setVisible(true);
+                }else{
+                    playLight.setVisible(false);
+                    playDark.setVisible(true);
+                }
+
+                nextLight.setVisible(false);
+                nextDark.setVisible(true);
+
+                playingNowText.setStyle("-fx-text-fill: black");
+                musicNamePlayingNow.setStyle("-fx-text-fill: black");
+                timer.setStyle("-fx-text-fill: black");
+
+                musicListView.setStyle("-fx-background-color: #DDDDDD");
+                playlistListView.setStyle("-fx-background-color: #DDDDDD");
+
+                editMusicListStyle("#EEEEEE", "black");
+                editPlaylistListStyle("#EEEEEE", "black");
+                break;
+            default:
+                throw new InvalidThemeException(String.valueOf(ThemeService.getTheme()));
+        }
+    }
+
+    @FXML
+    public void onConfigButton() throws IOException {
+        if(stageConfig == null || !stageConfig.isShowing()){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ConfigView.fxml"));
+            Parent root = loader.load();
+
+            stageConfig = new Stage();
+
+            stageConfig.initStyle(StageStyle.UNDECORATED);
+
+            WindowService.moveWindow(stageConfig, root);
+
+            stageConfig.setScene(new Scene(root));
+            stageConfig.setResizable(false);
+            stageConfig.setAlwaysOnTop(true);
+            stageConfig.showAndWait();
+
+            changeLanguage();
+            changeTheme();
+        }
+    }
 }

@@ -3,8 +3,6 @@ package br.ufrn.imd.controllers;
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.services.PlayerService;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -16,11 +14,6 @@ public abstract class PlayerController extends MainController {
     private PlayerService playerService;
     private boolean isPlaying;
     private boolean loop;
-
-    @FXML
-    private Button play;
-    @FXML
-    private Button pause;
 
     protected String getDirectory() {
         return directory;
@@ -52,22 +45,6 @@ public abstract class PlayerController extends MainController {
 
     protected void setLoop(boolean loop) {
         this.loop = loop;
-    }
-
-    protected Button getPlay() {
-        return play;
-    }
-
-    protected void setPlay(Button play) {
-        this.play = play;
-    }
-
-    protected Button getPause() {
-        return pause;
-    }
-
-    protected void setPause(Button pause) {
-        this.pause = pause;
     }
 
     public abstract Music getSelectedMusic();

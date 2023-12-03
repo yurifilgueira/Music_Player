@@ -40,43 +40,84 @@ public class ConfigController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         languagePicker.getItems().addAll(ListGenerator.getProgramLanguages());
 
-        languagePicker.getSelectionModel().selectFirst();
+        languagePicker.getSelectionModel().select(LanguageService.getLanguage());
 
         ChoiceBoxFormatter.themeFormatter(themePicker, Theme.DARK);
         ChoiceBoxFormatter.themeFormatter(themePicker, Theme.LIGHT);
 
-        themePicker.getSelectionModel().selectFirst();
+        StringBuilder theme = new StringBuilder();
+        theme.append(String.valueOf(ThemeService.getTheme()).charAt(0));
+        theme.append(String.valueOf(ThemeService.getTheme()).toLowerCase().substring(1));
+        themePicker.getSelectionModel().select(theme.toString());
+
+        changeLanguage();
+        changeTheme();
     }
 
-    @FXML
-    public void onLanguagePicker(ActionEvent event){
-        System.out.println("a");
+    public void changeLanguage(){
+        switch (languagePicker.getValue()) {
+            case "English":
+                languageLabel.setText("Language:");
+                themeLabel.setText("Theme:");
+                applyButton.setText("Apply");
+                cancelButton.setText("Cancel");
+                break;
+            case "Français":
+                languageLabel.setText("Langue:");
+                themeLabel.setText("Thème:");
+                applyButton.setText("Appliquer");
+                cancelButton.setText("Annuler");
+                break;
+            case "Português":
+                languageLabel.setText("Idioma:");
+                themeLabel.setText("Tema:");
+                applyButton.setText("Aplicar");
+                cancelButton.setText("Cancelar");
+                break;
+            case "日本語":
+                languageLabel.setText(":");
+                themeLabel.setText(":");
+                applyButton.setText("");
+                cancelButton.setText("");
+                break;
+            default:
+                throw new InvalidLanguageException(languagePicker.getValue());
+        }
     }
 
-    @FXML
-    public void onThemePicker(ActionEvent event){
+    public void changeTheme(){
         switch (themePicker.getValue()){
             case "Dark":
-                background.setStyle("-fx-background-color: black;");
-                languageLabel.setStyle("-fx-background-color: white;");
-                themeLabel.setStyle("-fx-background-color: white;");
-                languagePicker.setStyle("-fx-background-color: white;");
-                languageLabel.setStyle("-fx-background-color: white;");
-                applyButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
-                cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white");
+                languageLabel.setStyle("-fx-text-fill: white;");
+                themeLabel.setStyle("-fx-text-fill: white;");
+                languagePicker.setStyle("-fx-background-color: white; -fx-background-radius:25");
+                themePicker.setStyle("-fx-background-color: white; -fx-background-radius:25");
+                applyButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius:25");
+                cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius:25");
                 break;
             case "Light":
-                background.setStyle("-fx-background-color: white;");
-                languageLabel.setStyle("-fx-background-color: black;");
-                themeLabel.setStyle("-fx-background-color: black;");
-                languagePicker.setStyle("-fx-background-color: black;");
-                languageLabel.setStyle("-fx-background-color: black;");
-                applyButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-                cancelButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black");
+                languageLabel.setStyle("-fx-text-fill: black;");
+                themeLabel.setStyle("-fx-text-fill: black;");
+                languagePicker.setStyle("-fx-background-color: #DDDDDD; -fx-background-radius:25");
+                themePicker.setStyle("-fx-background-color: #DDDDDD; -fx-background-radius:25");
+                applyButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius:25");
+                cancelButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius:25");
                 break;
             default:
                 throw new InvalidThemeException(themePicker.getValue());
         }
+    }
+
+    @FXML
+    public void onLanguagePicker(ActionEvent event){
+        changeLanguage();
+    }
+
+    @FXML
+    public void onThemePicker(ActionEvent event){
+        changeTheme();
     }
 
     public void changeSystemLanguage(){

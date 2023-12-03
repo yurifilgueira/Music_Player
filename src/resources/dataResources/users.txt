@@ -1,0 +1,10 @@
+vip
+1
+b
+b@b.com
+b
+common
+2
+a
+a@a.com
+a

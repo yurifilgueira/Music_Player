@@ -1,13 +1,14 @@
 package br.ufrn.imd.services.util;
 
 import br.ufrn.imd.model.enums.Theme;
+import br.ufrn.imd.services.LanguageService;
 import javafx.scene.control.ChoiceBox;
 
 public class ChoiceBoxFormatter {
-    public static void themeFormatter(ChoiceBox<String> themes, Theme theme){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(theme.toString().charAt(0));
-        stringBuilder.append(theme.toString().substring(1).toLowerCase());
-        themes.getItems().add(stringBuilder.toString());
+    public static void themeFormatter(ChoiceBox<String> themes){
+        themes.getItems().clear();
+
+        themes.getItems().add("Dark");
+        themes.getItems().add("Light");
     }
 }

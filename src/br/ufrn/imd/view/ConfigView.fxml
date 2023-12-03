@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" prefHeight="230.0" prefWidth="488.0" style="-fx-border-color: #FFFFFF; -fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/loginViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.ConfigController">
+<AnchorPane fx:id="background" prefHeight="230.0" prefWidth="488.0" style="-fx-border-color: #FFFFFF; -fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/loginViewCss.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.ConfigController">
    <children>
       <Button fx:id="applyButton" layoutX="64.0" layoutY="172.0" mnemonicParsing="false" onAction="#onButtonApply" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" text="Apply">
          <font>
@@ -18,8 +18,8 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <ChoiceBox fx:id="languagePicker" layoutX="14.0" layoutY="50.0" onDragDropped="#onLanguagePicker" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" />
-      <ChoiceBox fx:id="themePicker" layoutX="14.0" layoutY="125.0" onDragDropped="#onThemePicker" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" />
+      <ChoiceBox fx:id="languagePicker" layoutX="14.0" layoutY="50.0" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" />
+      <ChoiceBox fx:id="themePicker" layoutX="14.0" layoutY="125.0" prefHeight="29.0" prefWidth="170.0" style="-fx-background-radius: 25;" />
       <Label fx:id="languageLabel" layoutX="14.0" layoutY="14.0" text="Language:" textFill="WHITE">
          <font>
             <Font size="22.0" />

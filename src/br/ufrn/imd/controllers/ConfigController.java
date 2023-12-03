@@ -42,15 +42,20 @@ public class ConfigController implements Initializable {
 
         languagePicker.getSelectionModel().select(LanguageService.getLanguage());
 
-        ChoiceBoxFormatter.themeFormatter(themePicker, Theme.DARK);
-        ChoiceBoxFormatter.themeFormatter(themePicker, Theme.LIGHT);
-
-        StringBuilder theme = new StringBuilder();
-        theme.append(String.valueOf(ThemeService.getTheme()).charAt(0));
-        theme.append(String.valueOf(ThemeService.getTheme()).toLowerCase().substring(1));
-        themePicker.getSelectionModel().select(theme.toString());
-
         changeLanguage();
+
+        languagePicker.setOnAction(this::onLanguagePicker);
+
+        ChoiceBoxFormatter.themeFormatter(themePicker);
+
+        if(ThemeService.getTheme() == Theme.DARK){
+            themePicker.getSelectionModel().selectFirst();
+        }else{
+            themePicker.getSelectionModel().select(1);
+        }
+        
+        themePicker.setOnAction(this::onThemePicker);
+
         changeTheme();
     }
 
@@ -75,8 +80,8 @@ public class ConfigController implements Initializable {
                 cancelButton.setText("Cancelar");
                 break;
             case "日本語":
-                languageLabel.setText(":");
-                themeLabel.setText(":");
+                languageLabel.setText("言語:");
+                themeLabel.setText("テーマ:");
                 applyButton.setText("");
                 cancelButton.setText("");
                 break;
@@ -86,7 +91,7 @@ public class ConfigController implements Initializable {
     }
 
     public void changeTheme(){
-        switch (themePicker.getValue()){
+       switch (themePicker.getValue()){
             case "Dark":
                 background.setStyle("-fx-background-color: black; -fx-border-color: white");
                 languageLabel.setStyle("-fx-text-fill: white;");

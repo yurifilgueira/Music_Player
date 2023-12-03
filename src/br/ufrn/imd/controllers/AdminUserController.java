@@ -35,6 +35,13 @@ public class AdminUserController extends MainController implements Initializable
         userDAO = UserDAO.getInstance();
         userService = UserService.getInstance();
 
+        refreshLists();
+    }
+
+    public void refreshLists(){
+        commonUsersListView.getItems().clear();
+        vipUsersListView.getItems().clear();
+
         userDAO.getUsers().stream().filter(user -> user instanceof CommonUser).forEachOrdered(user -> commonUsersListView.getItems().add((CommonUser) user));
         userDAO.getUsers().stream().filter(user -> user instanceof VipUser).forEachOrdered(user -> vipUsersListView.getItems().add((VipUser) user));
     }
@@ -49,20 +56,22 @@ public class AdminUserController extends MainController implements Initializable
 
     @FXML
     public void up(){
-        System.out.println(selectedCommonUser);
-
         if(selectedCommonUser != null){
-            userService.putUser(new VipUser(selectedCommonUser.getId(), selectedCommonUser.getName(), selectedCommonUser.getEmail(), selectedCommonUser.getPassword()));
             userService.deleteUser(selectedCommonUser);
+            userService.putUser(new VipUser(selectedCommonUser.getId(), selectedCommonUser.getName(), selectedCommonUser.getEmail(), selectedCommonUser.getPassword()));
         }
+
+        refreshLists();
     }
 
     @FXML
     public void down(){
         if(selectedVipUser != null){
-            userService.putUser(new CommonUser(selectedVipUser.getId(), selectedVipUser.getName(), selectedVipUser.getEmail(), selectedVipUser.getPassword()));
             userService.deleteUser(selectedVipUser);
+            userService.putUser(new CommonUser(selectedVipUser.getId(), selectedVipUser.getName(), selectedVipUser.getEmail(), selectedVipUser.getPassword()));
         }
+
+        refreshLists();
     }
 
 

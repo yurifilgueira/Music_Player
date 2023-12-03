@@ -520,9 +520,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                musicListView.setStyle("-fx-background-color: transparent");
-                playlistListView.setStyle("-fx-background-color: transparent");
-
                 editMusicListStyle("white", "black");
                 editPlaylistListStyle("white", "black");
                 break;
@@ -564,9 +561,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 playingNowText.setStyle("-fx-text-fill: black");
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
-
-                musicListView.setStyle("-fx-background-color: #EEEEEE");
-                playlistListView.setStyle("-fx-background-color: #EEEEEE");
 
                 editMusicListStyle("#EEEEEE", "black");
                 editPlaylistListStyle("#EEEEEE", "black");

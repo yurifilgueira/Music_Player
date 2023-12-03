@@ -1,6 +1,8 @@
 package br.ufrn.imd;
 
+import br.ufrn.imd.model.entities.AdminUser;
 import br.ufrn.imd.model.enums.Theme;
+import br.ufrn.imd.repositories.UserDAO;
 import br.ufrn.imd.services.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,6 +16,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        /*UserDAO userDAO = UserDAO.getInstance();
+        userDAO.putUser(new AdminUser(1L, "a", "a@a.com", "a"));*/
+
         UserService userService = UserService.getInstance();
         PlaylistService playlistService = new PlaylistService();
 

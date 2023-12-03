@@ -39,22 +39,35 @@ public class CreatePlaylistController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadLanguage();
         loadTheme();
     }
 
     public void loadLanguage(){
         switch (LanguageService.getLanguage()){
             case "English":
-
+                title.setText("New playlist");
+                createButton.setText("Create");
+                cancelButton.setText("Cancel");
+                txtPlaylistName.setPromptText("Playlist name");
                 break;
             case "Français":
-
+                title.setText("Nouvelle playlist");
+                createButton.setText("Créer");
+                cancelButton.setText("Annuler");
+                txtPlaylistName.setPromptText("Nom de la playlist");
                 break;
             case "Português":
-
+                title.setText("Nova playlist");
+                createButton.setText("Criar");
+                cancelButton.setText("Cancelar");
+                txtPlaylistName.setPromptText("Nome da playlist");
                 break;
             case "日本語":
-
+                title.setText("");
+                createButton.setText("");
+                cancelButton.setText("");
+                txtPlaylistName.setPromptText("");
                 break;
             default:
                 throw new InvalidLanguageException(LanguageService.getLanguage());
@@ -64,14 +77,14 @@ public class CreatePlaylistController implements Initializable {
     public void loadTheme(){
         switch (ThemeService.getTheme()){
             case DARK:
-                background.setStyle("-fx-background-color: black");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white");
                 title.setStyle("-fx-text-fill: white");
                 createButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 25");
-                cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black");
+                cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 25");
                 txtPlaylistName.setStyle("-fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white");
                 break;
             case LIGHT:
-                background.setStyle("-fx-background-color: white");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black");
                 title.setStyle("-fx-text-fill: black");
                 createButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 25");
                 cancelButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 25");

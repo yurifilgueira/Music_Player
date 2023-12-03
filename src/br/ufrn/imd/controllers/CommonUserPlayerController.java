@@ -161,10 +161,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
 
-
-
         if(fileChooser.getSelectedFile() != null){
-
             super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
             getMusicsFromDirectory();
         }
@@ -375,8 +372,6 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                musicListView.setStyle("-fx-background-color: transparent");
-
                 editMusicListStyle("white", "black");
                 break;
             case LIGHT:
@@ -412,8 +407,6 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 playingNowText.setStyle("-fx-text-fill: black");
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
-
-                musicListView.setStyle("-fx-background-color: #EEEEEE");
 
                 editMusicListStyle("#EEEEEE", "black");
                 break;

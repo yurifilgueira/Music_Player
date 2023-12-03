@@ -195,5 +195,26 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="buttonAddMusic" layoutX="14.0" layoutY="185.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#onButtonAddMusic" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <VBox prefHeight="200.0" prefWidth="80.0">
+               <children>
+                  <Label fx:id="txt31" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="222.0" text="Add">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txt32" alignment="TOP_CENTER" prefHeight="40.0" prefWidth="222.0" text="music">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

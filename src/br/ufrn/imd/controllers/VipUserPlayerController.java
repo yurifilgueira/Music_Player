@@ -36,10 +36,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class VipUserPlayerController extends PlayerController implements Initializable {
@@ -86,9 +83,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
-        buttonAddMusic.setVisible(false);
-
         super.setPlaying(false);
 
         super.setDirectory("src/resources/songs");
@@ -182,8 +176,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
         fileChooser.showOpenDialog(null);
 
         if(fileChooser.getSelectedFile() != null){
-            labelPlaylist.setText(fileChooser.getName());
-            buttonAddMusic.setVisible(false);
+            selectedPlaylist = null;
+
+            labelDirectory.setText(fileChooser.getName());
 
             super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
             getMusicsFromDirectory();
@@ -210,8 +205,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 throw new InvalidLanguageException(LanguageService.getLanguage());
         }
 
-
-        buttonAddMusic.setVisible(false);
+        selectedPlaylist = null;
 
         super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
 
@@ -361,7 +355,6 @@ public class VipUserPlayerController extends PlayerController implements Initial
         if(selectedPlaylist != null) {
             musicListView.getItems().clear();
             musicListView.getItems().addAll(selectedPlaylist.getMusics());
-            buttonAddMusic.setVisible(true);
             labelDirectory.setText(selectedPlaylist.getName());
         }
 
@@ -374,15 +367,21 @@ public class VipUserPlayerController extends PlayerController implements Initial
         FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
 
         jFileChooser.setFileFilter(filter);
+        jFileChooser.setMultiSelectionEnabled(true);
 
         int response = jFileChooser.showOpenDialog(null);
 
         if(response == JFileChooser.APPROVE_OPTION){
-            selectedPlaylist.addMusicToPlaylist(new Music(jFileChooser.getSelectedFile().getAbsoluteFile()));
-        }
+            List<File> files = List.of(jFileChooser.getSelectedFiles());
 
-        musicListView.getItems().clear();
-        musicListView.getItems().addAll(selectedPlaylist.getMusics());
+            if(selectedPlaylist == null){
+                files.forEach(file -> musicListView.getItems().add(new Music(file)));
+            }else{
+                files.forEach(file -> selectedPlaylist.addMusicToPlaylist(new Music(file)));
+                musicListView.getItems().clear();
+                musicListView.getItems().addAll(selectedPlaylist.getMusics());
+            }
+        }
     }
 
     public void editMusicListStyle(String backgroundColor, String textColor){
@@ -435,7 +434,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 txt11.setText("Select"); txt12.setText("a directory");
                 txt21.setText("Default"); txt22.setText("directory");
                 txt31.setText("Create a"); txt32.setText("playlist");
-                txt41.setText("Add music"); txt42.setText("to playlist");
+                txt41.setText("Add"); txt42.setText("music");
                 playingNowText.setText("Playing now:");
                 if(super.getDirectory().endsWith("src/resources/songs")){
                     labelDirectory.setText("Default directory");
@@ -521,8 +520,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                musicListView.setStyle("-fx-background-color: white");
-                playlistListView.setStyle("-fx-background-color: white");
+                musicListView.setStyle("-fx-background-color: transparent");
+                playlistListView.setStyle("-fx-background-color: transparent");
 
                 editMusicListStyle("white", "black");
                 editPlaylistListStyle("white", "black");
@@ -566,8 +565,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
 
-                musicListView.setStyle("-fx-background-color: #DDDDDD");
-                playlistListView.setStyle("-fx-background-color: #DDDDDD");
+                musicListView.setStyle("-fx-background-color: #EEEEEE");
+                playlistListView.setStyle("-fx-background-color: #EEEEEE");
 
                 editMusicListStyle("#EEEEEE", "black");
                 editPlaylistListStyle("#EEEEEE", "black");

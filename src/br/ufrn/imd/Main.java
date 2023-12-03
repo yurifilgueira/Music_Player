@@ -1,13 +1,7 @@
 package br.ufrn.imd;
 
-import br.ufrn.imd.model.entities.AdminUser;
 import br.ufrn.imd.model.enums.Theme;
-import br.ufrn.imd.repositories.UserDAO;
-import br.ufrn.imd.services.LanguageService;
-import br.ufrn.imd.services.PlaylistService;
-import br.ufrn.imd.services.ThemeService;
-import br.ufrn.imd.services.UserService;
-import br.ufrn.imd.services.WindowService;
+import br.ufrn.imd.services.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +14,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        UserDAO userDAO = UserDAO.getInstance();
-        userDAO.putUser(new AdminUser(3L, "c", "c@c.com", "c"));
-
         UserService userService = UserService.getInstance();
         PlaylistService playlistService = new PlaylistService();
 

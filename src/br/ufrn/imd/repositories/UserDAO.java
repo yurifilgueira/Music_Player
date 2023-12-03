@@ -85,7 +85,9 @@ public class UserDAO {
 
     public void putUser(User user){
         addLoginInformations(user.getEmail(), user.getPassword());
-        user.setId((long) (users.size() + 1));
+        if(user.getId() == null){
+            user.setId((long) (users.size() + 1));
+        }
         users.add(user);
     }
 

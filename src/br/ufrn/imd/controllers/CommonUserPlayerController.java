@@ -24,6 +24,7 @@ import javafx.util.Callback;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,7 +48,9 @@ public class CommonUserPlayerController extends PlayerController implements Init
     @FXML
     private Button buttonDefaultDirectory;
     @FXML
-    private Label txt11, txt12, txt21, txt22;
+    private Button buttonAddMusic;
+    @FXML
+    private Label txt11, txt12, txt21, txt22, txt31, txt32;
     @FXML
     private Button playDark, playLight;
     @FXML
@@ -86,6 +89,10 @@ public class CommonUserPlayerController extends PlayerController implements Init
         getMusicsFromDirectory();
 
         setPlayerService();
+
+        changeLanguage();
+
+        changeTheme();
     }
 
     @Override
@@ -169,6 +176,24 @@ public class CommonUserPlayerController extends PlayerController implements Init
         super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
 
         getMusicsFromDirectory();
+    }
+
+    @FXML
+    public void onButtonAddMusic(){
+        JFileChooser jFileChooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3", "mp3");
+
+        jFileChooser.setFileFilter(filter);
+        jFileChooser.setMultiSelectionEnabled(true);
+
+        int response = jFileChooser.showOpenDialog(null);
+
+        if(response == JFileChooser.APPROVE_OPTION){
+            List<File> files = List.of(jFileChooser.getSelectedFiles());
+
+            files.forEach(file -> musicListView.getItems().add(new Music(file)));
+        }
     }
 
     @FXML
@@ -288,21 +313,25 @@ public class CommonUserPlayerController extends PlayerController implements Init
             case "English":
                 txt11.setText("Select"); txt12.setText("a directory");
                 txt21.setText("Default"); txt22.setText("directory");
+                txt31.setText("Add"); txt32.setText("music");
                 playingNowText.setText("Playing now:");
                 break;
             case "Français":
                 txt11.setText("Sélectionner"); txt12.setText("un répertoire");
                 txt21.setText("Répertoire"); txt22.setText("par défaut");
+                txt31.setText("Additionner"); txt32.setText("musique");
                 playingNowText.setText("En ce moment:");
                 break;
             case "Português":
                 txt11.setText("Selecionar"); txt12.setText("um diretório");
                 txt21.setText("Diretório"); txt22.setText("padrão");
+                txt31.setText("Adicionar"); txt32.setText("música");
                 playingNowText.setText("Tocando agora:");
                 break;
             case "日本語":
                 txt11.setText(""); txt12.setText("");
                 txt21.setText(""); txt22.setText("");
+                txt31.setText(""); txt32.setText("");
                 playingNowText.setText("今演奏:");
                 break;
             default:
@@ -320,9 +349,11 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
                 buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
                 buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+                buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: white");
 
                 txt11.setStyle("-fx-text-fill: black"); txt12.setStyle("-fx-text-fill: black");
                 txt21.setStyle("-fx-text-fill: black"); txt22.setStyle("-fx-text-fill: black");
+                txt31.setStyle("-fx-text-fill: black"); txt32.setStyle("-fx-text-fill: black");
 
                 progressBar.setStyle("-fx-control-inner-background: #111111; -fx-border-color: black; -fx-accent: #4AFF22");
 
@@ -344,7 +375,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                musicListView.setStyle("-fx-background-color: white");
+                musicListView.setStyle("-fx-background-color: transparent");
 
                 editMusicListStyle("white", "black");
                 break;
@@ -356,9 +387,11 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
                 buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
                 buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+                buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
 
                 txt11.setStyle("-fx-text-fill: white"); txt12.setStyle("-fx-text-fill: white");
                 txt21.setStyle("-fx-text-fill: white"); txt22.setStyle("-fx-text-fill: white");
+                txt31.setStyle("-fx-text-fill: white"); txt32.setStyle("-fx-text-fill: white");
 
                 progressBar.setStyle("-fx-control-inner-background: #EEEEEE; -fx-border-color: white; -fx-accent: black");
 
@@ -380,7 +413,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
 
-                musicListView.setStyle("-fx-background-color: #DDDDDD");
+                musicListView.setStyle("-fx-background-color: #EEEEEE");
 
                 editMusicListStyle("#EEEEEE", "black");
                 break;

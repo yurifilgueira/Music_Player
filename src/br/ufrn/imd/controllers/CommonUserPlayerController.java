@@ -3,7 +3,12 @@ package br.ufrn.imd.controllers;
 import br.ufrn.imd.model.entities.Music;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
-import br.ufrn.imd.services.*;
+import br.ufrn.imd.services.LanguageService;
+import br.ufrn.imd.services.LoginService;
+import br.ufrn.imd.services.MusicService;
+import br.ufrn.imd.services.PlayerService;
+import br.ufrn.imd.services.ThemeService;
+import br.ufrn.imd.services.WindowService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -336,9 +341,9 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 playingNowText.setText("Tocando agora:");
                 break;
             case "日本語":
-                txt11.setText(""); txt12.setText("");
-                txt21.setText(""); txt22.setText("");
-                txt31.setText(""); txt32.setText("");
+                txt11.setText("ディレクトリを"); txt12.setText("選択して");
+                txt21.setText("デフォルト"); txt22.setText("ディレクトリ");
+                txt31.setText("音楽を"); txt32.setText("追加する");
                 playingNowText.setText("今演奏:");
                 break;
             default:
@@ -357,6 +362,8 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
                 buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: white");
                 buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: white");
+
+                musicListView.setStyle("-fx-border-color: transparent; -fx-border-radius: 0");
 
                 txt11.setStyle("-fx-text-fill: black"); txt12.setStyle("-fx-text-fill: black");
                 txt21.setStyle("-fx-text-fill: black"); txt22.setStyle("-fx-text-fill: black");
@@ -382,7 +389,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                editMusicListStyle("white", "black");
+//                editMusicListStyle("white", "black");
                 break;
             case LIGHT:
                 background.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
@@ -393,6 +400,8 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 buttonSelectDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
                 buttonDefaultDirectory.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
                 buttonAddMusic.setStyle("-fx-background-radius: 25; -fx-background-color: black;");
+
+                musicListView.setStyle("-fx-border-color: black; -fx-border-radius: 2");
 
                 txt11.setStyle("-fx-text-fill: white"); txt12.setStyle("-fx-text-fill: white");
                 txt21.setStyle("-fx-text-fill: white"); txt22.setStyle("-fx-text-fill: white");
@@ -418,7 +427,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
 
-                editMusicListStyle("#EEEEEE", "black");
+//                editMusicListStyle("#EEEEEE", "black");
                 break;
             default:
                 throw new InvalidThemeException(ThemeService.getTheme().toString());

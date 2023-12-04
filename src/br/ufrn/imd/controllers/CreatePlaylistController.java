@@ -64,10 +64,10 @@ public class CreatePlaylistController implements Initializable {
                 txtPlaylistName.setPromptText("Nome da playlist");
                 break;
             case "日本語":
-                title.setText("");
-                createButton.setText("");
-                cancelButton.setText("");
-                txtPlaylistName.setPromptText("");
+                title.setText("新規プレイリスト");
+                createButton.setText("作成する");
+                cancelButton.setText("キャンセル");
+                txtPlaylistName.setPromptText("プレイリストの名前");
                 break;
             default:
                 throw new InvalidLanguageException(LanguageService.getLanguage());

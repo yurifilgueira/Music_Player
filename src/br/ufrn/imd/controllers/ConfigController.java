@@ -82,8 +82,8 @@ public class ConfigController implements Initializable {
             case "日本語":
                 languageLabel.setText("言語:");
                 themeLabel.setText("テーマ:");
-                applyButton.setText("");
-                cancelButton.setText("");
+                applyButton.setText("適用する");
+                cancelButton.setText("キャンセル");
                 break;
             default:
                 throw new InvalidLanguageException(languagePicker.getValue());

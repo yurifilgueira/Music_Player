@@ -480,10 +480,10 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 labelPlaylist.setText("Minhas playlists");
                 break;
             case "日本語":
-                txt11.setText(""); txt12.setText("");
-                txt21.setText(""); txt22.setText("");
-                txt31.setText(""); txt32.setText("");
-                txt41.setText(""); txt42.setText("");
+                txt11.setText("ディレクトリを"); txt12.setText("選択して");
+                txt21.setText("デフォルト"); txt22.setText("ディレクトリ");
+                txt31.setText("プレイリストを"); txt32.setText("追加する");
+                txt41.setText("音楽を"); txt42.setText("追加する");
                 playingNowText.setText("今演奏:");
                 if(super.getDirectory().endsWith("src/resources/songs")){
                     labelDirectory.setText("私の音楽");
@@ -511,6 +511,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 labelDirectory.setStyle("-fx-text-fill: white");
                 labelPlaylist.setStyle("-fx-text-fill: white");
 
+                musicListView.setStyle("-fx-border-color: transparent; -fx-border-radius: 0");
+                playlistListView.setStyle("-fx-border-color: transparent; -fx-border-radius: 0");
+
                 txt11.setStyle("-fx-text-fill: black"); txt12.setStyle("-fx-text-fill: black");
                 txt21.setStyle("-fx-text-fill: black"); txt22.setStyle("-fx-text-fill: black");
                 txt31.setStyle("-fx-text-fill: black"); txt32.setStyle("-fx-text-fill: black");
@@ -536,8 +539,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 musicNamePlayingNow.setStyle("-fx-text-fill: white");
                 timer.setStyle("-fx-text-fill: white");
 
-                editMusicListStyle("white", "black");
-                editPlaylistListStyle("white", "black");
+//                editMusicListStyle("white", "black");
+//                editPlaylistListStyle("white", "black");
                 break;
             case LIGHT:
                 background.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
@@ -552,6 +555,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
                 labelDirectory.setStyle("-fx-text-fill: black");
                 labelPlaylist.setStyle("-fx-text-fill: black");
+
+                musicListView.setStyle("-fx-border-color: black; -fx-border-radius: 2");
+                playlistListView.setStyle("-fx-border-color: black; -fx-border-radius: 2");
 
                 txt11.setStyle("-fx-text-fill: white"); txt12.setStyle("-fx-text-fill: white");
                 txt21.setStyle("-fx-text-fill: white"); txt22.setStyle("-fx-text-fill: white");
@@ -578,8 +584,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
                 musicNamePlayingNow.setStyle("-fx-text-fill: black");
                 timer.setStyle("-fx-text-fill: black");
 
-                editMusicListStyle("#EEEEEE", "black");
-                editPlaylistListStyle("#EEEEEE", "black");
+//                editMusicListStyle("#EEEEEE", "black");
+//                editPlaylistListStyle("#EEEEEE", "black");
                 break;
             default:
                 throw new InvalidThemeException(String.valueOf(ThemeService.getTheme()));

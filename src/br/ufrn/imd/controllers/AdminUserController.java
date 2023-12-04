@@ -118,7 +118,8 @@ public class AdminUserController extends MainController implements Initializable
                 labelVip.setText("Usuários VIPs");
                 break;
             case "日本語":
-
+                labelCommon.setText("一般ユーザー");
+                labelVip.setText("VIPユーザー");
                 break;
             default:
                 throw new InvalidLanguageException(LanguageService.getLanguage());

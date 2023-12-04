@@ -169,7 +169,7 @@ public class LoginController extends UserManagementController implements Initial
     public void changeTheme(){
         switch(ThemeService.getTheme()){
             case DARK:
-                background.setStyle("-fx-background-color: black;");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white");
                 configDark.setVisible(false);
                 configLight.setVisible(true);
                 logoDark.setVisible(false);
@@ -184,16 +184,16 @@ public class LoginController extends UserManagementController implements Initial
                 super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
                 break;
             case LIGHT:
-                background.setStyle("-fx-background-color: white;");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black");
                 configLight.setVisible(false);
                 configDark.setVisible(true);
                 logoLight.setVisible(false);
                 logoDark.setVisible(true);
                 title.setStyle("-fx-text-fill: black;");
                 super.getTxtEmailLabel().setStyle("-fx-text-fill: black;");
-                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getTxtEmail().setStyle("-fx-background-radius: 1; -fx-border-color: black; -fx-background-color: #DEDEDE; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getTxtPasswordLabel().setStyle("-fx-text-fill: black;");
-                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getPasswordField().setStyle("-fx-background-radius: 1; -fx-border-color: black; -fx-background-color: #DEDEDE; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getQuestionLabel().setStyle("-fx-text-fill: black;");
                 super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
                 super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");

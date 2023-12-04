@@ -227,7 +227,7 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("S'inscrire");
 
-                successfulLabel.setText("");
+                successfulLabel.setText("Utilisateur créé avec succès.");
 
                 super.getQuestionLabel().setText("Vous avez déjà un compte ?");
 
@@ -250,7 +250,7 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("Registre-se");
 
-                successfulLabel.setText("Conta criada com sucesso.");
+                successfulLabel.setText("Usuário criado com sucesso.");
 
                 super.getQuestionLabel().setText("Já possui login ?");
 
@@ -273,7 +273,7 @@ public class RegisterController extends UserManagementController implements Init
 
                 super.getButtonRegister().setText("アカウント登録");
 
-                successfulLabel.setText("");
+                successfulLabel.setText("ユーザーが正常に作成されました。");
 
                 super.getQuestionLabel().setText("すでにアカウントをお持ちですか？");
 
@@ -294,11 +294,11 @@ public class RegisterController extends UserManagementController implements Init
                 greetingsLabel.setStyle("-fx-text-fill: white;");
                 orientationLabel.setStyle("-fx-text-fill: white;");
                 txtNameLabel.setStyle("-fx-text-fill: white;");
-                txtName.setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                txtName.setStyle("-fx-background-radius: 0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
                 super.getTxtEmailLabel().setStyle("-fx-text-fill: white;");
-                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getTxtEmail().setStyle("-fx-background-radius: 0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
                 super.getTxtPasswordLabel().setStyle("-fx-text-fill: white;");
-                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
+                super.getPasswordField().setStyle("-fx-background-radius: 0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
                 super.getQuestionLabel().setStyle("-fx-text-fill: white;");
                 successfulLabel.setStyle("-fx-text-fill: #00BFFF");
                 super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
@@ -311,11 +311,11 @@ public class RegisterController extends UserManagementController implements Init
                 greetingsLabel.setStyle("-fx-text-fill: black;");
                 orientationLabel.setStyle("-fx-text-fill: black;");
                 txtNameLabel.setStyle("-fx-text-fill: black;");
-                txtName.setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                txtName.setStyle("-fx-background-radius: 1; -fx-border-color: black; -fx-background-color: #DEDEDE; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getTxtEmailLabel().setStyle("-fx-text-fill: black;");
-                super.getTxtEmail().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getTxtEmail().setStyle("-fx-background-radius: 1; -fx-border-color: black; -fx-background-color: #DEDEDE; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getTxtPasswordLabel().setStyle("-fx-text-fill: black;");
-                super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
+                super.getPasswordField().setStyle("-fx-background-radius: 1; -fx-border-color: black; -fx-background-color: #DEDEDE; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getQuestionLabel().setStyle("-fx-text-fill: black;");
                 successfulLabel.setStyle("-fx-text-fill: #007D8E");
                 super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");

@@ -126,7 +126,7 @@
       <Button fx:id="closeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButton" prefHeight="28.0" prefWidth="28.0" text="X" />
       <Button fx:id="minimizeButton" layoutX="56.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimizeButton" prefHeight="28.0" prefWidth="28.0" text="一" />
       <Button fx:id="logoutButton" layoutX="98.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="28.0" prefWidth="56.0" text="&lt;-" />
-      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button">
+      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="1200.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -135,7 +135,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="configDark" contentDisplay="RIGHT" ellipsisString="" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button" visible="false">
+      <Button fx:id="configDark" contentDisplay="RIGHT" ellipsisString="" layoutX="1200.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" visible="false">
          <graphic>
             <ImageView fx:id="configButton1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

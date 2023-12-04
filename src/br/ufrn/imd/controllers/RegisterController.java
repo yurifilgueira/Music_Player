@@ -38,9 +38,6 @@ public class RegisterController extends UserManagementController implements Init
     private Stage stageConfig;
 
     @FXML
-    private ChoiceBox<UserType> userTypePicker;
-
-    @FXML
     private AnchorPane background;
     @FXML
     private Button configLight;
@@ -67,9 +64,6 @@ public class RegisterController extends UserManagementController implements Init
     public void initialize(URL url, ResourceBundle resourceBundle) {
         changeLanguage();
         changeTheme();
-
-        userTypePicker.getItems().addAll(UserType.values());
-        userTypePicker.getSelectionModel().selectFirst();
     }
 
     @FXML @Override
@@ -99,17 +93,10 @@ public class RegisterController extends UserManagementController implements Init
                 String email = super.getTxtEmail().getText();
                 String password = super.getPasswordField().getText();
 
-                if(userTypePicker.getValue() == UserType.VIP){
-                    User user = new VipUser(null, name, email, password);
-                    super.getUserService().putUser(user);
+                User user = new CommonUser(null, name, email, password);
+                super.getUserService().putUser(user);
 
-                    System.out.println("Usuário VIP registrado.");
-                }else{
-                    User user = new CommonUser(null, name, email, password);
-                    super.getUserService().putUser(user);
-
-                    System.out.println("Usuário comum registrado.");
-                }
+                System.out.println("Usuário comum registrado.");
 
                 successfulLabel.setVisible(true);
             }
@@ -137,6 +124,9 @@ public class RegisterController extends UserManagementController implements Init
                 case "Português":
                     labelNameIsMissing.setText("*Campo obrigatório.");
                     break;
+                case "日本語":
+                    labelNameIsMissing.setText("*必須フィールド.");
+                    break;
                 default:
                     labelNameIsMissing.setText("*Required field.");
                     break;
@@ -153,6 +143,9 @@ public class RegisterController extends UserManagementController implements Init
                 case "Português":
                     labelInvalidEmail.setText("*Campo obrigatório.");
                     break;
+                case "日本語":
+                    labelNameIsMissing.setText("*必須フィールド.");
+                    break;
                 default:
                     labelInvalidEmail.setText("*Required field.");
                     break;
@@ -168,6 +161,9 @@ public class RegisterController extends UserManagementController implements Init
                     break;
                 case "Português":
                     labelPasswordIsMissing.setText("*Campo obrigatório.");
+                    break;
+                case "日本語":
+                    labelNameIsMissing.setText("*必須フィールド.");
                     break;
                 default:
                     labelPasswordIsMissing.setText("*Required field.");
@@ -292,7 +288,7 @@ public class RegisterController extends UserManagementController implements Init
     public void changeTheme(){
         switch(ThemeService.getTheme()){
             case DARK:
-                background.setStyle("-fx-background-color: black;");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white");
                 configDark.setVisible(false);
                 configLight.setVisible(true);
                 greetingsLabel.setStyle("-fx-text-fill: white;");
@@ -304,11 +300,12 @@ public class RegisterController extends UserManagementController implements Init
                 super.getTxtPasswordLabel().setStyle("-fx-text-fill: white;");
                 super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: #FFFFFF; -fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white;");
                 super.getQuestionLabel().setStyle("-fx-text-fill: white;");
+                successfulLabel.setStyle("-fx-text-fill: #00BFFF");
                 super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
                 super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: white; -fx-text-fill: black;");
                 break;
             case LIGHT:
-                background.setStyle("-fx-background-color: white;");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black");
                 configLight.setVisible(false);
                 configDark.setVisible(true);
                 greetingsLabel.setStyle("-fx-text-fill: black;");
@@ -320,6 +317,7 @@ public class RegisterController extends UserManagementController implements Init
                 super.getTxtPasswordLabel().setStyle("-fx-text-fill: black;");
                 super.getPasswordField().setStyle("-fx-background-radius:0; -fx-border-color: black; -fx-background-color: #DDDDDD; -fx-prompt-text-fill: black; -fx-text-fill: black;");
                 super.getQuestionLabel().setStyle("-fx-text-fill: black;");
+                successfulLabel.setStyle("-fx-text-fill: #007D8E");
                 super.getButtonLogin().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
                 super.getButtonRegister().setStyle("-fx-background-radius: 25; -fx-background-color: black; -fx-text-fill: white;");
                 break;

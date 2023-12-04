@@ -6,30 +6,32 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.AdminUserController">
+<AnchorPane fx:id="background" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/playerView.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.AdminUserController">
    <children>
-      <Button fx:id="upButton" layoutX="333.0" layoutY="617.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#up" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+      <Button fx:id="upLight" layoutX="56.0" layoutY="272.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#up" prefHeight="140.0" prefWidth="120.0" style="-fx-background-radius: 25; -fx-background-color: transparent;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
          <font>
             <Font size="21.0" />
          </font>
          <graphic>
-            <VBox prefHeight="200.0" prefWidth="80.0">
-               <children>
-                  <Label fx:id="txt11" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="222.0" text="Up from">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="txt12" alignment="TOP_CENTER" prefHeight="40.0" prefWidth="222.0" text="common to VIP">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
+            <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/up_light.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="downLight" layoutX="1107.0" layoutY="272.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#down" prefHeight="140.0" prefWidth="120.0" style="-fx-background-radius: 25; -fx-background-color: transparent;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/down_light.png" />
+               </image>
+            </ImageView>
          </graphic>
       </Button>
       <ListView fx:id="commonUsersListView" fixedCellSize="30.0" layoutX="218.0" layoutY="85.0" onDragDropped="#selectCommonUser" onMouseClicked="#selectCommonUser" prefHeight="513.0" prefWidth="409.0" />
@@ -47,7 +49,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button" visible="false">
+      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="1200.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" visible="false">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -56,34 +58,13 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="configDark" contentDisplay="RIGHT" ellipsisString="" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" text="Button" visible="false">
+      <Button fx:id="configDark" contentDisplay="RIGHT" ellipsisString="" layoutX="1200.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" visible="false">
          <graphic>
             <ImageView fx:id="configButton1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../resources/imageResources/config_dark.png" />
                </image>
             </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="downButton" layoutX="768.0" layoutY="617.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#down" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css">
-         <font>
-            <Font size="21.0" />
-         </font>
-         <graphic>
-            <VBox prefHeight="200.0" prefWidth="80.0">
-               <children>
-                  <Label fx:id="txt111" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="222.0" text="Down from VIP">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="txt121" alignment="TOP_CENTER" prefHeight="40.0" prefWidth="222.0" text="to common">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
          </graphic>
       </Button>
       <Button fx:id="addButton" layoutX="84.0" layoutY="617.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="180.0" style="-fx-background-radius: 25;" styleClass="..\..\..\..\resources\cssResources\playerView.css" text="Add user" visible="false">
@@ -95,6 +76,48 @@
          <font>
             <Font size="21.0" />
          </font>
+      </Button>
+      <Button fx:id="configDark" contentDisplay="RIGHT" ellipsisString="" layoutX="1198.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" visible="false">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/config_dark.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="configLight" contentDisplay="RIGHT" ellipsisString="" layoutX="1198.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConfigButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fx:id="configButton11" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/config_light.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="upDark" layoutX="56.0" layoutY="272.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#up" prefHeight="140.0" prefWidth="120.0" style="-fx-background-radius: 25; -fx-background-color: transparent;" styleClass="..\..\..\..\resources\cssResources\playerView.css" visible="false">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/up_dark.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="downDark" layoutX="1107.0" layoutY="272.0" lineSpacing="1.0" mnemonicParsing="false" onAction="#down" prefHeight="140.0" prefWidth="120.0" style="-fx-background-radius: 25; -fx-background-color: transparent;" styleClass="..\..\..\..\resources\cssResources\playerView.css" visible="false">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/imageResources/down_dark.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

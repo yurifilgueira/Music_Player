@@ -93,7 +93,7 @@ public class ConfigController implements Initializable {
     public void changeTheme(){
        switch (themePicker.getValue()){
             case "Dark":
-                background.setStyle("-fx-background-color: black; -fx-border-color: white");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white; -fx-border-width: 1");
                 languageLabel.setStyle("-fx-text-fill: white;");
                 themeLabel.setStyle("-fx-text-fill: white;");
                 languagePicker.setStyle("-fx-background-color: white; -fx-background-radius:25");
@@ -102,7 +102,7 @@ public class ConfigController implements Initializable {
                 cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius:25");
                 break;
             case "Light":
-                background.setStyle("-fx-background-color: white; -fx-border-color: black");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2");
                 languageLabel.setStyle("-fx-text-fill: black;");
                 themeLabel.setStyle("-fx-text-fill: black;");
                 languagePicker.setStyle("-fx-background-color: #DDDDDD; -fx-background-radius:25");

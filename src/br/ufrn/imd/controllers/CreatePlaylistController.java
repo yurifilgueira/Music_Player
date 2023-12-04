@@ -77,14 +77,14 @@ public class CreatePlaylistController implements Initializable {
     public void loadTheme(){
         switch (ThemeService.getTheme()){
             case DARK:
-                background.setStyle("-fx-background-color: black; -fx-border-color: white");
+                background.setStyle("-fx-background-color: black; -fx-border-color: white; -fx-border-width: 1");
                 title.setStyle("-fx-text-fill: white");
                 createButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 25");
                 cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 25");
                 txtPlaylistName.setStyle("-fx-background-color: #222222; -fx-prompt-text-fill: white; -fx-text-fill: white");
                 break;
             case LIGHT:
-                background.setStyle("-fx-background-color: white; -fx-border-color: black");
+                background.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2");
                 title.setStyle("-fx-text-fill: black");
                 createButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 25");
                 cancelButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 25");

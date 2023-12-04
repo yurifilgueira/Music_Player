@@ -5,12 +5,7 @@ import br.ufrn.imd.model.entities.Playlist;
 import br.ufrn.imd.model.entities.VipUser;
 import br.ufrn.imd.repositories.exceptions.InvalidLanguageException;
 import br.ufrn.imd.repositories.exceptions.InvalidThemeException;
-import br.ufrn.imd.services.LanguageService;
-import br.ufrn.imd.services.LoginService;
-import br.ufrn.imd.services.PlayerService;
-import br.ufrn.imd.services.PlaylistService;
-import br.ufrn.imd.services.ThemeService;
-import br.ufrn.imd.services.WindowService;
+import br.ufrn.imd.services.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +36,8 @@ import java.util.stream.Stream;
 
 public class VipUserPlayerController extends PlayerController implements Initializable {
     private PlaylistService playlistService = new PlaylistService();
+    private boolean defaultDirectory;
+    private LoginService loginService = LoginService.getInstance();
     private Stage stageConfig;
     private Music selectedMusic;
     private Playlist selectedPlaylist;
@@ -85,6 +82,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
     public void initialize(URL url, ResourceBundle resourceBundle){
         super.setPlaying(false);
 
+        defaultDirectory = true;
+
         super.setDirectory("src/resources/songs");
 
         getMusicsFromDirectory();
@@ -110,15 +109,27 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
     @FXML
     @Override
-    public void getMusicsFromDirectory() {
-        List<Music> musics = new ArrayList<>();
+    public void getMusicsFromDirectory(){
+        Set<Music> musics = new HashSet<>();
 
-        Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
-                .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
-                .forEach(file -> musics.add(new Music(super.getDirectory(), file.getName())));
+        if (defaultDirectory){
+            for (String directory : loginService.getLoggedUser().getDirectories()) {
+                musics.add(new Music(directory));
+            }
+        }
+
+        if (selectedPlaylist == null) {
+            Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
+                    .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
+                    .forEach(file -> musics.add(MusicService.saveMusic(MusicService.saveMusic(new Music(super.getDirectory(), file.getName())))));
+        }
+        else {
+            Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
+                    .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
+                    .forEach(file -> musics.add(MusicService.saveMusic(new Music(super.getDirectory(), file.getName()))));
+        }
 
         musicListView.getItems().clear();
-
         musicListView.getItems().addAll(musics);
     }
 
@@ -171,6 +182,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
     @Override
     public void onChooseDirectoryButton() {
 
+        defaultDirectory = false;
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(null);
@@ -188,6 +201,8 @@ public class VipUserPlayerController extends PlayerController implements Initial
     @FXML
     @Override
     public void onDefaultDirectoryButton() {
+        defaultDirectory = true;
+
         switch (LanguageService.getLanguage()){
             case "English":
                 labelDirectory.setText("Default directory");
@@ -375,8 +390,9 @@ public class VipUserPlayerController extends PlayerController implements Initial
             List<File> files = List.of(jFileChooser.getSelectedFiles());
 
             if(selectedPlaylist == null){
-                files.forEach(file -> musicListView.getItems().add(new Music(file)));
+                files.forEach(file -> musicListView.getItems().add(MusicService.saveMusic(new Music(file))));
             }else{
+                defaultDirectory = false;
                 files.forEach(file -> selectedPlaylist.addMusicToPlaylist(new Music(file)));
                 musicListView.getItems().clear();
                 musicListView.getItems().addAll(selectedPlaylist.getMusics());

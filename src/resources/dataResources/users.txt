@@ -3,8 +3,3 @@ admin
 a
 a@a.com
 a
-vip
-2
-c
-c@c.com
-c

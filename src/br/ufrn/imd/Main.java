@@ -21,9 +21,11 @@ public class Main extends Application {
 
         UserService userService = UserService.getInstance();
         PlaylistService playlistService = new PlaylistService();
+        MusicService musicService = MusicService.getInstance();
 
         userService.loadUsers();
         playlistService.loadPlaylists();
+        musicService.loadMusics();
 
         LanguageService.setLanguage("English");
         ThemeService.setTheme(Theme.DARK);

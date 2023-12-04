@@ -31,7 +31,7 @@ public class UserDAO {
 
     public static UserDAO getInstance(){
         if (userDAO == null){
-             userDAO = new UserDAO();
+            userDAO = new UserDAO();
         }
 
         return userDAO;
@@ -160,7 +160,7 @@ public class UserDAO {
         loginInformation.remove(email, password);
     }
 
-    public User getById(int id){
+    public User getById(long id){
         for (User user : users) {
             if(user.getId() == id){
                 return user;

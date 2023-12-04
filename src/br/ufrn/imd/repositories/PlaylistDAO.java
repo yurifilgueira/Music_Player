@@ -73,7 +73,7 @@ public class PlaylistDAO {
         String[] fileName = file.getName().split("_");
 
         UserDAO userDAO = UserDAO.getInstance();
-        User user = userDAO.getById(Integer.parseInt(fileName[1]));
+        User user = userDAO.getById(Long.parseLong(fileName[1]));
 
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -97,14 +97,23 @@ public class PlaylistDAO {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     public void loadPlaylists(){
+
         String path = ("src/resources/dataResources");
-        Stream.of(Objects.requireNonNull(new File(path).listFiles()))
-                .filter(file -> !file.isDirectory() && file.getName().startsWith("playlist") && file.getName().endsWith(".txt"))
-                .forEach(this::loadPlaylist);
+
+        if (verifyIfFileExists(path)) {
+            Stream.of(Objects.requireNonNull(new File(path).listFiles()))
+                    .filter(file -> !file.isDirectory() && file.getName().startsWith("playlist") && file.getName().endsWith(".txt"))
+                    .forEach(this::loadPlaylist);
+        }
+    }
+
+    public boolean verifyIfFileExists(String path){
+        File file = new File(path);
+
+        return file.exists();
+
     }
 }

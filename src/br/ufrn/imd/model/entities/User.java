@@ -1,6 +1,6 @@
 package br.ufrn.imd.model.entities;
 
-import java.util.Objects;
+import java.util.*;
 
 public abstract class User {
 
@@ -8,8 +8,10 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
+    private Set<String> directories;
 
     public User() {
+        this.directories = new HashSet<>();
     }
 
     public User(Long id, String name, String email, String password) {
@@ -17,6 +19,7 @@ public abstract class User {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.directories = new HashSet<>();
     }
 
     public Long getId() {
@@ -51,6 +54,10 @@ public abstract class User {
         this.password = password;
     }
 
+    public Set<String> getDirectories() {
+        return directories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,5 +77,9 @@ public abstract class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public void addDirectory(String directory) {
+        directories.add(directory);
     }
 }

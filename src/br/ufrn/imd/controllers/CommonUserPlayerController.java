@@ -29,15 +29,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class CommonUserPlayerController extends PlayerController implements Initializable {
     private Music selectedMusic;
     private Stage stageConfig;
+    private boolean defaultDirectory;
+
+    private LoginService loginService = LoginService.getInstance();
 
     @FXML
     private AnchorPane background;
@@ -84,6 +84,8 @@ public class CommonUserPlayerController extends PlayerController implements Init
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.setPlaying(false);
 
+        defaultDirectory = true;
+
         super.setDirectory("src/resources/songs");
 
         getMusicsFromDirectory();
@@ -97,14 +99,19 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @Override
     public void getMusicsFromDirectory(){
-        List<Music> musics = new ArrayList<>();
+        Set<Music> musics = new HashSet<>();
+
+        if (defaultDirectory){
+            for (String directory : loginService.getLoggedUser().getDirectories()) {
+                musics.add(new Music(directory));
+            }
+        }
 
         Stream.of(Objects.requireNonNull(new File(super.getDirectory()).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".mp3"))
                 .forEach(file -> musics.add(MusicService.saveMusic(new Music(super.getDirectory(), file.getName()))));
 
         musicListView.getItems().clear();
-
         musicListView.getItems().addAll(musics);
     }
 
@@ -162,6 +169,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
         fileChooser.showOpenDialog(null);
 
         if(fileChooser.getSelectedFile() != null){
+            defaultDirectory = false;
             super.setDirectory(fileChooser.getSelectedFile().getAbsolutePath());
             getMusicsFromDirectory();
         }
@@ -170,6 +178,8 @@ public class CommonUserPlayerController extends PlayerController implements Init
     @FXML
     @Override
     public void onDefaultDirectoryButton(){
+        defaultDirectory = true;
+
         super.setDirectory(System.getProperty("user.dir") + "/src/resources/songs");
 
         getMusicsFromDirectory();
@@ -189,7 +199,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
         if(response == JFileChooser.APPROVE_OPTION){
             List<File> files = List.of(jFileChooser.getSelectedFiles());
 
-            files.forEach(file -> musicListView.getItems().add(new Music(file)));
+            files.forEach(file -> musicListView.getItems().add(MusicService.saveMusic(new Music(file))));
         }
     }
 

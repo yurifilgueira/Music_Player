@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" onMouseClicked="#setSuccessfulLabelNotVisible" prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
+<AnchorPane fx:id="background" onMouseClicked="#setSuccessfulLabelNotVisible" prefHeight="720.0" prefWidth="630.0" style="-fx-background-color: #000000;" stylesheets="@../../../../resources/cssResources/registerViewCss.css" xmlns="http://javafx.com/javafx/17.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controllers.RegisterController">
    <children>
       <TextField fx:id="txtName" layoutX="190.0" layoutY="220.0" prefHeight="41.0" prefWidth="250.0" promptText="Enter your name" style="-fx-background-radius: 0; -fx-border-color: #FFFFFF;">
          <font>

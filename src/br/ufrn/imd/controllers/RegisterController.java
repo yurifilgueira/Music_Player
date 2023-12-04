@@ -191,7 +191,7 @@ public class RegisterController extends UserManagementController implements Init
             case "English":
                 greetingsLabel.setText("Welcome to Music Player");
 
-                orientationLabel.setText("Enter your data to register in MusicPlayer");
+                orientationLabel.setText("Enter your data to register in Music Player");
 
                 txtNameLabel.setText("Username");
                 txtName.setPromptText("Enter your name");

@@ -26,7 +26,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,7 +33,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class CommonUserPlayerController extends PlayerController implements Initializable {
@@ -128,7 +131,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
         super.getPlayerService().setProgressBar(progressBar);
 
-        super.getPlayerService().setTimer(timer);
+        super.getPlayerService().setTimerLabel(timer);
     }
 
     @Override
@@ -153,7 +156,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML
     @Override
-    public void selectMusic() throws FileNotFoundException, JavaLayerException {
+    public void selectMusic() throws FileNotFoundException {
         selectedMusic = musicListView.getSelectionModel().getSelectedItem();
 
         if(selectedMusic != null) {
@@ -226,7 +229,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML
     @Override
-    public void onPreviousButton() throws FileNotFoundException, JavaLayerException {
+    public void onPreviousButton() throws FileNotFoundException {
         if(musicListView.getSelectionModel().getSelectedIndex() - 1 >= 0){
             if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() - 1) != null){
                 refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() - 1);
@@ -238,57 +241,69 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML
     @Override
-    public void onPlayButton() {
+    public void play() throws FileNotFoundException {
+        super.setPlaying(true);
+
+        switch (ThemeService.getTheme()){
+            case DARK:
+                playLight.setVisible(false);
+                playDark.setVisible(false);
+                pauseLight.setVisible(true);
+                pauseDark.setVisible(false);
+                break;
+            case LIGHT:
+                playDark.setVisible(false);
+                playLight.setVisible(false);
+                pauseDark.setVisible(true);
+                pauseLight.setVisible(false);
+                break;
+            default:
+                throw new InvalidThemeException(ThemeService.getTheme().toString());
+        }
+
+        super.getPlayerService().play();
+    }
+
+    @FXML
+    @Override
+    public void pause(){
+        super.setPlaying(false);
+
+        switch (ThemeService.getTheme()){
+            case DARK:
+                pauseDark.setVisible(false);
+                pauseLight.setVisible(false);
+                playLight.setVisible(true);
+                playDark.setVisible(false);
+                break;
+            case LIGHT:
+                pauseDark.setVisible(false);
+                pauseLight.setVisible(false);
+                playDark.setVisible(true);
+                playLight.setVisible(false);
+                break;
+            default:
+                throw new InvalidThemeException(ThemeService.getTheme().toString());
+        }
+
+        super.getPlayerService().pause();
+    }
+
+    @FXML
+    @Override
+    public void onPlayButton() throws FileNotFoundException {
         if(selectedMusic != null){
             if(super.isPlaying()){
-                super.setPlaying(false);
-
-                switch (ThemeService.getTheme()){
-                    case DARK:
-                        pauseDark.setVisible(false);
-                        pauseLight.setVisible(false);
-                        playLight.setVisible(true);
-                        playDark.setVisible(false);
-                        break;
-                    case LIGHT:
-                        pauseDark.setVisible(false);
-                        pauseLight.setVisible(false);
-                        playDark.setVisible(true);
-                        playLight.setVisible(false);
-                        break;
-                    default:
-                        throw new InvalidThemeException(ThemeService.getTheme().toString());
-                }
-
-                super.getPlayerService().pause();
+                pause();
             }else{
-                super.setPlaying(true);
-
-                switch (ThemeService.getTheme()){
-                    case DARK:
-                        playLight.setVisible(false);
-                        playDark.setVisible(false);
-                        pauseLight.setVisible(true);
-                        pauseDark.setVisible(false);
-                        break;
-                    case LIGHT:
-                        playDark.setVisible(false);
-                        playLight.setVisible(false);
-                        pauseDark.setVisible(true);
-                        pauseLight.setVisible(false);
-                        break;
-                    default:
-                        throw new InvalidThemeException(ThemeService.getTheme().toString());
-                }
-
-                super.getPlayerService().play();
+                play();
             }
         }
     }
 
     @FXML
     @Override
-    public void onNextButton() throws FileNotFoundException, JavaLayerException {
+    public void onNextButton() throws FileNotFoundException {
         if(musicListView.getSelectionModel().getSelectedIndex() + 1 < musicListView.getItems().size()){
             if(selectedMusic != null && musicListView.getItems().get(musicListView.getSelectionModel().getSelectedIndex() + 1) != null){
                 refreshSelectedMusic(musicListView.getSelectionModel().getSelectedIndex() + 1);

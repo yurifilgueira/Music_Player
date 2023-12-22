@@ -19,6 +19,11 @@ public class WindowService {
         PlaylistDAO playlistDAO = PlaylistDAO.getInstance();
         userDAO.saveUsers();
         playlistDAO.savePlaylists();
+
+        PlayerService playerService = PlayerService.getInstance();
+        if(playerService.getMediaPlayer() != null && playerService.isRunning()){
+            playerService.stop();
+        }
     }
 
     public static void minimizeWindow(ActionEvent event, Stage stage){

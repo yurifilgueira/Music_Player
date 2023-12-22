@@ -15,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Objects;
+
 public class Main extends Application {
 
     @Override
@@ -30,7 +32,7 @@ public class Main extends Application {
         LanguageService.setLanguage("English");
         ThemeService.setTheme(Theme.DARK);
 
-        Parent root = FXMLLoader.load(getClass().getResource("view/LoginView.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/LoginView.fxml")));
 
         WindowService.moveWindow(stage, root);
 

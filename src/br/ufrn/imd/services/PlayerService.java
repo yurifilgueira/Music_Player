@@ -2,38 +2,29 @@ package br.ufrn.imd.services;
 
 import br.ufrn.imd.controllers.PlayerController;
 import br.ufrn.imd.model.entities.Music;
-import br.ufrn.imd.model.enums.PlayerStatus;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.BitstreamException;
-import javazoom.jl.decoder.Header;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static br.ufrn.imd.model.enums.PlayerStatus.FINISHED;
-import static br.ufrn.imd.model.enums.PlayerStatus.NOTSTARTED;
-import static br.ufrn.imd.model.enums.PlayerStatus.PAUSED;
-import static br.ufrn.imd.model.enums.PlayerStatus.PLAYING;
-
-public class PlayerService /*extends Thread*/ {
+public class PlayerService {
     private static PlayerService instance;
 
-    private final Object playerLock = new Object();
-    private Player player;
-    private PlayerStatus playerStatus;
-
-    private double currentMusicLength;
+    private Media media;
+    private MediaPlayer mediaPlayer;
 
     private PlayerController currentPlayerController;
     private ProgressBar progressBar;
-    private Label timer;
+    private Label timerLabel;
+
+    private Timer timer;
+    private TimerTask task;
+    private boolean isRunning;
 
     private PlayerService(){}
 
@@ -44,6 +35,14 @@ public class PlayerService /*extends Thread*/ {
         return instance;
     }
 
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void setCurrentPlayerController(PlayerController currentPlayerController) {
         this.currentPlayerController = currentPlayerController;
     }
@@ -52,150 +51,96 @@ public class PlayerService /*extends Thread*/ {
         this.progressBar = progressBar;
     }
 
-    public void setTimer(Label timer) {
-        this.timer = timer;
+    public void setTimerLabel(Label timerLabel) {
+        this.timerLabel = timerLabel;
     }
 
-    public void setCurrentMusicLength(Music music) throws FileNotFoundException, BitstreamException {
-        FileInputStream fileInputStream = new FileInputStream(music.getFile());
-        Bitstream bitstream = new Bitstream(fileInputStream);
-
-        Header h = bitstream.readFrame();
-
-        long tn = 0;
-
-        try {
-            tn = fileInputStream.getChannel().size();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        currentMusicLength = h.total_ms((int) tn)/1000;
-    }
-
-    public void selectMusicForPlayer(Music music) throws FileNotFoundException, JavaLayerException {
+    public void selectMusicForPlayer(Music music) throws FileNotFoundException {
         if(music != null){
-            setCurrentMusicLength(music);
+            if(mediaPlayer != null){
+                mediaPlayer.stop();
+            }
 
-            player = new Player(new BufferedInputStream(new FileInputStream(music.getFile())));
-        }
+            media = new Media(music.getFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
 
-        if(playerStatus != PLAYING){
-            playerStatus = NOTSTARTED;
+            currentPlayerController.play();
         }
     }
 
     public void play() {
-        synchronized (playerLock) {
-            switch (playerStatus) {
-                case NOTSTARTED:
-                    final Runnable r = new Runnable() {
-                        public void run() {
-                            playInternal();
-                        }
-                    };
-                    final Thread t = new Thread(r);
-                    t.setDaemon(true);
-                    t.setPriority(Thread.MAX_PRIORITY);
-                    playerStatus = PLAYING;
-                    t.start();
-                    break;
-                case PAUSED:
-                    resume();
-                    break;
-                default:
-                    break;
-            }
+        if(mediaPlayer != null){
+            beginTimer();
+            mediaPlayer.play();
         }
     }
 
-    public boolean pause() {
-        synchronized (playerLock) {
-            if (playerStatus == PLAYING) {
-                playerStatus = PAUSED;
-            }
-            return playerStatus == PAUSED;
-        }
-    }
-
-    public final boolean resume() {
-        synchronized (playerLock) {
-            if (playerStatus == PAUSED) {
-                playerStatus = PLAYING;
-                playerLock.notifyAll();
-            }
-            return playerStatus == PLAYING;
+    public void pause() {
+        if(mediaPlayer != null){
+            cancelTimer();
+            mediaPlayer.pause();
         }
     }
 
     public void stop() {
-        synchronized (playerLock) {
-            playerStatus = FINISHED;
-            playerLock.notifyAll();
+        if(mediaPlayer != null){
+            cancelTimer();
+            mediaPlayer.stop();
         }
     }
 
-    private void playInternal() {
-        while (playerStatus != FINISHED) {
-            try {
-                if (!player.play(1)) {
-                    break;
-                }
+    public TimerTask setupTimerTask(){
+        return new TimerTask() {
+            @Override
+            public void run() {
+                isRunning = true;
 
-                progressBar.setProgress(player.getPosition() / 1000.0 / currentMusicLength);
+                double currentTime = mediaPlayer.getCurrentTime().toSeconds();
 
-                StringBuilder currentTime = new StringBuilder();
+                double endingTime = media.getDuration().toSeconds();
 
-                Platform.runLater(() ->
-                {
-                    currentTime.append(String.format("%02d", (int) (player.getPosition() / 1000.0 / 60.0)));
-                    currentTime.append(":");
-                    currentTime.append(String.format("%02d", (int) (player.getPosition() / 1000.0) % 60));
-                    currentTime.append(" / ");
-                    currentTime.append(String.format("%02d", (int) (currentMusicLength / 60.0)));
-                    currentTime.append(":");
-                    currentTime.append(String.format("%02d", (int) (currentMusicLength) % 60));
+                progressBar.setProgress(currentTime / endingTime);
 
-                    timer.setText(currentTime.toString());
+                Platform.runLater(() -> {
+                    long currentSeconds = (long) mediaPlayer.getCurrentTime().toSeconds();
+                    long totalSeconds = (long) media.getDuration().toSeconds();
+                    // These doubles are being converted to long, because the time refreshing wasn't working correctly when they were being converted directly to (int).
+
+                    StringBuilder timerLabelText = new StringBuilder();
+
+                    timerLabelText.append(String.format("%02d:%02d", currentSeconds / 60, currentSeconds % 60));
+                    timerLabelText.append(" / ");
+                    timerLabelText.append(String.format("%02d:%02d", totalSeconds / 60, totalSeconds % 60));
+
+                    timerLabel.setText(timerLabelText.toString());
                 });
-            } catch (final JavaLayerException e) {
-                break;
-            }
 
-            synchronized (playerLock) {
-                while (playerStatus == PAUSED) {
-                    try {
-                        playerLock.wait();
-                    } catch (final InterruptedException e) {
-                        break;
-                    }
+                if(currentTime / endingTime == 1){
+                    cancelTimer();
+
+                    Platform.runLater(() -> {
+                        try {
+                            currentPlayerController.onNextButton();
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                 }
             }
-        }
-        close();
+        };
     }
 
-    public void close() {
-        synchronized (playerLock) {
-            playerStatus = FINISHED;
-        }
-        try {
-            player.close();
+    public void beginTimer(){
+        timer = new Timer();
 
-            if(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1 < currentPlayerController.getMusicsList().getItems().size()){
-                if(currentPlayerController.getSelectedMusic() != null && currentPlayerController.getMusicsList().getItems().get(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1) != null){
-                    selectMusicForPlayer(currentPlayerController.getMusicsList().getItems().get(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1));
+        task = setupTimerTask();
 
-                    Platform.runLater(() ->
-                    {
-                        currentPlayerController.refreshSelectedMusic(currentPlayerController.getMusicsList().getSelectionModel().getSelectedIndex() + 1);
-                    });
+        timer.scheduleAtFixedRate(task, 1000, 41);
+        // The period is set to 41 because 1000 / 24 = 41.67, so the progress bar refreshes every 41 milliseconds (about 24 FPS).
+    }
 
-                    play();
-                }
-            }
-        } catch (final Exception e) {
-            // ignore, we are terminating anyway
-        }
+    public void cancelTimer(){
+        isRunning = false;
+        timer.cancel();
     }
 }

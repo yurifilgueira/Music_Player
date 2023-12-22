@@ -1,6 +1,8 @@
 package br.ufrn.imd.model.entities;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public abstract class User {
 

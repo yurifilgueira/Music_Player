@@ -241,7 +241,7 @@ public class CommonUserPlayerController extends PlayerController implements Init
 
     @FXML
     @Override
-    public void play() throws FileNotFoundException {
+    public void play() {
         super.setPlaying(true);
 
         switch (ThemeService.getTheme()){

@@ -250,7 +250,7 @@ public class VipUserPlayerController extends PlayerController implements Initial
 
     @FXML
     @Override
-    public void play() throws FileNotFoundException {
+    public void play() {
         super.setPlaying(true);
 
         switch (ThemeService.getTheme()){
